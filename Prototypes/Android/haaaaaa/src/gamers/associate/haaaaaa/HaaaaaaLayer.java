@@ -3,6 +3,10 @@ package gamers.associate.haaaaaa;
 import java.util.Iterator;
 
 import org.cocos2d.actions.UpdateCallback;
+import org.cocos2d.actions.base.CCRepeatForever;
+import org.cocos2d.actions.camera.CCOrbitCamera;
+import org.cocos2d.actions.grid.CCFlipY3D;
+import org.cocos2d.actions.interval.CCSequence;
 import org.cocos2d.config.ccMacros;
 import org.cocos2d.events.CCTouchDispatcher;
 import org.cocos2d.layers.CCLayer;
@@ -15,6 +19,7 @@ import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
 import org.cocos2d.types.ccColor3B;
+import org.cocos2d.types.ccGridSize;
 
 import android.R.bool;
 import android.view.MotionEvent;
@@ -165,13 +170,22 @@ public class HaaaaaaLayer extends CCLayer {
 
 //		CCSprite sprite = CCSprite.sprite("blocks.png", CGRect.make(32 * idx,32 * idy,32,32));
 //		this.addChild(sprite);
-		CCSprite sprite = CCSprite.sprite(sheet, CGRect.make(32 * idx,32 * idy,32,32));
-		sheet.addChild(sprite);
+		CCSprite sprite = CCSprite.sprite(sheet, CGRect.make(32 * idx,32 * idy,32,32));		
+		//sheet.addChild(sprite);
+		addChild(sprite);
 		
 		CGPoint spawnPoint = new CGPoint();
 		spawnPoint.x = pos.x;
 		spawnPoint.y = CCDirector.sharedDirector().winSize().getHeight() - 64;
 		sprite.setPosition(spawnPoint);
+		CCOrbitCamera orbit1 = CCOrbitCamera.action(2, 1, 0, 0, 180, 0, 0);
+		CCSequence action1 = CCSequence.actions(
+			orbit1,
+			orbit1.reverse()
+			);
+		sprite.runAction(CCRepeatForever.action(action1));
+		//sheet.runAction(CCRepeatForever.action(action1));
+		//sprite.runAction(CCFlipY3D.action(2.0f));
 
 		// Define the dynamic body.
 		//Set up a 1m squared box in the physics world
@@ -222,7 +236,7 @@ public class HaaaaaaLayer extends CCLayer {
     			//Synchronize the Sprites position and rotation with the corresponding body
     			CCSprite sprite = (CCSprite)userData;
     			sprite.setPosition(b.getPosition().x * PTM_RATIO, b.getPosition().y * PTM_RATIO);
-    			sprite.setRotation(-1.0f * ccMacros.CC_RADIANS_TO_DEGREES(b.getAngle()));
+    			sprite.setRotation(-1.0f * ccMacros.CC_RADIANS_TO_DEGREES(b.getAngle()));    			    			    			
     		}	
     	}
     }

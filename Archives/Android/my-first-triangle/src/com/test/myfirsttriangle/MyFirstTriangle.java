@@ -30,6 +30,7 @@ public class MyFirstTriangle implements ApplicationListener {
 
 	@Override
 	public void render() {
+		
 		mesh.render(GL10.GL_TRIANGLES, 0, 3);
 	}
 
