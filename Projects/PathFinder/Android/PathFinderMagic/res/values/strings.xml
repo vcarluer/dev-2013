@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, PathFinderSpells!</string>
+    <string name="app_name">Sorts Pathfinder</string>
+
+<string name="no_spells">Aucun sort</string>
+
+
+<string name="confirm">Valider</string>
+<string name="school">Ecole</string>
+<string name="level">Niveau</string>
+<string name="incantation_time">Temps d\'incantation </string>
+<string name="components">Composantes</string>
+<string name="range">Portée</string>
+<string name="target">Cible</string>
+<string name="duration">Durée</string>
+<string name="saving">Jet de sauvegarde</string>
+<string name="magic_resistance">Résistance à la magie</string>
+<string name="magician">Ens/Mag</string>
+<string name="bard">Bard</string>
+<string name="druid">Dru</string>
+<string name="priest">Prê</string>
+<string name="paladin">Pal</string>
+<string name="striker">Rôd</string>
+<string name="comment">Notes</string>
+<string name="isfavorite">Favoris</string>
+<string name="isknown">Connu</string>
+<string name="isinmemory">Mémo</string>
+<string name="search">Chercher</string>
+<string name="search_hint">Rechercher un sort</string>
+<string name="cancel">Annuler</string>
+</resources>

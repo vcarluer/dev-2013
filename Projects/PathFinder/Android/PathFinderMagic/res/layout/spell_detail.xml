@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:scrollbars="vertical">	
+	
+	<ScrollView 
+android:id="@+id/scrllvwNo1" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content"> 
+
+<LinearLayout 
+android:paddingRight = "10dip"
+android:orientation="vertical" 
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"> 
+	
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView android:id="@+id/detail_name"
+				android:text="@+id/detail_name"
+				android:textStyle="bold"
+				android:gravity="center_vertical|center_horizontal"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent" 
+				android:textSize="20px"			
+				android:layout_weight="1" />		
+		
+	</LinearLayout>		
+	
+	
+	<RelativeLayout  
+     		android:id="@+id/filters"     		
+          	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"        	
+        	>
+        	<LinearLayout android:orientation="vertical"
+        		android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+        		android:layout_alignParentLeft="true">
+        		<TextView 
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical|center_horizontal"
+					android:text="@string/isfavorite"/>
+	        	<ImageView android:id="@+id/detail_is_favorite"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"			
+					android:padding="3dip"				
+					android:src="@drawable/nofavoris" />
+				
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="vertical"
+        		android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+        		android:layout_centerInParent="true">
+        		<TextView 
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_vertical|center_horizontal"
+						android:text="@string/isknown"/>
+				<ImageView android:id="@+id/detail_is_known"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical|center_horizontal"			
+					android:padding="3dip"					
+					android:src="@drawable/nogrimoire" />
+				
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="vertical"
+        		android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+        		android:layout_alignParentRight="true">
+        		<TextView 
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_vertical|center_horizontal"
+						android:text="@string/isinmemory"/>
+				<ImageView android:id="@+id/detail_is_inmemory"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"			
+					android:gravity="center_vertical|right"
+					android:padding="3dip"					
+					android:src="@drawable/noinmemory" />		
+				
+			</LinearLayout>
+     </RelativeLayout>
+	
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content"					
+					android:layout_marginRight="5sp"
+					android:text="@string/school" />
+				<TextView android:id="@+id/detail_school"				
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/level" />
+				<TextView android:id="@+id/detail_level" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />			
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/incantation_time" />
+				<TextView android:id="@+id/detail_incantation_time" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/components" />
+				<TextView android:id="@+id/detail_components" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/range" />
+				<TextView android:id="@+id/detail_range" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>			
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/target" />
+				<TextView android:id="@+id/detail_target" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/duration" />
+				<TextView android:id="@+id/detail_duration" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>	
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/saving" />
+				<TextView android:id="@+id/detail_saving" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>
+			
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+					
+				<TextView android:layout_width="wrap_content"
+					android:textStyle="bold"
+					android:layout_height="wrap_content" 
+					android:layout_marginRight="5sp"
+					android:text="@string/magic_resistance" />
+				<TextView android:id="@+id/detail_magic_resistance" 
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />	
+				
+			</LinearLayout>	
+		
+						
+	
+	<TextView android:id="@+id/detail_full_description"		
+		android:layout_marginTop = "5sp"
+		android:layout_marginBottom = "5sp"
+		android:text="@+id/detail_full_description"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:scrollbars="vertical" />
+	
+	<TextView android:layout_width="wrap_content"
+			android:textStyle="bold"
+			android:layout_height="wrap_content" 
+			android:layout_marginRight="5sp"
+			android:text="@string/comment" />	
+	<EditText android:id="@+id/detail_comment"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="top|left"
+		android:scrollbars="vertical"
+	 />	
+</LinearLayout>
+</ScrollView>
+
+</LinearLayout>
