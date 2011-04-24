@@ -23,7 +23,7 @@ namespace SpellExporter
 
         private void btParse_Click(object sender, EventArgs e)
         {
-            spell = SpellExpoterService.Parse(this.txtToParse.Text);
+            spell = SpellExporterService.Parse(this.txtToParse.Text);
             this.ShowCurrentSpell();
         }
 
@@ -50,6 +50,7 @@ namespace SpellExporter
                 this.txtDuration.Text = spell.Duration;
                 this.txtSavingThrow.Text = spell.SavingThrow;
                 this.txtSpellResistance.Text = spell.SpellResistance;
+                this.txtShortDescription.Text = spell.ShortDescription;
                 this.txtDescription.Text = spell.Description;
             }
         }
@@ -90,6 +91,7 @@ namespace SpellExporter
                 spell.Duration = this.txtDuration.Text;
                 spell.SavingThrow = this.txtSavingThrow.Text;
                 spell.SpellResistance = this.txtSpellResistance.Text;
+                spell.ShortDescription = this.txtShortDescription.Text;
                 spell.Description = this.txtDescription.Text;
 
                 this.dgSpells.DataSource = null;
@@ -99,7 +101,7 @@ namespace SpellExporter
 
         private void btParseList_Click(object sender, EventArgs e)
         {
-            this.spells = SpellExpoterService.ParseList(this.txtToParse.Text);
+            this.spells = SpellExporterService.ParseList(this.txtToParse.Text);
 
             this.dgSpells.DataSource = null;
             this.dgSpells.DataSource = this.spells;
@@ -135,10 +137,20 @@ namespace SpellExporter
 
         private void btParseListUnion_Click(object sender, EventArgs e)
         {
-            this.spells = this.spells.Union(SpellExpoterService.ParseList(this.txtToParse.Text)).ToList();
+            this.spells = this.spells.Union(SpellExporterService.ParseList(this.txtToParse.Text)).ToList();
 
             this.dgSpells.DataSource = null;
             this.dgSpells.DataSource = this.spells;
+        }
+
+        private void btParseShortDescriptionList_Click(object sender, EventArgs e)
+        {
+            SpellExporterService.ParseShortDescriptionAndMerge(this.txtToParse.Text, this.spells);
+        }
+
+        private void btParseShortDescriptionFullList_Click(object sender, EventArgs e)
+        {
+            SpellExporterService.ParseShortDescriptionFullListAndMerge(this.txtToParse.Text, this.spells);
         }
     }
 }

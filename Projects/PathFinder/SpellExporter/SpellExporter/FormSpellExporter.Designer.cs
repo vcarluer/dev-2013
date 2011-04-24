@@ -30,10 +30,15 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.btParseShortDescriptionList = new System.Windows.Forms.Button();
+            this.btParseListUnion = new System.Windows.Forms.Button();
             this.btParseList = new System.Windows.Forms.Button();
             this.btParse = new System.Windows.Forms.Button();
             this.txtToParse = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtShortDescription = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.btClearAll = new System.Windows.Forms.Button();
             this.txtLvlStriker = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtLvlDruid = new System.Windows.Forms.TextBox();
@@ -73,8 +78,7 @@
             this.txtScool = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dgSpells = new System.Windows.Forms.DataGridView();
-            this.btClearAll = new System.Windows.Forms.Button();
-            this.btParseListUnion = new System.Windows.Forms.Button();
+            this.btParseShortDescriptionFullList = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -99,7 +103,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgSpells);
-            this.splitContainer1.Size = new System.Drawing.Size(1228, 709);
+            this.splitContainer1.Size = new System.Drawing.Size(1228, 785);
             this.splitContainer1.SplitterDistance = 716;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -112,6 +116,8 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.btParseShortDescriptionFullList);
+            this.splitContainer2.Panel1.Controls.Add(this.btParseShortDescriptionList);
             this.splitContainer2.Panel1.Controls.Add(this.btParseListUnion);
             this.splitContainer2.Panel1.Controls.Add(this.btParseList);
             this.splitContainer2.Panel1.Controls.Add(this.btParse);
@@ -120,6 +126,8 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.txtShortDescription);
+            this.splitContainer2.Panel2.Controls.Add(this.label20);
             this.splitContainer2.Panel2.Controls.Add(this.btClearAll);
             this.splitContainer2.Panel2.Controls.Add(this.txtLvlStriker);
             this.splitContainer2.Panel2.Controls.Add(this.label19);
@@ -159,9 +167,29 @@
             this.splitContainer2.Panel2.Controls.Add(this.label3);
             this.splitContainer2.Panel2.Controls.Add(this.txtScool);
             this.splitContainer2.Panel2.Controls.Add(this.label2);
-            this.splitContainer2.Size = new System.Drawing.Size(716, 709);
-            this.splitContainer2.SplitterDistance = 387;
+            this.splitContainer2.Size = new System.Drawing.Size(716, 785);
+            this.splitContainer2.SplitterDistance = 428;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // btParseShortDescriptionList
+            // 
+            this.btParseShortDescriptionList.Location = new System.Drawing.Point(391, 390);
+            this.btParseShortDescriptionList.Name = "btParseShortDescriptionList";
+            this.btParseShortDescriptionList.Size = new System.Drawing.Size(136, 34);
+            this.btParseShortDescriptionList.TabIndex = 5;
+            this.btParseShortDescriptionList.Text = "+ Parse Short Description List";
+            this.btParseShortDescriptionList.UseVisualStyleBackColor = true;
+            this.btParseShortDescriptionList.Click += new System.EventHandler(this.btParseShortDescriptionList_Click);
+            // 
+            // btParseListUnion
+            // 
+            this.btParseListUnion.Location = new System.Drawing.Point(576, 352);
+            this.btParseListUnion.Name = "btParseListUnion";
+            this.btParseListUnion.Size = new System.Drawing.Size(136, 32);
+            this.btParseListUnion.TabIndex = 4;
+            this.btParseListUnion.Text = "+ Parse List UNION";
+            this.btParseListUnion.UseVisualStyleBackColor = true;
+            this.btParseListUnion.Click += new System.EventHandler(this.btParseListUnion_Click);
             // 
             // btParseList
             // 
@@ -199,6 +227,32 @@
             this.label1.Size = new System.Drawing.Size(102, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Paste spell text here";
+            // 
+            // txtShortDescription
+            // 
+            this.txtShortDescription.Location = new System.Drawing.Point(113, 289);
+            this.txtShortDescription.Name = "txtShortDescription";
+            this.txtShortDescription.Size = new System.Drawing.Size(268, 20);
+            this.txtShortDescription.TabIndex = 42;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(12, 292);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(89, 13);
+            this.label20.TabIndex = 41;
+            this.label20.Text = "Short description:";
+            // 
+            // btClearAll
+            // 
+            this.btClearAll.Location = new System.Drawing.Point(388, 211);
+            this.btClearAll.Name = "btClearAll";
+            this.btClearAll.Size = new System.Drawing.Size(324, 27);
+            this.btClearAll.TabIndex = 40;
+            this.btClearAll.Text = "Clear ALL =>";
+            this.btClearAll.UseVisualStyleBackColor = true;
+            this.btClearAll.Click += new System.EventHandler(this.btClearAll_Click);
             // 
             // txtLvlStriker
             // 
@@ -515,35 +569,25 @@
             this.dgSpells.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSpells.Location = new System.Drawing.Point(0, 0);
             this.dgSpells.Name = "dgSpells";
-            this.dgSpells.Size = new System.Drawing.Size(508, 709);
+            this.dgSpells.Size = new System.Drawing.Size(508, 785);
             this.dgSpells.TabIndex = 0;
             this.dgSpells.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSpells_CellContentClick);
             // 
-            // btClearAll
+            // btParseShortDescriptionFullList
             // 
-            this.btClearAll.Location = new System.Drawing.Point(388, 211);
-            this.btClearAll.Name = "btClearAll";
-            this.btClearAll.Size = new System.Drawing.Size(324, 27);
-            this.btClearAll.TabIndex = 40;
-            this.btClearAll.Text = "Clear ALL =>";
-            this.btClearAll.UseVisualStyleBackColor = true;
-            this.btClearAll.Click += new System.EventHandler(this.btClearAll_Click);
-            // 
-            // btParseListUnion
-            // 
-            this.btParseListUnion.Location = new System.Drawing.Point(576, 352);
-            this.btParseListUnion.Name = "btParseListUnion";
-            this.btParseListUnion.Size = new System.Drawing.Size(136, 32);
-            this.btParseListUnion.TabIndex = 4;
-            this.btParseListUnion.Text = "+ Parse List UNION";
-            this.btParseListUnion.UseVisualStyleBackColor = true;
-            this.btParseListUnion.Click += new System.EventHandler(this.btParseListUnion_Click);
+            this.btParseShortDescriptionFullList.Location = new System.Drawing.Point(533, 390);
+            this.btParseShortDescriptionFullList.Name = "btParseShortDescriptionFullList";
+            this.btParseShortDescriptionFullList.Size = new System.Drawing.Size(178, 34);
+            this.btParseShortDescriptionFullList.TabIndex = 6;
+            this.btParseShortDescriptionFullList.Text = "Parse short description full list";
+            this.btParseShortDescriptionFullList.UseVisualStyleBackColor = true;
+            this.btParseShortDescriptionFullList.Click += new System.EventHandler(this.btParseShortDescriptionFullList_Click);
             // 
             // FormSpellExporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1228, 709);
+            this.ClientSize = new System.Drawing.Size(1228, 785);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormSpellExporter";
             this.Text = "Spell exporter";
@@ -611,6 +655,10 @@
         private System.Windows.Forms.Button btParseList;
         private System.Windows.Forms.Button btClearAll;
         private System.Windows.Forms.Button btParseListUnion;
+        private System.Windows.Forms.Button btParseShortDescriptionList;
+        private System.Windows.Forms.TextBox txtShortDescription;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btParseShortDescriptionFullList;
     }
 }
 

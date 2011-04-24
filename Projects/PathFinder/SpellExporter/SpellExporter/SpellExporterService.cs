@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SpellExporter
 {
-    public static class SpellExpoterService
+    public static class SpellExporterService
     {
         public static string Nl = "\n";
         private static string tab = "\t";
@@ -226,6 +226,60 @@ namespace SpellExporter
             }
 
             return parsed;
-        }      
+        }
+
+        public static void ParseShortDescriptionFullListAndMerge(string toParse, IList<Spell> spells)
+        {            
+            string[] spellTab0 = toParse.Split(new string[] { spellSep }, StringSplitOptions.RemoveEmptyEntries);
+
+            // 0 removed
+            for (int i = 1; i < spellTab0.Length; i++)
+            {
+                string sdList = spellTab0[i];
+                string stringToParse = sdList;
+                int idx = sdList.LastIndexOf(Nl);
+                if (idx != -1)
+                {
+                    stringToParse = sdList.Substring(0, idx);
+                }
+
+                idx = stringToParse.IndexOf(tab);
+                if (idx == 0)
+                {
+                    stringToParse = stringToParse.Substring(1);
+                }
+
+                ParseShortDescriptionAndMerge(stringToParse, spells);
+            }
+        }
+
+        public static void ParseShortDescriptionAndMerge(string toParse, IList<Spell> spells)
+        {
+            string[] spellList = toParse.Split(new string[] { Nl }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string spellLine in spellList)
+            {
+                string spellName = spellLine;
+                int idxPoint = spellName.IndexOf(".", 0);
+                if (idxPoint != -1)
+                {
+                    spellName = spellName.Substring(0, idxPoint);
+                }
+
+                int idx = spellName.IndexOf(" (", 0);
+                if (idx != -1)
+                {
+                    spellName = spellName.Substring(0, idx);
+                }
+
+                IEnumerable<Spell> existSpells = from sp in spells where sp.Name == spellName select sp;
+                if (existSpells.Count() > 0)
+                {
+                    Spell spell = existSpells.First();
+                    string shortDescription = spellLine.Substring(idxPoint + 2);
+
+                    spell.ShortDescription = shortDescription;
+                }
+            }
+        }
     }
 }

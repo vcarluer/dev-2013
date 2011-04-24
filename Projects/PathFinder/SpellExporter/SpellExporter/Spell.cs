@@ -28,7 +28,8 @@ namespace SpellExporter
         public string Duration { get; set; }
         public string SavingThrow { get; set; }
         public string SpellResistance { get; set; }
-        public string Description { get; set; }
+        public string ShortDescription { get; set; }
+        public string Description { get; set; }        
 
         private string currentExport;
 
@@ -52,9 +53,10 @@ namespace SpellExporter
             Append(this.Duration);
             Append(this.SavingThrow);
             Append(this.SpellResistance);
+            Append(this.ShortDescription);
             Append(this.Description);
 
-            this.currentExport = this.currentExport.Replace(SpellExpoterService.Nl, ExportNL);
+            this.currentExport = this.currentExport.Replace(SpellExporterService.Nl, ExportNL);
 
             return this.currentExport;
         }
