@@ -7,7 +7,8 @@ namespace SpellExporter
 {
     public static class SpellExpoterService
     {
-        private static string nl = "\n";
+        public static string Nl = "\n";
+        private static string tab = "\t";
 
         private static string schoolSt = "École : ";
         private static string levelSt = "Niveau : ";
@@ -50,10 +51,16 @@ namespace SpellExporter
             {
                 string spellStr = spellTab0[i];
                 string stringToParse = spellStr;
-                int idx = spellStr.LastIndexOf(nl);
+                int idx = spellStr.LastIndexOf(Nl);
                 if (idx != -1)
                 {
                     stringToParse = spellStr.Substring(0, idx);
+                }
+
+                idx = stringToParse.IndexOf(tab);
+                if (idx == 0)
+                {
+                    stringToParse = stringToParse.Substring(1);
                 }
 
                 Spell spell = Parse(stringToParse);
@@ -71,16 +78,16 @@ namespace SpellExporter
             }
 
             Spell spell = new Spell();
-            spell.Name = Parse(toParse, String.Empty, nl);
+            spell.Name = Parse(toParse, String.Empty, Nl);
             ParseSchool(toParse, spell);
             ParseLevel(toParse, spell);
-            spell.CastingTime = Parse(toParse, castingSt, nl);
-            spell.Components = Parse(toParse, componentsSt, nl);
-            spell.Range = Parse(toParse, rangeSt, nl);
+            spell.CastingTime = Parse(toParse, castingSt, Nl);
+            spell.Components = Parse(toParse, componentsSt, Nl);
+            spell.Range = Parse(toParse, rangeSt, Nl);
             spell.TargetEffectArea = ParseTargetEffectArea(toParse);
-            spell.Duration = Parse(toParse, durationSt, nl);
+            spell.Duration = Parse(toParse, durationSt, Nl);
             spell.SavingThrow = Parse(toParse, savingSt, lnSep);
-            spell.SpellResistance = Parse(toParse, resistanceSt, nl);
+            spell.SpellResistance = Parse(toParse, resistanceSt, Nl);
             spell.Description = ParseDescription(toParse);
             
             return spell;
@@ -137,7 +144,7 @@ namespace SpellExporter
 
         public static void ParseLevel(string toParse, Spell spell)
         {
-            string fullLevel = Parse(toParse, levelSt, nl);
+            string fullLevel = Parse(toParse, levelSt, Nl);
             spell.LevelMagician = Parse(toParse, spellMagSt, 1);
             spell.LevelPriest = Parse(toParse, spellPriSt, 1);
             spell.LevelPaladin = Parse(toParse, spellPalSt, 1);
@@ -149,20 +156,20 @@ namespace SpellExporter
         public static string ParseTargetEffectArea(string toParse)
         {
             string targetEffectArea = String.Empty;
-            targetEffectArea = Parse(toParse, effectSt, nl);
+            targetEffectArea = Parse(toParse, effectSt, Nl);
             if (targetEffectArea.Length == 0)
             {
-                targetEffectArea = Parse(toParse, targetSt, nl);
+                targetEffectArea = Parse(toParse, targetSt, Nl);
             }
 
             if (targetEffectArea.Length == 0)
             {
-                targetEffectArea = Parse(toParse, targetsSt, nl);
+                targetEffectArea = Parse(toParse, targetsSt, Nl);
             }
 
             if (targetEffectArea.Length == 0)
             {
-                targetEffectArea = Parse(toParse, areaSt, nl);
+                targetEffectArea = Parse(toParse, areaSt, Nl);
             }
 
             return targetEffectArea;
@@ -185,7 +192,7 @@ namespace SpellExporter
                 idxEnd = toParse.IndexOf(end, idxSt);
                 if (idxEnd == -1)
                 {
-                    idxEnd = toParse.IndexOf(nl, idxSt);
+                    idxEnd = toParse.IndexOf(Nl, idxSt);
                 }
 
                 int length = idxEnd - idxSt - start.Length;

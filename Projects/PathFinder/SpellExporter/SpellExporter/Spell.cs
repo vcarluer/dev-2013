@@ -7,6 +7,9 @@ namespace SpellExporter
 {
     public class Spell
     {
+        public static string ExportSep = "_||_";
+        public static string ExportNL = "_NL_";
+
         public string Name { get; set; }
         public string School { get; set; }
         public string Register { get; set; }
@@ -26,5 +29,39 @@ namespace SpellExporter
         public string SavingThrow { get; set; }
         public string SpellResistance { get; set; }
         public string Description { get; set; }
+
+        private string currentExport;
+
+        public string SerializeForExport()
+        {
+            this.currentExport = String.Empty;
+            Append(this.Name);
+            Append(this.School);
+            Append(this.Register);
+            Append(this.Branch);
+            Append(this.LevelMagician);
+            Append(this.LevelPriest);
+            Append(this.LevelPaladin);
+            Append(this.LevelBard);
+            Append(this.LevelDruid);
+            Append(this.LevelStriker);
+            Append(this.CastingTime);
+            Append(this.Components);
+            Append(this.Range);
+            Append(this.TargetEffectArea);
+            Append(this.Duration);
+            Append(this.SavingThrow);
+            Append(this.SpellResistance);
+            Append(this.Description);
+
+            this.currentExport = this.currentExport.Replace(SpellExpoterService.Nl, ExportNL);
+
+            return this.currentExport;
+        }
+
+        private void Append(string str)
+        {
+            this.currentExport += str + ExportSep;
+        }
     }
 }

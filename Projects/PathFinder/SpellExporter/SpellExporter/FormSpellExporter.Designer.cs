@@ -30,9 +30,25 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.btParseList = new System.Windows.Forms.Button();
             this.btParse = new System.Windows.Forms.Button();
             this.txtToParse = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtLvlStriker = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.txtLvlDruid = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtLvlBard = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtLvlPal = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtLvlPriest = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtLvlMagEns = new System.Windows.Forms.TextBox();
+            this.txtBranch = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtRegister = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.btSave = new System.Windows.Forms.Button();
             this.btIntegrate = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
@@ -57,22 +73,8 @@
             this.txtScool = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dgSpells = new System.Windows.Forms.DataGridView();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtRegister = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtBranch = new System.Windows.Forms.TextBox();
-            this.txtLvlMagEns = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtLvlPriest = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtLvlPal = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.txtLvlBard = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtLvlDruid = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.txtLvlStriker = new System.Windows.Forms.TextBox();
-            this.btParseList = new System.Windows.Forms.Button();
+            this.btClearAll = new System.Windows.Forms.Button();
+            this.btParseListUnion = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -110,6 +112,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.btParseListUnion);
             this.splitContainer2.Panel1.Controls.Add(this.btParseList);
             this.splitContainer2.Panel1.Controls.Add(this.btParse);
             this.splitContainer2.Panel1.Controls.Add(this.txtToParse);
@@ -117,6 +120,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.btClearAll);
             this.splitContainer2.Panel2.Controls.Add(this.txtLvlStriker);
             this.splitContainer2.Panel2.Controls.Add(this.label19);
             this.splitContainer2.Panel2.Controls.Add(this.txtLvlDruid);
@@ -159,6 +163,16 @@
             this.splitContainer2.SplitterDistance = 387;
             this.splitContainer2.TabIndex = 0;
             // 
+            // btParseList
+            // 
+            this.btParseList.Location = new System.Drawing.Point(391, 352);
+            this.btParseList.Name = "btParseList";
+            this.btParseList.Size = new System.Drawing.Size(178, 32);
+            this.btParseList.TabIndex = 3;
+            this.btParseList.Text = "Parse List !";
+            this.btParseList.UseVisualStyleBackColor = true;
+            this.btParseList.Click += new System.EventHandler(this.btParseList_Click);
+            // 
             // btParse
             // 
             this.btParse.Location = new System.Drawing.Point(7, 352);
@@ -186,6 +200,125 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Paste spell text here";
             // 
+            // txtLvlStriker
+            // 
+            this.txtLvlStriker.Location = new System.Drawing.Point(277, 80);
+            this.txtLvlStriker.Name = "txtLvlStriker";
+            this.txtLvlStriker.Size = new System.Drawing.Size(25, 20);
+            this.txtLvlStriker.TabIndex = 39;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(240, 83);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(31, 13);
+            this.label19.TabIndex = 38;
+            this.label19.Text = "Strik:";
+            // 
+            // txtLvlDruid
+            // 
+            this.txtLvlDruid.Location = new System.Drawing.Point(209, 80);
+            this.txtLvlDruid.Name = "txtLvlDruid";
+            this.txtLvlDruid.Size = new System.Drawing.Size(23, 20);
+            this.txtLvlDruid.TabIndex = 37;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(168, 83);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(35, 13);
+            this.label18.TabIndex = 36;
+            this.label18.Text = "Druid:";
+            // 
+            // txtLvlBard
+            // 
+            this.txtLvlBard.Location = new System.Drawing.Point(129, 80);
+            this.txtLvlBard.Name = "txtLvlBard";
+            this.txtLvlBard.Size = new System.Drawing.Size(23, 20);
+            this.txtLvlBard.TabIndex = 35;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(91, 83);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(32, 13);
+            this.label17.TabIndex = 34;
+            this.label17.Text = "Bard:";
+            // 
+            // txtLvlPal
+            // 
+            this.txtLvlPal.Location = new System.Drawing.Point(61, 80);
+            this.txtLvlPal.Name = "txtLvlPal";
+            this.txtLvlPal.Size = new System.Drawing.Size(23, 20);
+            this.txtLvlPal.TabIndex = 33;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(12, 83);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(25, 13);
+            this.label16.TabIndex = 32;
+            this.label16.Text = "Pal:";
+            // 
+            // txtLvlPriest
+            // 
+            this.txtLvlPriest.Location = new System.Drawing.Point(316, 53);
+            this.txtLvlPriest.Name = "txtLvlPriest";
+            this.txtLvlPriest.Size = new System.Drawing.Size(28, 20);
+            this.txtLvlPriest.TabIndex = 31;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(288, 57);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(22, 13);
+            this.label15.TabIndex = 30;
+            this.label15.Text = "Pri:";
+            // 
+            // txtLvlMagEns
+            // 
+            this.txtLvlMagEns.Location = new System.Drawing.Point(252, 53);
+            this.txtLvlMagEns.Name = "txtLvlMagEns";
+            this.txtLvlMagEns.Size = new System.Drawing.Size(29, 20);
+            this.txtLvlMagEns.TabIndex = 29;
+            // 
+            // txtBranch
+            // 
+            this.txtBranch.Location = new System.Drawing.Point(61, 54);
+            this.txtBranch.Name = "txtBranch";
+            this.txtBranch.Size = new System.Drawing.Size(124, 20);
+            this.txtBranch.TabIndex = 28;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(12, 56);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(44, 13);
+            this.label14.TabIndex = 27;
+            this.label14.Text = "Branch:";
+            // 
+            // txtRegister
+            // 
+            this.txtRegister.Location = new System.Drawing.Point(247, 29);
+            this.txtRegister.Name = "txtRegister";
+            this.txtRegister.Size = new System.Drawing.Size(134, 20);
+            this.txtRegister.TabIndex = 26;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(192, 31);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(49, 13);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "Register:";
+            // 
             // btSave
             // 
             this.btSave.Location = new System.Drawing.Point(388, 281);
@@ -194,6 +327,7 @@
             this.btSave.TabIndex = 24;
             this.btSave.Text = "Save ALL";
             this.btSave.UseVisualStyleBackColor = true;
+            this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
             // btIntegrate
             // 
@@ -218,7 +352,7 @@
             // 
             this.txtDescription.Location = new System.Drawing.Point(388, 28);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(324, 210);
+            this.txtDescription.Size = new System.Drawing.Size(324, 177);
             this.txtDescription.TabIndex = 21;
             this.txtDescription.Text = "";
             // 
@@ -383,135 +517,27 @@
             this.dgSpells.Name = "dgSpells";
             this.dgSpells.Size = new System.Drawing.Size(508, 709);
             this.dgSpells.TabIndex = 0;
+            this.dgSpells.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSpells_CellContentClick);
             // 
-            // label13
+            // btClearAll
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(192, 31);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(49, 13);
-            this.label13.TabIndex = 25;
-            this.label13.Text = "Register:";
+            this.btClearAll.Location = new System.Drawing.Point(388, 211);
+            this.btClearAll.Name = "btClearAll";
+            this.btClearAll.Size = new System.Drawing.Size(324, 27);
+            this.btClearAll.TabIndex = 40;
+            this.btClearAll.Text = "Clear ALL =>";
+            this.btClearAll.UseVisualStyleBackColor = true;
+            this.btClearAll.Click += new System.EventHandler(this.btClearAll_Click);
             // 
-            // txtRegister
+            // btParseListUnion
             // 
-            this.txtRegister.Location = new System.Drawing.Point(247, 29);
-            this.txtRegister.Name = "txtRegister";
-            this.txtRegister.Size = new System.Drawing.Size(134, 20);
-            this.txtRegister.TabIndex = 26;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 56);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(44, 13);
-            this.label14.TabIndex = 27;
-            this.label14.Text = "Branch:";
-            // 
-            // txtBranch
-            // 
-            this.txtBranch.Location = new System.Drawing.Point(61, 54);
-            this.txtBranch.Name = "txtBranch";
-            this.txtBranch.Size = new System.Drawing.Size(124, 20);
-            this.txtBranch.TabIndex = 28;
-            // 
-            // txtLvlMagEns
-            // 
-            this.txtLvlMagEns.Location = new System.Drawing.Point(252, 53);
-            this.txtLvlMagEns.Name = "txtLvlMagEns";
-            this.txtLvlMagEns.Size = new System.Drawing.Size(29, 20);
-            this.txtLvlMagEns.TabIndex = 29;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(288, 57);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(22, 13);
-            this.label15.TabIndex = 30;
-            this.label15.Text = "Pri:";
-            // 
-            // txtLvlPriest
-            // 
-            this.txtLvlPriest.Location = new System.Drawing.Point(316, 53);
-            this.txtLvlPriest.Name = "txtLvlPriest";
-            this.txtLvlPriest.Size = new System.Drawing.Size(28, 20);
-            this.txtLvlPriest.TabIndex = 31;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(12, 83);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(25, 13);
-            this.label16.TabIndex = 32;
-            this.label16.Text = "Pal:";
-            // 
-            // txtLvlPal
-            // 
-            this.txtLvlPal.Location = new System.Drawing.Point(61, 80);
-            this.txtLvlPal.Name = "txtLvlPal";
-            this.txtLvlPal.Size = new System.Drawing.Size(23, 20);
-            this.txtLvlPal.TabIndex = 33;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(91, 83);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(32, 13);
-            this.label17.TabIndex = 34;
-            this.label17.Text = "Bard:";
-            // 
-            // txtLvlBard
-            // 
-            this.txtLvlBard.Location = new System.Drawing.Point(129, 80);
-            this.txtLvlBard.Name = "txtLvlBard";
-            this.txtLvlBard.Size = new System.Drawing.Size(23, 20);
-            this.txtLvlBard.TabIndex = 35;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(168, 83);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(35, 13);
-            this.label18.TabIndex = 36;
-            this.label18.Text = "Druid:";
-            // 
-            // txtLvlDruid
-            // 
-            this.txtLvlDruid.Location = new System.Drawing.Point(209, 80);
-            this.txtLvlDruid.Name = "txtLvlDruid";
-            this.txtLvlDruid.Size = new System.Drawing.Size(23, 20);
-            this.txtLvlDruid.TabIndex = 37;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(240, 83);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(31, 13);
-            this.label19.TabIndex = 38;
-            this.label19.Text = "Strik:";
-            // 
-            // txtLvlStriker
-            // 
-            this.txtLvlStriker.Location = new System.Drawing.Point(277, 80);
-            this.txtLvlStriker.Name = "txtLvlStriker";
-            this.txtLvlStriker.Size = new System.Drawing.Size(25, 20);
-            this.txtLvlStriker.TabIndex = 39;
-            // 
-            // btParseList
-            // 
-            this.btParseList.Location = new System.Drawing.Point(391, 352);
-            this.btParseList.Name = "btParseList";
-            this.btParseList.Size = new System.Drawing.Size(321, 32);
-            this.btParseList.TabIndex = 3;
-            this.btParseList.Text = "Parse List !";
-            this.btParseList.UseVisualStyleBackColor = true;
-            this.btParseList.Click += new System.EventHandler(this.btParseList_Click);
+            this.btParseListUnion.Location = new System.Drawing.Point(576, 352);
+            this.btParseListUnion.Name = "btParseListUnion";
+            this.btParseListUnion.Size = new System.Drawing.Size(136, 32);
+            this.btParseListUnion.TabIndex = 4;
+            this.btParseListUnion.Text = "+ Parse List UNION";
+            this.btParseListUnion.UseVisualStyleBackColor = true;
+            this.btParseListUnion.Click += new System.EventHandler(this.btParseListUnion_Click);
             // 
             // FormSpellExporter
             // 
@@ -583,6 +609,8 @@
         private System.Windows.Forms.TextBox txtLvlStriker;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button btParseList;
+        private System.Windows.Forms.Button btClearAll;
+        private System.Windows.Forms.Button btParseListUnion;
     }
 }
 
