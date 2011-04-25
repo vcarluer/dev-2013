@@ -151,20 +151,20 @@ public class SpellDetail extends Activity {
 			this.mLevelText.setText(spell.getString(
 					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_LEVELS)));
 			this.mIncantationTimeText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_INCANTATIONTIME)));
+					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_CASTINGTIME)));
 			
 			this.mComponentsText.setText(spell.getString(
 					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_COMPONENTS)));
 			this.mRangeText.setText(spell.getString(
 					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_RANGE)));
 			this.mTargetText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_TARGET)));
+					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_TARGETEFFECTAREA)));
 			this.mDurationText.setText(spell.getString(
 					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_DURATION)));
 			this.mSavingText.setText(spell.getString(
 					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_SAVING)));
 			this.mMagicResistanceText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_MAGICRESISTANCE)));			
+					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_SPELLRESISTANCE)));			
 			
 			this.mCommentText.setText(
 					spell.getString(spell.getColumnIndex(SpellsDbAdapter.KEY_SPELL_COMMENT)));		

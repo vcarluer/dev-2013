@@ -16,13 +16,15 @@ public class SpellsDbAdapter {
 	public static final String KEY_SPELL_NAME = "name";
     public static final String KEY_SPELL_SHORTDESCRIPTION = "shortdescription";    
     public static final String KEY_SPELL_SCHOOL = "school";
-    public static final String KEY_SPELL_INCANTATIONTIME = "incantationtime";
+    public static final String KEY_SPELL_REGISTER = "register";
+    public static final String KEY_SPELL_BRANCH = "branch";
+    public static final String KEY_SPELL_CASTINGTIME = "castingtime";
     public static final String KEY_SPELL_COMPONENTS = "components";
     public static final String KEY_SPELL_RANGE = "range";
-    public static final String KEY_SPELL_TARGET = "target";
+    public static final String KEY_SPELL_TARGETEFFECTAREA = "targeteffectarea";
     public static final String KEY_SPELL_DURATION = "duration";
     public static final String KEY_SPELL_SAVING = "saving";
-    public static final String KEY_SPELL_MAGICRESISTANCE = "magicresistance";
+    public static final String KEY_SPELL_SPELLRESISTANCE = "spellresistance";
     public static final String KEY_SPELL_FULLDESCRIPTION = "fulldescription";
     public static final String KEY_SPELL_COMMENT = "comment";
     public static final String KEY_SPELL_ISKNOWN = "isknown";
@@ -54,13 +56,15 @@ public class SpellsDbAdapter {
         "name text not null, " +
 		"shortdescription text null," +
 		"school text," +
-		"incantationtime text," +
+		"register text," +
+		"branch text," +
+		"castingtime text," +
 		"components text," +
 		"range text," +
-		"target text," +
+		"targeteffectarea text," +
 		"duration text," +
 		"saving text," +
-		"magicresistance text," +
+		"spellresistance text," +
 		"comment text," +
 		"fulldescription text," +
 		"isknown integer," +
@@ -140,13 +144,15 @@ public class SpellsDbAdapter {
         initialValues.put(KEY_SPELL_NAME, spell.name);
         initialValues.put(KEY_SPELL_SHORTDESCRIPTION, spell.shortDescription);    
         initialValues.put(KEY_SPELL_SCHOOL, spell.school);
-        initialValues.put(KEY_SPELL_INCANTATIONTIME, spell.incantationTime);
+        initialValues.put(KEY_SPELL_REGISTER, spell.register);
+        initialValues.put(KEY_SPELL_BRANCH, spell.branch);
+        initialValues.put(KEY_SPELL_CASTINGTIME, spell.castingTime);
         initialValues.put(KEY_SPELL_COMPONENTS, spell.components);
         initialValues.put(KEY_SPELL_RANGE, spell.range);
-        initialValues.put(KEY_SPELL_TARGET, spell.target);
+        initialValues.put(KEY_SPELL_TARGETEFFECTAREA, spell.targetEffectArea);
         initialValues.put(KEY_SPELL_DURATION, spell.duration);
         initialValues.put(KEY_SPELL_SAVING, spell.saving);
-        initialValues.put(KEY_SPELL_MAGICRESISTANCE, spell.magicResistance);
+        initialValues.put(KEY_SPELL_SPELLRESISTANCE, spell.spellResistance);
         initialValues.put(KEY_SPELL_FULLDESCRIPTION, spell.fullDescription);
         initialValues.put(KEY_SPELL_COMMENT, spell.comment);
         initialValues.put(KEY_SPELL_ISKNOWN, spell.isKnown);
@@ -178,7 +184,7 @@ public class SpellsDbAdapter {
         Cursor returnCursor = mDb.query(DATABASE_SPELL_TABLE, new String[] {
         		KEY_SPELL_ID, 
         		KEY_SPELL_NAME,
-        		KEY_SPELL_INCANTATIONTIME,
+        		KEY_SPELL_CASTINGTIME,
         		KEY_SPELL_ISKNOWN,
         		KEY_SPELL_ISINMEMORY,
                 KEY_SPELL_SHORTDESCRIPTION}, 
@@ -226,7 +232,7 @@ public class SpellsDbAdapter {
     	Cursor returnCursor = mDb.query(DATABASE_SPELL_TABLE, new String[] {
         		KEY_SPELL_ID, 
         		KEY_SPELL_NAME,
-        		KEY_SPELL_INCANTATIONTIME,
+        		KEY_SPELL_CASTINGTIME,
         		KEY_SPELL_ISKNOWN,
         		KEY_SPELL_ISINMEMORY,
                 KEY_SPELL_SHORTDESCRIPTION}, 
@@ -252,14 +258,16 @@ public class SpellsDbAdapter {
             		KEY_SPELL_NAME,                    
                     KEY_SPELL_FULLDESCRIPTION,
                     KEY_SPELL_SCHOOL,
+                    KEY_SPELL_REGISTER,
+                    KEY_SPELL_BRANCH,
                     KEY_SPELL_LEVELS,
-                    KEY_SPELL_INCANTATIONTIME,
+                    KEY_SPELL_CASTINGTIME,
                     KEY_SPELL_COMPONENTS,
                     KEY_SPELL_RANGE,
-                    KEY_SPELL_TARGET,
+                    KEY_SPELL_TARGETEFFECTAREA,
                     KEY_SPELL_DURATION,
                     KEY_SPELL_SAVING,
-                    KEY_SPELL_MAGICRESISTANCE,
+                    KEY_SPELL_SPELLRESISTANCE,
                     KEY_SPELL_COMMENT,
                     KEY_SPELL_ISKNOWN,
                     KEY_SPELL_ISINMEMORY,

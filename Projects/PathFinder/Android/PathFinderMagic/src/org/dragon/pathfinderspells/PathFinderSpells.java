@@ -157,46 +157,67 @@ public class PathFinderSpells extends ListActivity {
         this.fillData();
     }
     
+    private static String SpellFileName = "export.txt";
+    // private static String ExportSep = "_||_";
+    private static String ExportNL = "_NL_";
+    public static String NewLine = "\n";
+    
     private void initData() {
     	
     	this.mDbHelper.deleteAllSpells();
     	AssetManager assets = getAssets();    	     	    		      
     	try
     	{
-    		InputStream input = assets.open("PathFinderSpells.txt");
+    		InputStream input = assets.open(SpellFileName);
     		// Get the object of DataInputStream
     	    DataInputStream in = new DataInputStream(input);
-    	    String charSet = "UTF-16LE";
+    	    String charSet = "UTF-8";
     	    BufferedReader br = new BufferedReader(new InputStreamReader(in, charSet));
     	    String strLine;
     	    //Read File Line By Line
     	    int i = 0;
     	    while ((strLine = br.readLine()) != null)   {
     	      // Print the content on the console
-    	      String[] splitedLine = strLine.split("\\.", 2);
-    	      if (splitedLine.length == 2){
-    	    	  Spell spell = new Spell();
-    	    	  spell.name = splitedLine[0];
-    	    	  spell.shortDescription = splitedLine[1];
-    	    	  spell.fullDescription = splitedLine[1];
-    	    	  spell.school = "Divination";    	    	  
-    	    	  spell.bardLevel = 2;
-    	    	  spell.magianLevel = 3;
-    	    	  spell.incantationTime = "1 action simple";
-    	    	  spell.components = "V, G, M (un morceau de ficelle et un bout de bois)";
-    	    	  spell.range = "courte (7,50 m + 1,50 m/2 niveaux)";
-    	    	  spell.target = "le jeteur de sorts";
-    	    	  spell.duration = "1 heure/niveau";
-    	    	  spell.saving = "Vigueur, annule";
-    	    	  spell.magicResistance = "oui";
-    	    	  spell.comment = "";
-    	    	  
-    	    	  if (i < 10){
-    	    		  spell.isFavorite = 1;
-    	    	  }
-    	    	  
-    	    	  this.mDbHelper.createSpell(spell);    	    	     	    	 
-    	      }
+    	      String[] splitedLine = strLine.split("_\\|\\|_");    	      
+	    	  Spell spell = new Spell();
+	    	  spell.name = splitedLine[0];
+	    	  spell.school = splitedLine[1];
+	    	  spell.register = splitedLine[2];
+	    	  spell.branch = splitedLine[3];
+	    	  if (splitedLine[4].length() > 0) {
+	    		  spell.magianLevel = Integer.parseInt(splitedLine[4]); 
+	    	  }
+	    	  if (splitedLine[5].length() > 0) {
+	    		  spell.priestLevel = Integer.parseInt(splitedLine[5]); 
+	    	  }
+	    	  if (splitedLine[6].length() > 0) {
+	    		  spell.paladinLevel = Integer.parseInt(splitedLine[6]); 
+	    	  }
+	    	  if (splitedLine[7].length() > 0) {
+	    		  spell.bardLevel = Integer.parseInt(splitedLine[7]); 
+	    	  }
+	    	  if (splitedLine[8].length() > 0) {
+	    		  spell.druidLevel = Integer.parseInt(splitedLine[8]); 
+	    	  }
+	    	  if (splitedLine[9].length() > 0) {
+	    		  spell.strikerLevel = Integer.parseInt(splitedLine[9]); 
+	    	  }
+	    	  
+	    	  spell.castingTime = splitedLine[10];
+	    	  spell.components = splitedLine[11];
+	    	  spell.range = splitedLine[12];
+	    	  spell.targetEffectArea = splitedLine[13];
+	    	  spell.duration = splitedLine[14];
+	    	  spell.saving = splitedLine[15];
+	    	  spell.spellResistance = splitedLine[16];
+	    	  spell.shortDescription = splitedLine[17];
+	    	  String fullDesc = splitedLine[18];
+	    	  fullDesc = fullDesc.replaceAll(ExportNL, NewLine);
+	    	  spell.fullDescription = fullDesc;
+	    	      	    	  	    	  
+	    	  spell.comment = "";
+	    	  	    	  
+	    	  this.mDbHelper.createSpell(spell);    	      
     	      
     	      i++;
     	    }

@@ -7,49 +7,72 @@ import android.content.res.Resources;
 public class Spell {	
 	public long id;
 	public String name;
-	public String shortDescription;
 	public String school;
-	public String incantationTime;
+	public String register;
+	public String branch;
+	
+	public int magianLevel;
+	public int priestLevel;
+	public int paladinLevel;
+	public int bardLevel;
+	public int druidLevel;
+	public int strikerLevel;	
+		
+	public String castingTime;
 	public String components;
 	public String range;
-	public String target;
+	public String targetEffectArea;
 	public String duration;
 	public String saving;
-	public String magicResistance;
+	public String spellResistance;
+	public String shortDescription;	
 	public String fullDescription;
+	
 	public String comment;
 	public int isKnown;
 	public int isInMemory;
 	public int isFavorite;
-	public int magianLevel;
-	public int priestLevel;
-	public int druidLevel;
-	public int paladinLevel;
-	public int strikerLevel;
-	public int bardLevel;
+		
+	
 	
 	private String levels;
 	
 	public Spell(){
 		this.magianLevel = -1;
 		this.priestLevel = -1;
-		this.druidLevel = -1;
 		this.paladinLevel = -1;
-		this.strikerLevel = -1;
 		this.bardLevel = -1;
+		this.druidLevel = -1;		
+		this.strikerLevel = -1;		
 	}
 	
 	public String getLevels(Resources res){
 		if (this.levels == null)
 		{
 			String returnLevels = "";
-						
-			if (this.bardLevel != -1){
-				returnLevels += " " + res.getString(R.string.bard) + " " + String.valueOf(bardLevel);
-	        }
 			
 			if (this.magianLevel != -1){
-				returnLevels += " " + res.getString(R.string.magician) + " " + String.valueOf(magianLevel);
+				returnLevels += " " + res.getString(R.string.magician) + " " + String.valueOf(this.magianLevel);
+	        }
+			
+			if (this.priestLevel != -1){
+				returnLevels += " " + res.getString(R.string.priest) + " " + String.valueOf(this.priestLevel);
+	        }
+			
+			if (this.paladinLevel != -1){
+				returnLevels += " " + res.getString(R.string.paladin) + " " + String.valueOf(this.paladinLevel);
+	        }
+			
+			if (this.bardLevel != -1){
+				returnLevels += " " + res.getString(R.string.bard) + " " + String.valueOf(this.bardLevel);
+	        }
+			
+			if (this.druidLevel != -1){
+				returnLevels += " " + res.getString(R.string.druid) + " " + String.valueOf(this.druidLevel);
+	        }
+			
+			if (this.strikerLevel != -1){
+				returnLevels += " " + res.getString(R.string.striker) + " " + String.valueOf(this.strikerLevel);
 	        }
 			
 			this.levels = returnLevels;		
