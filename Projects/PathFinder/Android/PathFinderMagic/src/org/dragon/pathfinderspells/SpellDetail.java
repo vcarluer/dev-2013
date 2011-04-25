@@ -3,171 +3,129 @@ package org.dragon.pathfinderspells;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SpellDetail extends Activity {
-	
-	private Long mRowId;    
-    private SpellsDbAdapter mDbHelper;
-    
-    private TextView mNameText;
-    private TextView mFullDescriptionText;
-    private ImageView mIsFavorite;
-    private ImageView mIsKnown;
-    private ImageView mIsInMemory;
-    private TextView mSchoolText;
+		
+    private TextView mNameText;    
+    private ImageView mIsBookmark;    
+    private TextView mSchoolText;    
     private TextView mLevelText;
-    private TextView mIncantationTimeText;
+    private TextView mCastingTimeText;
     private TextView mComponentsText;
     private TextView mRangeText;
-    private TextView mTargetText;
+    private TextView mTargetEffectAreaText;
     private TextView mDurationText;
     private TextView mSavingText;
-    private TextView mMagicResistanceText;
-    private EditText mCommentText;
+    private TextView mSpellResistanceText;
+    private TextView mFullDescriptionText;
     
-    private int isFavorite;
-    private int isKnown;
-    private int isInMemory;
+    private LinearLayout mLayoutCastingTime;
+    private LinearLayout mLayoutComponents;
+    private LinearLayout mLayoutRange;
+    private LinearLayout mLayoutTarget;
+    private LinearLayout mLayoutDuration;
+    private LinearLayout mLayoutSaving;
+    private LinearLayout mLayoutSpellResistance;
+    
+    private Spell spell;
+    
+    private boolean isBookmark;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mDbHelper = new SpellsDbAdapter(this);
-        this.mDbHelper.open();
         
         setContentView(R.layout.spell_detail);
 
-        this.mRowId = (savedInstanceState == null) ? null : (Long) savedInstanceState.getSerializable(SpellsDbAdapter.KEY_SPELL_ID);
-        if (this.mRowId == null) {
-        	Bundle extras = getIntent().getExtras();
-        	this.mRowId = (extras != null) ? extras.getLong(SpellsDbAdapter.KEY_SPELL_ID) : null; 
+        Bundle spellBundle = (savedInstanceState == null) ? null : savedInstanceState;        
+        if (spellBundle == null) {
+        	spellBundle = getIntent().getExtras().getBundle(Spell.KEY_SPELL_DETAIL);        	 
         }
+        
+        this.spell = new Spell(spellBundle, this.getResources());
         
         this.mNameText = (TextView) findViewById(R.id.detail_name);
         this.mFullDescriptionText = (TextView) findViewById(R.id.detail_full_description);        
-        this.mSchoolText = (TextView) findViewById(R.id.detail_school);
+        this.mSchoolText = (TextView) findViewById(R.id.detail_school);       
         this.mLevelText = (TextView) findViewById(R.id.detail_level);
-        this.mIncantationTimeText = (TextView) findViewById(R.id.detail_incantation_time);   
-        this.mCommentText = (EditText) findViewById(R.id.detail_comment);        
+        this.mCastingTimeText = (TextView) findViewById(R.id.detail_casting_time);    
         this.mComponentsText = (TextView) findViewById(R.id.detail_components);
         this.mRangeText = (TextView) findViewById(R.id.detail_range);
-        this.mTargetText = (TextView) findViewById(R.id.detail_target);
+        this.mTargetEffectAreaText = (TextView) findViewById(R.id.detail_target);
         this.mDurationText = (TextView) findViewById(R.id.detail_duration);
         this.mSavingText = (TextView) findViewById(R.id.detail_saving);
-        this.mMagicResistanceText = (TextView) findViewById(R.id.detail_magic_resistance);
+        this.mSpellResistanceText = (TextView) findViewById(R.id.detail_spell_resistance);
         
-        this.mIsFavorite = (ImageView) findViewById(R.id.detail_is_favorite);
-        this.mIsFavorite.setOnClickListener(new View.OnClickListener() {
+        this.mIsBookmark = (ImageView) findViewById(R.id.detail_is_bookmark);
+        this.mIsBookmark.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                if (isFavorite == 0){
-                	isFavorite = 1;
-                	mIsFavorite.setImageResource(R.drawable.favoris);
+                if (!isBookmark){
+                	isBookmark = true;
+                	mIsBookmark.setImageResource(R.drawable.favoris);
                 }
                 else
                 {
-                	isFavorite = 0;
-                	mIsFavorite.setImageResource(R.drawable.nofavoris);
+                	isBookmark = false;
+                	mIsBookmark.setImageResource(R.drawable.nofavoris);
                 }
             }
         });
-        
-        this.mIsKnown = (ImageView) findViewById(R.id.detail_is_known);
-        this.mIsKnown.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                if (isKnown == 0){
-                	isKnown = 1;
-                	mIsKnown.setImageResource(R.drawable.grimoire);
-                }
-                else
-                {
-                	isKnown = 0;
-                	mIsKnown.setImageResource(R.drawable.nogrimoire);
-                }
-            }
-        });
-        
-        this.mIsInMemory = (ImageView) findViewById(R.id.detail_is_inmemory);
-        this.mIsInMemory.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                if (isInMemory == 0){
-                	isInMemory = 1;
-                	mIsInMemory.setImageResource(R.drawable.inmemory);
-                }
-                else
-                {
-                	isInMemory = 0;
-                	mIsInMemory.setImageResource(R.drawable.noinmemory);
-                }
-            }
-        });
-        
+                
+        this.mLayoutCastingTime = (LinearLayout) findViewById(R.id.layout_casting_time);
+        this.mLayoutComponents = (LinearLayout) findViewById(R.id.layout_components);
+        this.mLayoutDuration = (LinearLayout) findViewById(R.id.layout_duration);
+        this.mLayoutRange = (LinearLayout) findViewById(R.id.layout_duration);        
+        this.mLayoutSaving = (LinearLayout) findViewById(R.id.layout_saving);
+        this.mLayoutSpellResistance = (LinearLayout) findViewById(R.id.layout_spell_resistance);
+        this.mLayoutTarget = (LinearLayout) findViewById(R.id.layout_target);
+                
         this.populateFields();               
     }
 	
+	private void setField(TextView textView, String value, View container) {
+		if (value.length() > 0) {
+			container.setVisibility(View.VISIBLE);
+			textView.setText(value);
+		}
+		else
+		{
+			container.setVisibility(View.GONE);
+		}
+	}
+	
 	private void populateFields() {
-		if (this.mRowId != null){
-			Cursor spell = this.mDbHelper.fetchSpell(this.mRowId);
-			this.startManagingCursor(spell);
+		if (this.spell != null){
 			
-			this.mNameText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_NAME)));
+			this.mNameText.setText(this.spell.name);
 			
-			this.mFullDescriptionText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_FULLDESCRIPTION)));
+			this.mFullDescriptionText.setText(this.spell.fullDescription);
 			
-			this.isFavorite = spell.getInt(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_ISFAVORITE));
-			if (this.isFavorite == 1)
+			this.isBookmark = this.spell.isBookmark;
+			if (this.isBookmark)
 			{
-				this.mIsFavorite.setImageResource(R.drawable.favoris);
+				this.mIsBookmark.setImageResource(R.drawable.favoris);
 			}			
+						
+			this.mSchoolText.setText(this.spell.getFullSchool());	
 			
-			this.isKnown = spell.getInt(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_ISKNOWN));
-			if (this.isKnown == 1)
-			{
-				this.mIsKnown.setImageResource(R.drawable.grimoire);
-			}
-			
-			this.isInMemory = spell.getInt(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_ISINMEMORY));
-			if (this.isInMemory == 1)
-			{
-				this.mIsInMemory.setImageResource(R.drawable.inmemory);
-			}
-			
-			this.mSchoolText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_SCHOOL)));
-			this.mLevelText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_LEVELS)));
-			this.mIncantationTimeText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_CASTINGTIME)));
-			
-			this.mComponentsText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_COMPONENTS)));
-			this.mRangeText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_RANGE)));
-			this.mTargetText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_TARGETEFFECTAREA)));
-			this.mDurationText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_DURATION)));
-			this.mSavingText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_SAVING)));
-			this.mMagicResistanceText.setText(spell.getString(
-					spell.getColumnIndexOrThrow(SpellsDbAdapter.KEY_SPELL_SPELLRESISTANCE)));			
-			
-			this.mCommentText.setText(
-					spell.getString(spell.getColumnIndex(SpellsDbAdapter.KEY_SPELL_COMMENT)));		
+			this.mLevelText.setText(this.spell.getLevels());
+			this.setField(this.mCastingTimeText, this.spell.castingTime, this.mLayoutCastingTime);			
+			this.setField(this.mComponentsText, this.spell.components, this.mLayoutComponents);
+			this.setField(this.mRangeText, this.spell.range, this.mLayoutRange);
+			this.setField(this.mTargetEffectAreaText, this.spell.targetEffectArea, this.mLayoutTarget);
+			this.setField(this.mDurationText, this.spell.duration, this.mLayoutDuration);
+			this.setField(this.mSavingText, this.spell.saving, this.mLayoutSaving);
+			this.setField(this.mSpellResistanceText, this.spell.spellResistance, this.mLayoutSpellResistance);			
 		}		
 	}
 	
@@ -176,7 +134,6 @@ public class SpellDetail extends Activity {
 	 */
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		this.saveState();
 	}
@@ -186,7 +143,6 @@ public class SpellDetail extends Activity {
 	 */
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		this.populateFields();
 	}
@@ -195,20 +151,19 @@ public class SpellDetail extends Activity {
 	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
 	 */
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
+	protected void onSaveInstanceState(Bundle outState) {		
 		super.onSaveInstanceState(outState);
-		// this.saveState();
-		outState.putSerializable(SpellsDbAdapter.KEY_SPELL_ID, this.mRowId);
+		this.saveState();		
+		this.spell.fillBundle(outState);
 	}
 
 	private void saveState() {				
-		Spell spell = new Spell();
+		/*Spell spell = new Spell();
 		spell.id = this.mRowId;
 		spell.comment = this.mCommentText.getText().toString();
 		spell.isFavorite = this.isFavorite;
 		spell.isKnown = this.isKnown;
 		spell.isInMemory = this.isInMemory;
-		mDbHelper.updateSpell(spell);		
+		mDbHelper.updateSpell(spell);*/		
 	}			
 }
