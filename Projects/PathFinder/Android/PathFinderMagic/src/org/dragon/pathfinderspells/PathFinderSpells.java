@@ -126,6 +126,7 @@ public class PathFinderSpells extends ListActivity {
     	ArrayList<Spell> fetchList = new ArrayList<Spell>();
     	for(Spell spell : this.spellList) {
     		boolean addSpell = true;
+    		spell.isBookmark = this.bookmarkList.isBookmark(spell.name);
     		if (this.nameFilter.length() > 0) {
     			if (!spell.name.toLowerCase().contains(this.nameFilter.toLowerCase())) {
     				addSpell = false;
@@ -139,8 +140,6 @@ public class PathFinderSpells extends ListActivity {
     		}
     		
     		if (addSpell) {    			
-    			spell.isBookmark = this.bookmarkList.isBookmark(spell.name);
-    			
     			fetchList.add(spell);
     		}
     	}
@@ -159,7 +158,6 @@ public class PathFinderSpells extends ListActivity {
         Spell spell = this.spellsAdapter.getItem(position);
         
         i.putExtra(Spell.KEY_SPELL_DETAIL, spell.getBundle());
-       // i.putExtra(ACTIVITY_LAST_POSITION, position);
         this.lastPosition = position;
         startActivityForResult(i, ACTIVITY_SHOWDETAIL);
     }

@@ -83,7 +83,7 @@ public class SpellDetail extends Activity {
         this.mLayoutCastingTime = (LinearLayout) findViewById(R.id.layout_casting_time);
         this.mLayoutComponents = (LinearLayout) findViewById(R.id.layout_components);
         this.mLayoutDuration = (LinearLayout) findViewById(R.id.layout_duration);
-        this.mLayoutRange = (LinearLayout) findViewById(R.id.layout_duration);        
+        this.mLayoutRange = (LinearLayout) findViewById(R.id.layout_range);        
         this.mLayoutSaving = (LinearLayout) findViewById(R.id.layout_saving);
         this.mLayoutSpellResistance = (LinearLayout) findViewById(R.id.layout_spell_resistance);
         this.mLayoutTarget = (LinearLayout) findViewById(R.id.layout_target);
@@ -92,7 +92,7 @@ public class SpellDetail extends Activity {
     }
 	
 	private void setField(TextView textView, String value, View container) {
-		if (value.length() > 0) {
+		if (value.trim().length() > 0) {
 			container.setVisibility(View.VISIBLE);
 			textView.setText(value);
 		}
