@@ -9,19 +9,38 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class PathFinderSpells extends ListActivity {
 	
 	public static final String ACTIVITY_LAST_POSITION="lastposition";
 	private static final int ACTIVITY_SHOWDETAIL=0;	
+	
+	private static final int SELECT_TOUTES = 0;
+	private static final int SELECT_BARD = 1;
+	private static final int SELECT_CLERIC = 2;
+	private static final int SELECT_DRUID = 3;
+	private static final int SELECT_PALADIN = 4;
+	private static final int SELECT_RANGER = 5;
+	private static final int SELECT_SORCERER = 6;
+	private static final int SELECT_WIZARD = 7;
 	
     private boolean isBookmark = false;    
     private String nameFilter = "";
@@ -30,12 +49,34 @@ public class PathFinderSpells extends ListActivity {
     private SpellsArrayAdapter spellsAdapter;
     private BookmarkList bookmarkList;
     private int lastPosition;
+    
+    private LinearLayout layoutList;
+    private Gallery layoutGallery;
+    private int galleryPosition;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spells_list);
+        
+        this.layoutGallery = (Gallery) findViewById(R.id.gallery);
+        this.layoutGallery.setAdapter(new ImageAdapter(this));
+        this.layoutGallery.setSpacing(10);        
+
+        this.layoutGallery.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                // Toast.makeText(PathFinderSpells.this, "" + position, Toast.LENGTH_SHORT).show();
+            	galleryPosition = position;
+            	layoutList.setVisibility(View.VISIBLE);
+            	layoutGallery.setVisibility(View.GONE);
+            	
+            	fillData();
+            }
+        });
+        
+        this.layoutList = (LinearLayout) findViewById(R.id.layout_list);
+        this.layoutList.setVisibility(View.GONE);
         
         this.spellList = new ArrayList<Spell>();        
                 
@@ -47,7 +88,54 @@ public class PathFinderSpells extends ListActivity {
         	this.isSearched = true;
         	}
         
-        this.fillData();
+        // this.fillData();
+    }
+    
+    public class ImageAdapter extends BaseAdapter {
+        int mGalleryItemBackground;
+        private Context mContext;
+
+        private Integer[] mImageIds = {
+                R.drawable.toutes,
+        		R.drawable.bard,
+                R.drawable.cleric,
+                R.drawable.druid,
+                R.drawable.paladin,
+                R.drawable.ranger,
+                R.drawable.sorcerer,
+                R.drawable.wizard
+        };
+
+        public ImageAdapter(Context c) {
+            mContext = c;
+            TypedArray a = obtainStyledAttributes(R.styleable.SpellGallery);
+            mGalleryItemBackground = a.getResourceId(
+                    R.styleable.SpellGallery_android_galleryItemBackground, 0);            
+            a.recycle();
+        }
+
+        public int getCount() {
+            return mImageIds.length;
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView i = new ImageView(mContext);
+
+            i.setImageResource(mImageIds[position]);
+            i.setLayoutParams(new Gallery.LayoutParams(400, 800));
+            i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            i.setBackgroundResource(mGalleryItemBackground);
+
+            return i;
+        }
     }
     
     private static String SpellFileName = "export.txt";
@@ -139,6 +227,47 @@ public class PathFinderSpells extends ListActivity {
     			}
     		}
     		
+    		switch(this.galleryPosition) {
+    		case SELECT_BARD: 
+    			if (spell.bardLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_CLERIC:
+    			if (spell.priestLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_DRUID:
+    			if (spell.druidLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_PALADIN:
+    			if (spell.paladinLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_RANGER:
+    			if (spell.strikerLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_SORCERER:
+    			if (spell.magianLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_WIZARD:
+    			if (spell.magianLevel == -1) {
+    				addSpell = false;
+    			}
+    			break;
+    		case SELECT_TOUTES:
+    			default:
+    				break;
+    		}
+    		
     		if (addSpell) {    			
     			fetchList.add(spell);
     		}
@@ -213,6 +342,11 @@ public class PathFinderSpells extends ListActivity {
             }
             
             fillData();
+			return true;
+		case R.id.menu_class:
+			layoutGallery.setVisibility(View.VISIBLE);
+			layoutList.setVisibility(View.GONE);
+			this.layoutGallery.setSelection(this.galleryPosition);
 			return true;
 		default:
 	        return super.onOptionsItemSelected(item);
