@@ -1,14 +1,8 @@
 package org.dragon.pathfinderspells;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,8 +31,9 @@ public class SpellDetail extends Activity {
     private LinearLayout mLayoutSpellResistance;
     
     private Spell spell;
-    
-    private boolean isBookmark;
+        
+    private boolean wasBookmark;
+    private BookmarkList bookmarkList;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +43,12 @@ public class SpellDetail extends Activity {
 
         Bundle spellBundle = (savedInstanceState == null) ? null : savedInstanceState;        
         if (spellBundle == null) {
-        	spellBundle = getIntent().getExtras().getBundle(Spell.KEY_SPELL_DETAIL);        	 
-        }
+        	spellBundle = getIntent().getExtras().getBundle(Spell.KEY_SPELL_DETAIL);
+        }     	
         
         this.spell = new Spell(spellBundle, this.getResources());
+        this.wasBookmark = this.spell.isBookmark;
+        this.bookmarkList = new BookmarkList(this);                
         
         this.mNameText = (TextView) findViewById(R.id.detail_name);
         this.mFullDescriptionText = (TextView) findViewById(R.id.detail_full_description);        
@@ -69,13 +66,15 @@ public class SpellDetail extends Activity {
         this.mIsBookmark.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                if (!isBookmark){
-                	isBookmark = true;
-                	mIsBookmark.setImageResource(R.drawable.favoris);
+                if (!spell.isBookmark){
+                	spell.isBookmark = true;
+                	bookmarkList.bookmark(spell.name);
+                	mIsBookmark.setImageResource(R.drawable.favoris);                	
                 }
                 else
                 {
-                	isBookmark = false;
+                	spell.isBookmark = false;
+                	bookmarkList.unbookmark(spell.name);
                 	mIsBookmark.setImageResource(R.drawable.nofavoris);
                 }
             }
@@ -110,8 +109,7 @@ public class SpellDetail extends Activity {
 			
 			this.mFullDescriptionText.setText(this.spell.fullDescription);
 			
-			this.isBookmark = this.spell.isBookmark;
-			if (this.isBookmark)
+			if (this.spell.isBookmark)
 			{
 				this.mIsBookmark.setImageResource(R.drawable.favoris);
 			}			
@@ -154,16 +152,12 @@ public class SpellDetail extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {		
 		super.onSaveInstanceState(outState);
 		this.saveState();		
-		this.spell.fillBundle(outState);
+		this.spell.fillBundle(outState);		
 	}
 
-	private void saveState() {				
-		/*Spell spell = new Spell();
-		spell.id = this.mRowId;
-		spell.comment = this.mCommentText.getText().toString();
-		spell.isFavorite = this.isFavorite;
-		spell.isKnown = this.isKnown;
-		spell.isInMemory = this.isInMemory;
-		mDbHelper.updateSpell(spell);*/		
+	private void saveState() {
+		if (this.wasBookmark != this.spell.isBookmark) {
+			this.bookmarkList.saveBookmark(this);
+		}
 	}			
 }

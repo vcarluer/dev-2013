@@ -14,18 +14,10 @@ public final class R {
         public static final int annuler=0x7f020000;
         public static final int favoris=0x7f020001;
         public static final int favorislist=0x7f020002;
-        public static final int grimoire=0x7f020003;
-        public static final int ic_menu_search=0x7f020004;
-        public static final int icon=0x7f020005;
-        public static final int inmemory=0x7f020006;
-        public static final int listfavoris=0x7f020007;
-        public static final int listgrimoire=0x7f020008;
-        public static final int listinmemory=0x7f020009;
-        public static final int logo=0x7f02000a;
-        public static final int nofavoris=0x7f02000b;
-        public static final int nogrimoire=0x7f02000c;
-        public static final int noinmemory=0x7f02000d;
-        public static final int pathfinderlogo=0x7f02000e;
+        public static final int ic_menu_search=0x7f020003;
+        public static final int logo=0x7f020004;
+        public static final int nofavoris=0x7f020005;
+        public static final int pathfinderlogo=0x7f020006;
     }
     public static final class id {
         public static final int detail_casting_time=0x7f060009;

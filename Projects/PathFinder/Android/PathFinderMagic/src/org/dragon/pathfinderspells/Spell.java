@@ -1,7 +1,5 @@
 package org.dragon.pathfinderspells;
 
-import java.util.*;
-
 import android.content.res.Resources;
 import android.os.Bundle;
 

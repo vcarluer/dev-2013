@@ -11,27 +11,25 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
 public class PathFinderSpells extends ListActivity {
 	
-	private static final int ACTIVITY_SHOWDETAIL=0;
+	public static final String ACTIVITY_LAST_POSITION="lastposition";
+	private static final int ACTIVITY_SHOWDETAIL=0;	
 	
     private boolean isBookmark = false;    
     private String nameFilter = "";
     private Boolean isSearched = false;
     private ArrayList<Spell> spellList;
     private SpellsArrayAdapter spellsAdapter;
+    private BookmarkList bookmarkList;
+    private int lastPosition;
 	
     /** Called when the activity is first created. */
     @Override
@@ -39,7 +37,7 @@ public class PathFinderSpells extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spells_list);
         
-        this.spellList = new ArrayList<Spell>();
+        this.spellList = new ArrayList<Spell>();        
                 
         this.initData();
 
@@ -53,9 +51,9 @@ public class PathFinderSpells extends ListActivity {
     }
     
     private static String SpellFileName = "export.txt";
-    // private static String ExportSep = "_||_";
+    private static String FieldSep = "_\\|\\|_";
     private static String ExportNL = "_NL_";
-    public static String NewLine = "\n";
+    public static String NewLine = "\n";    
     
     private void initData() {
     	
@@ -73,7 +71,7 @@ public class PathFinderSpells extends ListActivity {
     	    int i = 0;
     	    while ((strLine = br.readLine()) != null)   {
     	      // Print the content on the console
-    	      String[] splitedLine = strLine.split("_\\|\\|_");    	      
+    	      String[] splitedLine = strLine.split(FieldSep);    	      
 	    	  Spell spell = new Spell(this.getResources());
 	    	  spell.name = splitedLine[0];
 	    	  spell.school = splitedLine[1];
@@ -114,7 +112,7 @@ public class PathFinderSpells extends ListActivity {
     	      i++;
     	    }
     	    //Close the input stream
-    	    in.close();
+    	    br.close();
     	}
     	catch(IOException ex)
     	{    	 
@@ -123,6 +121,8 @@ public class PathFinderSpells extends ListActivity {
 	}
     
     private void fillData() {            	
+    	this.bookmarkList = new BookmarkList(this);
+    	
     	ArrayList<Spell> fetchList = new ArrayList<Spell>();
     	for(Spell spell : this.spellList) {
     		boolean addSpell = true;
@@ -138,7 +138,9 @@ public class PathFinderSpells extends ListActivity {
     			}
     		}
     		
-    		if (addSpell) {
+    		if (addSpell) {    			
+    			spell.isBookmark = this.bookmarkList.isBookmark(spell.name);
+    			
     			fetchList.add(spell);
     		}
     	}
@@ -156,14 +158,18 @@ public class PathFinderSpells extends ListActivity {
         
         Spell spell = this.spellsAdapter.getItem(position);
         
-        i.putExtra(Spell.KEY_SPELL_DETAIL, spell.getBundle());        
+        i.putExtra(Spell.KEY_SPELL_DETAIL, spell.getBundle());
+       // i.putExtra(ACTIVITY_LAST_POSITION, position);
+        this.lastPosition = position;
         startActivityForResult(i, ACTIVITY_SHOWDETAIL);
     }
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);     
-        // fillData();        
+        fillData();        
+        ListView lv = this.getListView();
+        lv.setSelection(this.lastPosition);
     }
 
 	/* (non-Javadoc)
