@@ -16,19 +16,22 @@ public final class R {
     public static final class drawable {
         public static final int annuler=0x7f020000;
         public static final int bard=0x7f020001;
-        public static final int cleric=0x7f020002;
-        public static final int druid=0x7f020003;
-        public static final int favoris=0x7f020004;
-        public static final int favorislist=0x7f020005;
-        public static final int ic_menu_search=0x7f020006;
-        public static final int logo=0x7f020007;
-        public static final int nofavoris=0x7f020008;
-        public static final int paladin=0x7f020009;
-        public static final int pathfinderlogo=0x7f02000a;
-        public static final int ranger=0x7f02000b;
-        public static final int sorcerer=0x7f02000c;
-        public static final int toutes=0x7f02000d;
-        public static final int wizard=0x7f02000e;
+        public static final int blue_box=0x7f020002;
+        public static final int cleric=0x7f020003;
+        public static final int druid=0x7f020004;
+        public static final int favoris=0x7f020005;
+        public static final int favorislist=0x7f020006;
+        public static final int gallery_background=0x7f020007;
+        public static final int ic_menu_search=0x7f020008;
+        public static final int logo=0x7f020009;
+        public static final int nofavoris=0x7f02000a;
+        public static final int paladin=0x7f02000b;
+        public static final int pathfinderlogo=0x7f02000c;
+        public static final int ranger=0x7f02000d;
+        public static final int red_box=0x7f02000e;
+        public static final int sorcerer=0x7f02000f;
+        public static final int toutes=0x7f020010;
+        public static final int wizard=0x7f020011;
     }
     public static final class id {
         public static final int detail_casting_time=0x7f07000a;
@@ -43,12 +46,12 @@ public final class R {
         public static final int detail_school=0x7f070007;
         public static final int detail_spell_resistance=0x7f070016;
         public static final int detail_target=0x7f070010;
-        public static final int gallery=0x7f070019;
+        public static final int gallery=0x7f07001b;
         public static final int horizontalLine=0x7f070006;
         public static final int layout_casting_time=0x7f070009;
         public static final int layout_components=0x7f07000b;
         public static final int layout_duration=0x7f070011;
-        public static final int layout_gallery=0x7f070018;
+        public static final int layout_gallery=0x7f070019;
         public static final int layout_list=0x7f07001a;
         public static final int layout_range=0x7f07000d;
         public static final int layout_saving=0x7f070013;
@@ -57,7 +60,7 @@ public final class R {
         public static final int menu_bookmark=0x7f070002;
         public static final int menu_class=0x7f070001;
         public static final int menu_search=0x7f070000;
-        public static final int pathlogo=0x7f07001b;
+        public static final int pathlogo=0x7f070018;
         public static final int row_is_favorite=0x7f07001e;
         public static final int row_name=0x7f07001c;
         public static final int row_short_description=0x7f07001d;

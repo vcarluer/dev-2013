@@ -12,8 +12,10 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,8 +63,13 @@ public class PathFinderSpells extends ListActivity {
         setContentView(R.layout.spells_list);
         
         this.layoutGallery = (Gallery) findViewById(R.id.gallery);
-        this.layoutGallery.setAdapter(new ImageAdapter(this));
-        this.layoutGallery.setSpacing(10);        
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+        int width = dm.widthPixels;
+        
+        this.layoutGallery.setAdapter(new ImageAdapter(this, width, height));
+        // this.layoutGallery.setSpacing(10);        
 
         this.layoutGallery.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -89,53 +96,6 @@ public class PathFinderSpells extends ListActivity {
         	}
         
         // this.fillData();
-    }
-    
-    public class ImageAdapter extends BaseAdapter {
-        int mGalleryItemBackground;
-        private Context mContext;
-
-        private Integer[] mImageIds = {
-                R.drawable.toutes,
-        		R.drawable.bard,
-                R.drawable.cleric,
-                R.drawable.druid,
-                R.drawable.paladin,
-                R.drawable.ranger,
-                R.drawable.sorcerer,
-                R.drawable.wizard
-        };
-
-        public ImageAdapter(Context c) {
-            mContext = c;
-            TypedArray a = obtainStyledAttributes(R.styleable.SpellGallery);
-            mGalleryItemBackground = a.getResourceId(
-                    R.styleable.SpellGallery_android_galleryItemBackground, 0);            
-            a.recycle();
-        }
-
-        public int getCount() {
-            return mImageIds.length;
-        }
-
-        public Object getItem(int position) {
-            return position;
-        }
-
-        public long getItemId(int position) {
-            return position;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView i = new ImageView(mContext);
-
-            i.setImageResource(mImageIds[position]);
-            i.setLayoutParams(new Gallery.LayoutParams(400, 800));
-            i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            i.setBackgroundResource(mGalleryItemBackground);
-
-            return i;
-        }
     }
     
     private static String SpellFileName = "export.txt";
@@ -380,5 +340,11 @@ public class PathFinderSpells extends ListActivity {
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
 	}
 }
