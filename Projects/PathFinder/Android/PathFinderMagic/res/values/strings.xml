@@ -33,4 +33,8 @@
 <string name="register">Registre :</string>
 <string name="search">Rechercher</string>
 <string name="className">Classe</string>
+<string name="sort">Trier</string>
+<string name="menu_alpha">Alphabétique</string>
+<string name="menu_level">Niveau</string>
+<string name="menu_school">Ecole</string>
 </resources>

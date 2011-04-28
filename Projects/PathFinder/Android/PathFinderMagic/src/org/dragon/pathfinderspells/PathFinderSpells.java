@@ -6,13 +6,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -35,14 +40,21 @@ public class PathFinderSpells extends ListActivity {
 	public static final String ACTIVITY_LAST_POSITION="lastposition";
 	private static final int ACTIVITY_SHOWDETAIL=0;	
 	
-	private static final int SELECT_TOUTES = 0;
-	private static final int SELECT_BARD = 1;
-	private static final int SELECT_CLERIC = 2;
-	private static final int SELECT_DRUID = 3;
-	private static final int SELECT_PALADIN = 4;
-	private static final int SELECT_RANGER = 5;
-	private static final int SELECT_SORCERER = 6;
-	private static final int SELECT_WIZARD = 7;
+	public static final int SELECT_TOUTES = 0;
+	public static final int SELECT_BARD = 1;
+	public static final int SELECT_CLERIC = 2;
+	public static final int SELECT_DRUID = 3;
+	public static final int SELECT_PALADIN = 4;
+	public static final int SELECT_RANGER = 5;
+	public static final int SELECT_SORCERER = 6;
+	public static final int SELECT_WIZARD = 7;
+	
+	private static final int DIALOG_SORT = 0;
+	private static final int DIALOG_SORT_NOCLASS = 1;
+	
+	private static final int SORT_ALPHA = 0;	
+	private static final int SORT_SCHOOL = 1;
+	private static final int SORT_LEVEL = 2;
 	
     private boolean isBookmark = false;    
     private String nameFilter = "";
@@ -54,7 +66,8 @@ public class PathFinderSpells extends ListActivity {
     
     private LinearLayout layoutList;
     private Gallery layoutGallery;
-    private int galleryPosition;
+    private int classPosition;
+    private int sortPosition;
 	
     /** Called when the activity is first created. */
     @Override
@@ -74,7 +87,7 @@ public class PathFinderSpells extends ListActivity {
         this.layoutGallery.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // Toast.makeText(PathFinderSpells.this, "" + position, Toast.LENGTH_SHORT).show();
-            	galleryPosition = position;
+            	classPosition = position;
             	layoutList.setVisibility(View.VISIBLE);
             	layoutGallery.setVisibility(View.GONE);
             	
@@ -187,7 +200,7 @@ public class PathFinderSpells extends ListActivity {
     			}
     		}
     		
-    		switch(this.galleryPosition) {
+    		switch(this.classPosition) {
     		case SELECT_BARD: 
     			if (spell.bardLevel == -1) {
     				addSpell = false;
@@ -234,6 +247,20 @@ public class PathFinderSpells extends ListActivity {
     	}
     	
     	this.nameFilter = "";
+    	
+    	switch (this.sortPosition) {
+    	case 0:
+    		Collections.sort(fetchList, new SpellNameComparator());
+    		break;
+    	case 1:
+    		Collections.sort(fetchList, new SpellSchoolComparator());
+    		break;
+    	case 2:
+    		Collections.sort(fetchList, new SpellLevelComparator(this.classPosition));
+    		break;
+    		default:
+    			break;
+    	}
     	
     	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList);    	
         setListAdapter(this.spellsAdapter);
@@ -306,7 +333,15 @@ public class PathFinderSpells extends ListActivity {
 		case R.id.menu_class:
 			layoutGallery.setVisibility(View.VISIBLE);
 			layoutList.setVisibility(View.GONE);
-			this.layoutGallery.setSelection(this.galleryPosition);
+			this.layoutGallery.setSelection(this.classPosition);
+			return true;
+		case R.id.menu_sort:
+			if (this.classPosition == SELECT_TOUTES) {
+				showDialog(DIALOG_SORT_NOCLASS);
+			}
+			else {
+				showDialog(DIALOG_SORT);
+			}			
 			return true;
 		default:
 	        return super.onOptionsItemSelected(item);
@@ -346,5 +381,49 @@ public class PathFinderSpells extends ListActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateDialog(int)
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog;
+		Resources res = getResources();		
+		AlertDialog.Builder builder;
+		
+	    switch(id) {
+	    case DIALOG_SORT:	    		    	
+	    	final CharSequence[] items = {res.getString(R.string.menu_alpha), res.getString(R.string.menu_school), res.getString(R.string.menu_level)};
+
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle("Choisissez un tri");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        sortPosition = item;
+			    	Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+			    	fillData();
+			    }
+			});
+			dialog = builder.create();
+	        break;	
+	    case DIALOG_SORT_NOCLASS:	    		    	
+	    	final CharSequence[] items2 = {res.getString(R.string.menu_alpha), res.getString(R.string.menu_school)};
+
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle("Choisissez un tri");
+			builder.setItems(items2, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        sortPosition = item;
+			    	Toast.makeText(getApplicationContext(), items2[item], Toast.LENGTH_SHORT).show();
+			    	fillData();
+			    }
+			});
+			dialog = builder.create();
+	        break;	
+	    default:
+	        dialog = null;
+	    }
+	    return dialog;
 	}
 }

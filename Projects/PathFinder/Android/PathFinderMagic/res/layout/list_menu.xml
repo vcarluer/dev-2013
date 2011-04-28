@@ -5,6 +5,8 @@
           android:title="@string/search" />
     <item android:id="@+id/menu_class"          
           android:title="@string/className" />
+    <item android:id="@+id/menu_sort"
+    	  android:title="@string/sort" />
     <item android:id="@+id/menu_bookmark"
           android:icon="@drawable/nofavoris"
           android:title="@string/isbookmark" />
