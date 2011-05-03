@@ -47,7 +47,9 @@ android:background="#848484"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView 
+					android:id="@+id/detail_school_caption"
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content"					
 					android:layout_marginRight="5sp"
@@ -61,7 +63,9 @@ android:background="#848484"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView 
+					android:id="@+id/detail_level_caption"
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -76,7 +80,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_casting_time">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_casting_time_caption" 
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -92,7 +97,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_components">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_components_caption" 
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -108,7 +114,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_range">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_range_caption" 
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -124,7 +131,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_target">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_target_caption" 
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -140,7 +148,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_duration">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_duration_caption"				
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -156,7 +165,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_saving">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_saving_caption" 
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"
@@ -172,7 +182,8 @@ android:background="#848484"
 				android:layout_height="wrap_content"
 				android:id="@+id/layout_spell_resistance">
 					
-				<TextView android:layout_width="wrap_content"
+				<TextView android:id="@+id/detail_spell_resistance_caption"
+					android:layout_width="wrap_content"
 					android:textStyle="bold"
 					android:layout_height="wrap_content" 
 					android:layout_marginRight="5sp"

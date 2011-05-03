@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_search"
-          android:icon="@drawable/ic_menu_search"
-          android:title="@string/search" />
-    <item android:id="@+id/menu_class"          
+<menu xmlns:android="http://schemas.android.com/apk/res/android">    
+    <item android:id="@+id/menu_class"
+    		android:icon="@drawable/select_classes"    
           android:title="@string/className" />
     <item android:id="@+id/menu_sort"
+    	  android:icon="@drawable/sort"
     	  android:title="@string/sort" />
+   	<item android:id="@+id/menu_search"
+          android:icon="@drawable/search"
+          android:title="@string/search" />
     <item android:id="@+id/menu_bookmark"
           android:icon="@drawable/nofavoris"
           android:title="@string/isbookmark" />

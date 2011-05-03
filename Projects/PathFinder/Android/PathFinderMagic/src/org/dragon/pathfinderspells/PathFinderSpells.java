@@ -74,6 +74,7 @@ public class PathFinderSpells extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spells_list);
+                
         
         this.layoutGallery = (Gallery) findViewById(R.id.gallery);
         DisplayMetrics dm = new DisplayMetrics();
@@ -353,8 +354,8 @@ public class PathFinderSpells extends ListActivity {
 	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem bookMarkMenu = menu.findItem(R.id.menu_bookmark);
-		MenuItem searchMenu = menu.findItem(R.id.menu_search);
+		MenuItem bookMarkMenu = menu.findItem(R.id.menu_bookmark);		
+		MenuItem searchMenu = menu.findItem(R.id.menu_search);		
 		
 		if (this.isBookmark) {			
 			bookMarkMenu.setIcon(R.drawable.favoris); 
@@ -371,8 +372,8 @@ public class PathFinderSpells extends ListActivity {
 		else
 		{
 			searchMenu.setTitle(R.string.search);
-			searchMenu.setIcon(R.drawable.ic_menu_search);
-		}
+			searchMenu.setIcon(R.drawable.search);
+		}		
 		
 		return true;
 	}

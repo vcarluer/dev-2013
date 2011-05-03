@@ -1,6 +1,8 @@
 package org.dragon.pathfinderspells;
 
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,15 +13,24 @@ public class SpellDetail extends Activity {
 		
     private TextView mNameText;    
     private ImageView mIsBookmark;    
-    private TextView mSchoolText;    
+    private TextView mSchoolText;
+    private TextView mSchoolCaptionText;
     private TextView mLevelText;
+    private TextView mLevelCaptionText;
     private TextView mCastingTimeText;
+    private TextView mCastingTimeCaptionText;
     private TextView mComponentsText;
+    private TextView mComponentsCaptionText;
     private TextView mRangeText;
+    private TextView mRangeCaptionText;
     private TextView mTargetEffectAreaText;
+    private TextView mTargetEffectAreaCaptionText;
     private TextView mDurationText;
+    private TextView mDurationCaptionText;
     private TextView mSavingText;
+    private TextView mSavingCaptionText;
     private TextView mSpellResistanceText;
+    private TextView mSpellResistanceCaptionText;
     private TextView mFullDescriptionText;
     
     private LinearLayout mLayoutCastingTime;
@@ -51,16 +62,55 @@ public class SpellDetail extends Activity {
         this.bookmarkList = new BookmarkList(this);                
         
         this.mNameText = (TextView) findViewById(R.id.detail_name);
-        this.mFullDescriptionText = (TextView) findViewById(R.id.detail_full_description);        
+        this.mNameText.setTypeface(TypefaceFactory.getPathfinder(this));
+        
+        this.mFullDescriptionText = (TextView) findViewById(R.id.detail_full_description);
+        this.mFullDescriptionText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mSchoolText = (TextView) findViewById(R.id.detail_school);       
+        this.mSchoolCaptionText = (TextView) findViewById(R.id.detail_school_caption);
+        this.mSchoolCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mSchoolText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mLevelText = (TextView) findViewById(R.id.detail_level);
+        this.mLevelCaptionText = (TextView) findViewById(R.id.detail_level_caption);
+        this.mLevelCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mLevelText.setTypeface(TypefaceFactory.getRegular(this));    
+        
         this.mCastingTimeText = (TextView) findViewById(R.id.detail_casting_time);    
+        this.mCastingTimeCaptionText = (TextView) findViewById(R.id.detail_casting_time_caption);
+        this.mCastingTimeCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mCastingTimeText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mComponentsText = (TextView) findViewById(R.id.detail_components);
+        this.mComponentsCaptionText = (TextView) findViewById(R.id.detail_components_caption);
+        this.mComponentsCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mComponentsText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mRangeText = (TextView) findViewById(R.id.detail_range);
+        this.mRangeCaptionText = (TextView) findViewById(R.id.detail_range_caption);
+        this.mRangeCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mRangeText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mTargetEffectAreaText = (TextView) findViewById(R.id.detail_target);
+        this.mTargetEffectAreaCaptionText = (TextView) findViewById(R.id.detail_target_caption);
+        this.mTargetEffectAreaCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mTargetEffectAreaText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mDurationText = (TextView) findViewById(R.id.detail_duration);
+        this.mDurationCaptionText = (TextView) findViewById(R.id.detail_duration_caption);
+        this.mDurationCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mDurationText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mSavingText = (TextView) findViewById(R.id.detail_saving);
+        this.mSavingCaptionText = (TextView) findViewById(R.id.detail_saving_caption);
+        this.mSavingCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mSavingText.setTypeface(TypefaceFactory.getRegular(this));
+        
         this.mSpellResistanceText = (TextView) findViewById(R.id.detail_spell_resistance);
+        this.mSpellResistanceCaptionText = (TextView) findViewById(R.id.detail_spell_resistance_caption);
+        this.mSpellResistanceCaptionText.setTypeface(TypefaceFactory.getBold(this));
+        this.mSpellResistanceText.setTypeface(TypefaceFactory.getRegular(this));
         
         this.mIsBookmark = (ImageView) findViewById(R.id.detail_is_bookmark);
         this.mIsBookmark.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +137,7 @@ public class SpellDetail extends Activity {
         this.mLayoutSaving = (LinearLayout) findViewById(R.id.layout_saving);
         this.mLayoutSpellResistance = (LinearLayout) findViewById(R.id.layout_spell_resistance);
         this.mLayoutTarget = (LinearLayout) findViewById(R.id.layout_target);
-                
+
         this.populateFields();               
     }
 	
@@ -159,5 +209,11 @@ public class SpellDetail extends Activity {
 		if (this.wasBookmark != this.spell.isBookmark) {
 			this.bookmarkList.saveBookmark(this);
 		}
-	}			
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+	}
 }
