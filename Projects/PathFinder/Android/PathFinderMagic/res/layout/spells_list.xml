@@ -7,20 +7,60 @@
     <ImageView android:id="@+id/pathlogo"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"												
-					android:src="@drawable/pathfinderlogo" />	
-    
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/layout_gallery"
-	android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					android:src="@drawable/pathfinderlogo" />
+	<LinearLayout
+		android:id="@+id/layout_recall"
+		android:orientation="horizontal"
+		android:paddingLeft="3dip"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical|left">
+		<ImageView android:id="@+id/recall_class_icon"
+						android:layout_width="13sp"
+						android:layout_height="13sp"
+						android:scaleType="centerInside"												
+						android:src="@drawable/select_classes" />
+		<TextView android:id="@+id/recall_class"
+			android:textSize="13sp"
+			android:paddingLeft="1sp"
+			android:paddingRight="3sp"
+			android:layout_width="wrap_content"			
+			android:layout_height="wrap_content" />
+		<ImageView android:id="@+id/recall_sort_icon"
+						android:layout_width="13sp"
+						android:layout_height="13sp"
+						android:scaleType="centerInside"												
+						android:src="@drawable/sort" />
+		<TextView android:id="@+id/recall_sort"			
+			android:paddingLeft="1sp"
+			android:paddingRight="3sp"
+			android:textSize="13sp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+		<ImageView android:id="@+id/recall_search"
+						android:layout_width="13sp"
+						android:layout_height="13sp"
+						android:scaleType="centerInside"												
+						android:src="@drawable/search" />
+		<TextView						
+			android:paddingRight="3sp"
+			android:textSize="13sp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+		<ImageView android:id="@+id/recall_bookmark"
+						android:layout_width="13sp"
+						android:layout_height="13sp"
+						android:scaleType="centerInside"												
+						android:src="@drawable/favoris" />
+	</LinearLayout>
+    <LinearLayout
 		android:id="@+id/layout_list"
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
+      	android:orientation="vertical"
+      	android:layout_width="fill_parent"
     	android:layout_height="fill_parent">	    
     
 	    <ListView android:id="@+id/android:list"
+	    	  android:padding="3dip"
 	          android:layout_weight = "1"
 	          android:layout_width="wrap_content"
 	        	android:layout_height="fill_parent"
@@ -28,16 +68,10 @@
 	  	<TextView android:id="@+id/android:empty"
 	          android:gravity="center_vertical|center_horizontal"
 	          android:textStyle="bold"
+	          android:textSize="30sp"
 	          android:layout_weight = "1"
 	          android:layout_width="fill_parent"
 	        	android:layout_height="fill_parent"
 	        	android:text="@string/no_spells"/>
-	</LinearLayout>		
-		        	
-    <Gallery xmlns:android="http://schemas.android.com/apk/res/android" 
-	    android:id="@+id/gallery"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"	    
-	/>
-	</RelativeLayout>
+	</LinearLayout>
 </LinearLayout>		

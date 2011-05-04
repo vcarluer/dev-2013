@@ -22,10 +22,8 @@ public class SpellLevelComparator implements Comparator<Spell> {
 			return spell1.paladinLevel - spell2.paladinLevel;
 		case PathFinderSpells.SELECT_RANGER:
 			return spell1.strikerLevel - spell2.strikerLevel;
-		case PathFinderSpells.SELECT_SORCERER:
-			return spell1.magianLevel - spell2.magianLevel;
-		case PathFinderSpells.SELECT_WIZARD:
-			return spell1.magianLevel - spell2.magianLevel;
+		case PathFinderSpells.SELECT_SORCERER_WIZARD:
+			return spell1.magianLevel - spell2.magianLevel;		
 		default:
 			break;
 		}

@@ -32,6 +32,7 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -41,63 +42,59 @@ public class PathFinderSpells extends ListActivity {
 	private static final int ACTIVITY_SHOWDETAIL=0;	
 	
 	public static final int SELECT_TOUTES = 0;
-	public static final int SELECT_BARD = 1;
+	public static final int SELECT_SORCERER_WIZARD = 1;
 	public static final int SELECT_CLERIC = 2;
 	public static final int SELECT_DRUID = 3;
-	public static final int SELECT_PALADIN = 4;
-	public static final int SELECT_RANGER = 5;
-	public static final int SELECT_SORCERER = 6;
-	public static final int SELECT_WIZARD = 7;
+	public static final int SELECT_BARD = 4;		
+	public static final int SELECT_PALADIN = 5;
+	public static final int SELECT_RANGER = 6;	
 	
 	private static final int DIALOG_SORT = 0;
 	private static final int DIALOG_SORT_NOCLASS = 1;
+	private static final int DIALOG_SELECT_CLASS = 2;
 	
 	private static final int SORT_ALPHA = 0;	
 	private static final int SORT_SCHOOL = 1;
 	private static final int SORT_LEVEL = 2;
 	
-    private boolean isBookmark = false;    
-    private String nameFilter = "";
-    private Boolean isSearched = false;
+    private boolean isBookmark;    
+    private String nameFilter;
+    private Boolean isSearched;
     private ArrayList<Spell> spellList;
     private SpellsArrayAdapter spellsAdapter;
     private BookmarkList bookmarkList;
     private int lastPosition;
     
-    private LinearLayout layoutList;
-    private Gallery layoutGallery;
+    private LinearLayout layoutList;    
     private int classPosition;
     private int sortPosition;
+    private TextView recallClassText;
+    private TextView recallSortText;
+    private ImageView recallSearchImage;
+    private ImageView recallBookmarkImage;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.spells_list);
+        setContentView(R.layout.spells_list);                
+        
+        TextView emptyText = (TextView) findViewById(android.R.id.empty);
+        emptyText.setTypeface(TypefaceFactory.getBold(this));
+        
+        this.recallClassText = (TextView) findViewById(R.id.recall_class);
+        this.recallClassText.setTypeface(TypefaceFactory.getRegular(this));
+        this.recallSortText = (TextView) findViewById(R.id.recall_sort);
+        this.recallSortText.setTypeface(TypefaceFactory.getRegular(this));
+        this.recallSearchImage = (ImageView) findViewById(R.id.recall_search);
+        this.recallSearchImage.setVisibility(View.GONE);
+        this.recallBookmarkImage = (ImageView) findViewById(R.id.recall_bookmark);
+        this.recallBookmarkImage.setVisibility(View.GONE);
                 
-        
-        this.layoutGallery = (Gallery) findViewById(R.id.gallery);
         DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int height = dm.heightPixels;
-        int width = dm.widthPixels;
-        
-        this.layoutGallery.setAdapter(new ImageAdapter(this, width, height));
-        // this.layoutGallery.setSpacing(10);        
-
-        this.layoutGallery.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // Toast.makeText(PathFinderSpells.this, "" + position, Toast.LENGTH_SHORT).show();
-            	classPosition = position;
-            	layoutList.setVisibility(View.VISIBLE);
-            	layoutGallery.setVisibility(View.GONE);
-            	
-            	fillData();
-            }
-        });
-        
-        this.layoutList = (LinearLayout) findViewById(R.id.layout_list);
-        this.layoutList.setVisibility(View.GONE);
+        getWindowManager().getDefaultDisplay().getMetrics(dm);        
+                        
+        this.layoutList = (LinearLayout) findViewById(R.id.layout_list);        
         
         this.spellList = new ArrayList<Spell>();        
                 
@@ -108,8 +105,13 @@ public class PathFinderSpells extends ListActivity {
         	this.nameFilter = intent.getStringExtra(SearchManager.QUERY);        	
         	this.isSearched = true;
         	}
+        else {
+        	this.isBookmark = false;
+            this.isSearched = false;
+            this.nameFilter = "";
+        }
         
-        // this.fillData();
+        this.fillData();
     }
     
     private static String SpellFileName = "export.txt";
@@ -227,16 +229,11 @@ public class PathFinderSpells extends ListActivity {
     				addSpell = false;
     			}
     			break;
-    		case SELECT_SORCERER:
+    		case SELECT_SORCERER_WIZARD:
     			if (spell.magianLevel == -1) {
     				addSpell = false;
     			}
-    			break;
-    		case SELECT_WIZARD:
-    			if (spell.magianLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;
+    			break;    		
     		case SELECT_TOUTES:
     			default:
     				break;
@@ -245,9 +242,7 @@ public class PathFinderSpells extends ListActivity {
     		if (addSpell) {    			
     			fetchList.add(spell);
     		}
-    	}
-    	
-    	this.nameFilter = "";
+    	}    	    	
     	
     	switch (this.sortPosition) {
     	case 0:
@@ -265,6 +260,63 @@ public class PathFinderSpells extends ListActivity {
     	
     	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList);    	
         setListAdapter(this.spellsAdapter);
+        
+        this.setRecall();
+    }
+    
+    private void setRecall() {
+    	switch(this.classPosition) {
+		case SELECT_BARD: 
+			this.recallClassText.setText(R.string.menu_bard);
+			break;
+		case SELECT_CLERIC:
+			this.recallClassText.setText(R.string.menu_priest);
+			break;
+		case SELECT_DRUID:
+			this.recallClassText.setText(R.string.menu_druid);
+			break;
+		case SELECT_PALADIN:
+			this.recallClassText.setText(R.string.menu_paladin);
+			break;
+		case SELECT_RANGER:
+			this.recallClassText.setText(R.string.menu_striker);
+			break;
+		case SELECT_SORCERER_WIZARD:
+			this.recallClassText.setText(R.string.menu_magician);
+			break;    		
+		case SELECT_TOUTES:
+			default:
+				this.recallClassText.setText(R.string.menu_all_classes);
+				break;
+		}
+    	
+    	switch (this.sortPosition) {    	
+    	case 1:
+    		this.recallSortText.setText(R.string.menu_school);
+    		break;
+    	case 2:
+    		this.recallSortText.setText(R.string.menu_level);
+    		break;
+    	case 0:
+    	default:
+    		this.recallSortText.setText(R.string.menu_alpha);    		    		
+    		break;
+    	}
+    	
+    	if (this.nameFilter.length() > 0) {
+			this.recallSearchImage.setVisibility(View.VISIBLE);
+		}
+    	else {
+    		this.recallSearchImage.setVisibility(View.GONE);
+    	}
+    		
+		
+		if (this.isBookmark) {
+			this.recallBookmarkImage.setVisibility(View.VISIBLE);
+		}
+		else {
+			this.recallBookmarkImage.setVisibility(View.GONE);
+		}
     }
     
     @Override
@@ -316,10 +368,10 @@ public class PathFinderSpells extends ListActivity {
 			
 			return true;
 		case R.id.menu_bookmark:
-			if (isSearched){
+			/*if (isSearched){
             	nameFilter = "";            	
             	isSearched = false;                	
-            }
+            }*/
         	
         	if (isBookmark == false){
             	isBookmark = true;            	
@@ -332,9 +384,7 @@ public class PathFinderSpells extends ListActivity {
             fillData();
 			return true;
 		case R.id.menu_class:
-			layoutGallery.setVisibility(View.VISIBLE);
-			layoutList.setVisibility(View.GONE);
-			this.layoutGallery.setSelection(this.classPosition);
+			showDialog(DIALOG_SELECT_CLASS);
 			return true;
 		case R.id.menu_sort:
 			if (this.classPosition == SELECT_TOUTES) {
@@ -421,7 +471,28 @@ public class PathFinderSpells extends ListActivity {
 			    }
 			});
 			dialog = builder.create();
-	        break;	
+	        break;
+	    case DIALOG_SELECT_CLASS:
+	    	final CharSequence[] itemsClass = {
+	    			res.getString(R.string.menu_all_classes), 
+	    			res.getString(R.string.menu_magician),	    			
+	    			res.getString(R.string.menu_priest),
+	    			res.getString(R.string.menu_druid),
+	    			res.getString(R.string.menu_bard),	    			
+	    			res.getString(R.string.menu_paladin),
+	    			res.getString(R.string.menu_striker)	    			
+	    			};
+	    	builder = new AlertDialog.Builder(this);
+			builder.setTitle("Choisissez une classe");
+			builder.setItems(itemsClass, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        classPosition = item;
+			    	Toast.makeText(getApplicationContext(), itemsClass[item], Toast.LENGTH_SHORT).show();
+			    	fillData();
+			    }
+			});
+			dialog = builder.create();
+	        break;
 	    default:
 	        dialog = null;
 	    }

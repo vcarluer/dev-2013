@@ -57,14 +57,13 @@ public final class R {
         public static final int detail_spell_resistance_caption=0x7f07001f;
         public static final int detail_target=0x7f070017;
         public static final int detail_target_caption=0x7f070016;
-        public static final int gallery=0x7f070025;
         public static final int horizontalLine=0x7f070007;
         public static final int layout_casting_time=0x7f07000c;
         public static final int layout_components=0x7f07000f;
         public static final int layout_duration=0x7f070018;
-        public static final int layout_gallery=0x7f070023;
-        public static final int layout_list=0x7f070024;
+        public static final int layout_list=0x7f07002a;
         public static final int layout_range=0x7f070012;
+        public static final int layout_recall=0x7f070023;
         public static final int layout_saving=0x7f07001b;
         public static final int layout_spell_resistance=0x7f07001e;
         public static final int layout_target=0x7f070015;
@@ -73,9 +72,15 @@ public final class R {
         public static final int menu_search=0x7f070002;
         public static final int menu_sort=0x7f070001;
         public static final int pathlogo=0x7f070022;
-        public static final int row_is_favorite=0x7f070028;
-        public static final int row_name=0x7f070026;
-        public static final int row_short_description=0x7f070027;
+        public static final int recall_bookmark=0x7f070029;
+        public static final int recall_class=0x7f070025;
+        public static final int recall_class_icon=0x7f070024;
+        public static final int recall_search=0x7f070028;
+        public static final int recall_sort=0x7f070027;
+        public static final int recall_sort_icon=0x7f070026;
+        public static final int row_is_favorite=0x7f07002d;
+        public static final int row_name=0x7f07002b;
+        public static final int row_short_description=0x7f07002c;
         public static final int scrllvwNo1=0x7f070004;
     }
     public static final class layout {
@@ -103,9 +108,16 @@ public final class R {
         public static final int isknown=0x7f060015;
         public static final int level=0x7f060005;
         public static final int magician=0x7f06000d;
+        public static final int menu_all_classes=0x7f060021;
         public static final int menu_alpha=0x7f06001e;
+        public static final int menu_bard=0x7f060025;
+        public static final int menu_druid=0x7f060026;
         public static final int menu_level=0x7f06001f;
+        public static final int menu_magician=0x7f060022;
+        public static final int menu_paladin=0x7f060024;
+        public static final int menu_priest=0x7f060023;
         public static final int menu_school=0x7f060020;
+        public static final int menu_striker=0x7f060027;
         public static final int no_spells=0x7f060002;
         public static final int paladin=0x7f060011;
         public static final int priest=0x7f060010;

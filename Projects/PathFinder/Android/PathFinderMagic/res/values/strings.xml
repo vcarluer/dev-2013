@@ -37,4 +37,12 @@
 <string name="menu_alpha">Alphabétique</string>
 <string name="menu_level">Niveau</string>
 <string name="menu_school">Ecole</string>
+<string name="menu_all_classes">Toutes les classes</string>
+<string name="menu_magician">Magicien/Ensorceleur</string>
+<string name="menu_priest">Prêtre</string>
+<string name="menu_paladin">Paladin</string>
+<string name="menu_bard">Barde</string>
+
+<string name="menu_druid">Druide</string>
+<string name="menu_striker">Rôdeur</string>
 </resources>
