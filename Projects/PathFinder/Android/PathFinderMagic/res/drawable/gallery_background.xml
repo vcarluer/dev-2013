@@ -1,8 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:constantSize="true">
-        <!-- <item android:state_focused="true"
-                android:drawable="@drawable/blue_box" /> --> <!-- @color/galleryFocused -->
-        <!--  <item android:state_pressed="true" android:drawable="@drawable/blue_box" />--> 
-        <!-- <item android:drawable="@drawable/red_box" /> -->        
-        <item android:drawable="@android:color/transparent" />        
-</selector>

@@ -2,7 +2,6 @@ package org.dragon.pathfinderspells;
 
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;

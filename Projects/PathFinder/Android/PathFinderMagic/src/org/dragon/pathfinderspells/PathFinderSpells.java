@@ -1,10 +1,14 @@
 package org.dragon.pathfinderspells;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,28 +22,22 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class PathFinderSpells extends ListActivity {
 	
 	public static final String ACTIVITY_LAST_POSITION="lastposition";
 	private static final int ACTIVITY_SHOWDETAIL=0;	
+	private static final String FILE_PREFERENCE = "preferences";
 	
 	public static final int SELECT_TOUTES = 0;
 	public static final int SELECT_SORCERER_WIZARD = 1;
@@ -53,9 +51,9 @@ public class PathFinderSpells extends ListActivity {
 	private static final int DIALOG_SORT_NOCLASS = 1;
 	private static final int DIALOG_SELECT_CLASS = 2;
 	
-	private static final int SORT_ALPHA = 0;	
-	private static final int SORT_SCHOOL = 1;
-	private static final int SORT_LEVEL = 2;
+	public static final int SORT_ALPHA = 0;	
+	public static final int SORT_SCHOOL = 1;
+	public static final int SORT_LEVEL = 2;
 	
     private boolean isBookmark;    
     private String nameFilter;
@@ -64,8 +62,7 @@ public class PathFinderSpells extends ListActivity {
     private SpellsArrayAdapter spellsAdapter;
     private BookmarkList bookmarkList;
     private int lastPosition;
-    
-    private LinearLayout layoutList;    
+           
     private int classPosition;
     private int sortPosition;
     private TextView recallClassText;
@@ -92,24 +89,20 @@ public class PathFinderSpells extends ListActivity {
         this.recallBookmarkImage.setVisibility(View.GONE);
                 
         DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);        
-                        
-        this.layoutList = (LinearLayout) findViewById(R.id.layout_list);        
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
         
-        this.spellList = new ArrayList<Spell>();        
-                
+        this.spellList = new ArrayList<Spell>();                      
         this.initData();
+        
+        this.isSearched = false;
+        this.nameFilter = "";   
+        this.readPreferences();
 
-        Intent intent = getIntent();    
+        Intent intent = getIntent();        
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {      
         	this.nameFilter = intent.getStringExtra(SearchManager.QUERY);        	
         	this.isSearched = true;
         	}
-        else {
-        	this.isBookmark = false;
-            this.isSearched = false;
-            this.nameFilter = "";
-        }
         
         this.fillData();
     }
@@ -245,23 +238,25 @@ public class PathFinderSpells extends ListActivity {
     	}    	    	
     	
     	switch (this.sortPosition) {
-    	case 0:
+    	case SORT_ALPHA:
     		Collections.sort(fetchList, new SpellNameComparator());
     		break;
-    	case 1:
+    	case SORT_SCHOOL:
     		Collections.sort(fetchList, new SpellSchoolComparator());
     		break;
-    	case 2:
+    	case SORT_LEVEL:
     		Collections.sort(fetchList, new SpellLevelComparator(this.classPosition));
     		break;
     		default:
     			break;
     	}
     	
-    	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList);    	
+    	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList, this.sortPosition);    	
         setListAdapter(this.spellsAdapter);
         
         this.setRecall();
+        
+        this.writePreferences();
     }
     
     private void setRecall() {
@@ -429,8 +424,7 @@ public class PathFinderSpells extends ListActivity {
 	}
 	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
+	public void onConfigurationChanged(Configuration newConfig) {		
 		super.onConfigurationChanged(newConfig);
 	}
 
@@ -497,5 +491,63 @@ public class PathFinderSpells extends ListActivity {
 	        dialog = null;
 	    }
 	    return dialog;
+	}
+	
+	private void readPreferences() {		
+    	try
+    	{
+    		InputStream input = openFileInput(FILE_PREFERENCE);
+    		// Get the object of DataInputStream
+    	    DataInputStream in = new DataInputStream(input);
+    	    String charSet = "UTF-8";
+    	    BufferedReader br = new BufferedReader(new InputStreamReader(in, charSet));
+    	    String strLine;
+    	    //Read File Line By Line
+    	    int i = 0;    	    
+    	    while ((strLine = br.readLine()) != null)   {    	    	
+    	    	switch(i) {
+    	    	case 0:
+    	    		this.classPosition = Integer.parseInt(strLine);
+    	    		break;
+    	    	case 1:
+    	    		this.sortPosition = Integer.parseInt(strLine);
+    	    		break;
+    	    	case 2:
+    	    		this.isBookmark = Boolean.parseBoolean(strLine);
+    	    		break;
+    	    	default:
+    	    		break;
+    	    	}
+    	    	
+    	    	i++;
+    	    }
+    	    //Close the input stream
+    	    br.close();
+    	}
+    	catch(IOException ex)
+    	{    	 
+    		System.out.println(ex.getMessage());
+    	}  
+	}
+	
+	private void writePreferences() {
+		try
+    	{
+    		OutputStream output = openFileOutput(FILE_PREFERENCE, Context.MODE_PRIVATE);
+    		// Get the object of DataInputStream
+    		DataOutputStream out = new DataOutputStream(output);
+    	    String charSet = "UTF-8";
+    	    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, charSet));
+    	        	    
+    	    bw.write(this.classPosition + "\n");
+    	    bw.write(this.sortPosition + "\n");
+    	    bw.write(this.isBookmark + "\n");
+    	    
+    	    bw.close();
+    	}
+    	catch(IOException ex)
+    	{    	 
+    		System.out.println(ex.getMessage());
+    	}  
 	}
 }

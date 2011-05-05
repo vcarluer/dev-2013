@@ -16,13 +16,15 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIndexer {			
-	HashMap<String, Integer> alphaIndexer;
-    String[] sections;
+	private HashMap<String, Integer> alphaIndexer;
+	private String[] sections;
+	private int sortPosition; 
     
-	public SpellsArrayAdapter(Context context, List<Spell> spells) {
+	public SpellsArrayAdapter(Context context, List<Spell> spells, int sortPosition) {
 		super(context, R.layout.spells_row, spells);
 		
 		alphaIndexer = new HashMap<String, Integer>();
+		this.sortPosition = sortPosition;
         int size = spells.size();
 
         for (int x = 0; x < size; x++) {

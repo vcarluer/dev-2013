@@ -15,25 +15,15 @@ public final class R {
     }
     public static final class drawable {
         public static final int annuler=0x7f020000;
-        public static final int bard=0x7f020001;
-        public static final int blue_box=0x7f020002;
-        public static final int cleric=0x7f020003;
-        public static final int druid=0x7f020004;
-        public static final int favoris=0x7f020005;
-        public static final int favorislist=0x7f020006;
-        public static final int gallery_background=0x7f020007;
-        public static final int logo=0x7f020008;
-        public static final int nofavoris=0x7f020009;
-        public static final int paladin=0x7f02000a;
-        public static final int pathfinderlogo=0x7f02000b;
-        public static final int ranger=0x7f02000c;
-        public static final int red_box=0x7f02000d;
-        public static final int search=0x7f02000e;
-        public static final int select_classes=0x7f02000f;
-        public static final int sorcerer=0x7f020010;
-        public static final int sort=0x7f020011;
-        public static final int toutes=0x7f020012;
-        public static final int wizard=0x7f020013;
+        public static final int favoris=0x7f020001;
+        public static final int favorislist=0x7f020002;
+        public static final int logo=0x7f020003;
+        public static final int nofavoris=0x7f020004;
+        public static final int pathfinderlogo=0x7f020005;
+        public static final int ranger=0x7f020006;
+        public static final int search=0x7f020007;
+        public static final int select_classes=0x7f020008;
+        public static final int sort=0x7f020009;
     }
     public static final class id {
         public static final int detail_casting_time=0x7f07000e;
