@@ -68,9 +68,10 @@ public final class R {
         public static final int recall_search=0x7f070028;
         public static final int recall_sort=0x7f070027;
         public static final int recall_sort_icon=0x7f070026;
-        public static final int row_is_favorite=0x7f07002d;
-        public static final int row_name=0x7f07002b;
-        public static final int row_short_description=0x7f07002c;
+        public static final int row_header=0x7f07002b;
+        public static final int row_is_favorite=0x7f07002e;
+        public static final int row_name=0x7f07002c;
+        public static final int row_short_description=0x7f07002d;
         public static final int scrllvwNo1=0x7f070004;
     }
     public static final class layout {

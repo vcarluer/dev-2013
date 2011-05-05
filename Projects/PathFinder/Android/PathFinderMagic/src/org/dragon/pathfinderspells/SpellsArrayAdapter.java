@@ -19,14 +19,14 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIn
 	private HashMap<String, Integer> sortIndexer;
 	private String[] sections;
 	private int sortPosition; 
-	private int classPosition;
+	private int classPosition;	
     
 	public SpellsArrayAdapter(Context context, List<Spell> spells, int sortPosition, int classPosition) {
 		super(context, R.layout.spells_row, spells);
 		
 		sortIndexer = new HashMap<String, Integer>();
 		this.sortPosition = sortPosition;
-		this.classPosition = classPosition;
+		this.classPosition = classPosition;		
         int size = spells.size();
 
         for (int x = 0; x < size; x++) {
@@ -99,7 +99,7 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIn
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater= (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View row =  inflater.inflate(R.layout.spells_row, null);
+		View row = inflater.inflate(R.layout.spells_row, null);
 		
 		Spell spell = this.getItem(position);
 		if (spell != null)
@@ -117,6 +117,63 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIn
 			else
 			{
 				isFavoriteView.setVisibility(View.INVISIBLE);
+			}
+			
+			TextView rowHeader = (TextView) row.findViewById(R.id.row_header);
+			boolean showHeader = false;
+			String compareValue = "";
+			if (position == 0) {
+				showHeader = true;
+				switch(this.sortPosition) {
+	            default:
+	            case PathFinderSpells.SORT_LEVEL:	            	
+	            	compareValue = this.getLevelSection(spell);
+	            	break;
+	            case PathFinderSpells.SORT_SCHOOL:	            	
+	            	compareValue = spell.school;
+	            	break;
+	            case PathFinderSpells.SORT_ALPHA:	            		            
+	            	// get the first letter of the store
+	            	compareValue =  spell.name.substring(0, 1);
+	                // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
+	            	compareValue = compareValue.toUpperCase();                
+	            	break;
+	            }
+			}
+			else {
+				Spell previousSpell = this.getItem(position - 1);
+				String previousValue = "";							
+				switch(this.sortPosition) {
+	            default:
+	            case PathFinderSpells.SORT_LEVEL:
+	            	previousValue = this.getLevelSection(previousSpell);
+	            	compareValue = this.getLevelSection(spell);
+	            	break;
+	            case PathFinderSpells.SORT_SCHOOL:
+	            	previousValue = previousSpell.school;
+	            	compareValue = spell.school;
+	            	break;
+	            case PathFinderSpells.SORT_ALPHA:
+	            	previousValue = previousSpell.name.substring(0, 1).toUpperCase();	            	
+	            	// get the first letter of the store
+	            	compareValue =  spell.name.substring(0, 1);
+	                // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
+	            	compareValue = compareValue.toUpperCase();                
+	            	break;
+	            }
+				
+				if (previousValue.trim().toUpperCase().compareTo(compareValue.trim().toUpperCase()) != 0) {
+					showHeader = true;
+				}
+			}
+			
+			
+			if (showHeader) {
+				rowHeader.setText(compareValue.trim());
+				rowHeader.setTypeface(TypefaceFactory.getPathfinder(getContext()));
+			}
+			else {
+				rowHeader.setVisibility(View.GONE);
 			}
 		}
 		
