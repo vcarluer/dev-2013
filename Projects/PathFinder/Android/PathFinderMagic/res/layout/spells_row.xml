@@ -1,50 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"    
-	android:layout_width="fill_parent"    
-	android:layout_height="fill_parent"    
-	android:stretchColumns="0">    	
-	<TableRow>
-		<LinearLayout
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"> 	
+	<TextView android:id="@+id/row_header"
+		android:textSize="30sp"
+		android:textColor="#e6de96"
+		android:background="#3d2515"
+		android:gravity="center_vertical|center_horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	<LinearLayout
+		android:paddingRight="3dip"
+		android:layout_weight="1"
+		android:gravity="center_vertical|center_horizontal"
+		android:orientation="horizontal"										
+		android:layout_width="fill_parent"				
+		android:layout_height="wrap_content">
+		<LinearLayout 
 			android:orientation="vertical"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"> 	
-			<TextView android:id="@+id/row_header"
-				android:textSize="30sp"
-				android:textColor="#e6de96"
-				android:background="#3d2515"
-				android:gravity="center_vertical|center_horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
-			<LinearLayout
-			android:orientation="horizontal"
-			android:layout_weight="1"
-			android:gravity="center_vertical|center_horizontal"
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent">
-				<LinearLayout 
-				android:orientation="vertical" 
-				android:layout_weight="1"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"> 
-					<TextView android:id="@+id/row_name"
-						android:textSize="14sp"
-			   			android:layout_width="wrap_content"
-			   			android:layout_height="wrap_content"/>
-			   			
-			   		<TextView android:id="@+id/row_short_description"
-						android:textSize="10sp"
-						android:textStyle="italic"
-			   			android:layout_width="wrap_content"
-			   			android:layout_height="wrap_content"/>						
-			   	</LinearLayout>
-			   	<ImageView android:id="@+id/row_is_favorite"
-							android:layout_width="30sp"
-							android:layout_height="30sp"
-							android:scaleType="centerInside"			
-							android:paddingLeft="3dip"				
-							android:src="@drawable/favorislist" />
-		   	</LinearLayout>
-	   	</LinearLayout> 	   
-	</TableRow>	
-</TableLayout>
-    
+			android:layout_weight="1" 									
+			android:layout_width="fill_parent"										
+			android:layout_height="wrap_content"> 					
+	   			<TextView android:id="@+id/row_name"						
+				android:textSize="14sp"
+	   			android:layout_width="fill_parent"
+	   			android:layout_height="wrap_content" />
+	   			<TextView android:id="@+id/row_short_description"
+				android:textSize="10sp"
+	   			android:layout_height="fill_parent" 
+	   			android:layout_width="fill_parent" />			   		
+	   	</LinearLayout>
+	   	<ImageView android:id="@+id/row_is_favorite"			   				
+					android:layout_width="30sp"							
+					android:layout_height="30sp"
+					android:scaleType="centerInside"											
+					android:src="@drawable/favorislist" />
+   	</LinearLayout>
+</LinearLayout>

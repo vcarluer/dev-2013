@@ -28,12 +28,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AbsListView.OnScrollListener;
 
-public class PathFinderSpells extends ListActivity {
+public class PathFinderSpells extends ListActivity implements ListView.OnScrollListener {
 	
 	public static final String ACTIVITY_LAST_POSITION="lastposition";
 	private static final int ACTIVITY_SHOWDETAIL=0;	
@@ -69,6 +71,7 @@ public class PathFinderSpells extends ListActivity {
     private TextView recallSortText;
     private ImageView recallSearchImage;
     private ImageView recallBookmarkImage;
+    private TextView sectionText;
 	
     /** Called when the activity is first created. */
     @Override
@@ -78,6 +81,9 @@ public class PathFinderSpells extends ListActivity {
         
         TextView emptyText = (TextView) findViewById(android.R.id.empty);
         emptyText.setTypeface(TypefaceFactory.getBold(this));
+        this.sectionText = (TextView) findViewById(R.id.section_text);
+        this.sectionText.setTypeface(TypefaceFactory.getPathfinder(this));
+        this.sectionText.setVisibility(View.GONE);
         
         this.recallClassText = (TextView) findViewById(R.id.recall_class);
         this.recallClassText.setTypeface(TypefaceFactory.getRegular(this));
@@ -103,6 +109,8 @@ public class PathFinderSpells extends ListActivity {
         	this.nameFilter = intent.getStringExtra(SearchManager.QUERY);        	
         	this.isSearched = true;
         	}
+        
+        getListView().setOnScrollListener(this);        
         
         this.fillData();
     }
@@ -251,7 +259,7 @@ public class PathFinderSpells extends ListActivity {
     			break;
     	}
     	
-    	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList, this.sortPosition, this.classPosition);    	
+    	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList, this.sortPosition, this.classPosition, this.sectionText);    	
         setListAdapter(this.spellsAdapter);
         
         this.setRecall();
@@ -549,5 +557,25 @@ public class PathFinderSpells extends ListActivity {
     	{    	 
     		System.out.println(ex.getMessage());
     	}  
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		if (this.spellsAdapter != null) {
+			this.spellsAdapter.setTopPosition(firstVisibleItem);
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if (this.sectionText != null) {
+			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+				this.sectionText.setVisibility(View.GONE);
+			}
+			else {
+				this.sectionText.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 }

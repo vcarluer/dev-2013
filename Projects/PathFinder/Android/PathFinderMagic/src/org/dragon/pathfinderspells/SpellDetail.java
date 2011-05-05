@@ -212,7 +212,6 @@ public class SpellDetail extends Activity {
 	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 	}
 }

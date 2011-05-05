@@ -6,7 +6,7 @@ public class SpellSchoolComparator implements Comparator<Spell> {
 
 	@Override
 	public int compare(Spell spell1, Spell spell2) {
-		return spell1.school.compareTo(spell2.school);
+		return CompareHelper.compareFr(spell1.school, spell2.school);
 	}
 
 }

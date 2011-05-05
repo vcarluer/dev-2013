@@ -1,10 +1,7 @@
 package org.dragon.pathfinderspells;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,56 +9,52 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIndexer {			
-	private HashMap<String, Integer> sortIndexer;
-	private String[] sections;
+public class SpellsArrayAdapter extends ArrayAdapter<Spell> {			
+	private HashMap<Integer, String> sectionIndexer;	
 	private int sortPosition; 
-	private int classPosition;	
+	private int classPosition;
+	private TextView sectionText;
     
-	public SpellsArrayAdapter(Context context, List<Spell> spells, int sortPosition, int classPosition) {
+	public SpellsArrayAdapter(Context context, List<Spell> spells, int sortPosition, int classPosition, TextView sectionText) {
 		super(context, R.layout.spells_row, spells);
 		
-		sortIndexer = new HashMap<String, Integer>();
+		sectionIndexer = new HashMap<Integer, String>();
 		this.sortPosition = sortPosition;
-		this.classPosition = classPosition;		
-        int size = spells.size();
-
-        for (int x = 0; x < size; x++) {
-            Spell spell = spells.get(x);
-            String ch = "";
-            switch(this.sortPosition) {
-            default:
-            case PathFinderSpells.SORT_LEVEL:
-            	ch = this.getLevelSection(spell);
-            	break;
-            case PathFinderSpells.SORT_SCHOOL:
-            	ch = spell.school;
-            	break;
-            case PathFinderSpells.SORT_ALPHA:
-            	// get the first letter of the store
-                ch =  spell.name.substring(0, 1);
-                // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
-                ch = ch.toUpperCase();                
-            	break;
-            }                        
-
-            // HashMap will prevent duplicates
-            sortIndexer.put(ch, x);
+		this.classPosition = classPosition;
+		this.sectionText = sectionText;
+		
+		for(int i = 0; i < spells.size(); i++) {
+			sectionIndexer.put(i, this.getSection(this.getItem(i)));
+		}
+		
+		this.setTopPosition(0);
+	}
+	
+	private String getSection(Spell spell) {
+		String section = "";		
+		switch(this.sortPosition) {
+        default:
+        case PathFinderSpells.SORT_LEVEL:	            	
+        	section = this.getLevelSection(spell);
+        	break;
+        case PathFinderSpells.SORT_SCHOOL:	            	
+        	section = spell.school;
+        	break;
+        case PathFinderSpells.SORT_ALPHA:	            		            
+        	// get the first letter of the store
+        	section =  spell.name.substring(0, 1);
+            // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
+        	section = section.toUpperCase();
+        	if (CompareHelper.compareFr(section, "E") == 0) {
+        		section = "E";
+        	}
+        	
+        	break;
         }
-
-        Set<String> sectionSet = sortIndexer.keySet();
-
-        // create a list from the set to sort
-        ArrayList<String> sectionList = new ArrayList<String>(sectionSet); 
-
-        Collections.sort(sectionList);
-
-        sections = new String[sectionList.size()];
-
-        sectionList.toArray(sections);
+		
+		return section;
 	}
 	
 	private String getLevelSection(Spell spell) {
@@ -124,45 +117,14 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIn
 			String compareValue = "";
 			if (position == 0) {
 				showHeader = true;
-				switch(this.sortPosition) {
-	            default:
-	            case PathFinderSpells.SORT_LEVEL:	            	
-	            	compareValue = this.getLevelSection(spell);
-	            	break;
-	            case PathFinderSpells.SORT_SCHOOL:	            	
-	            	compareValue = spell.school;
-	            	break;
-	            case PathFinderSpells.SORT_ALPHA:	            		            
-	            	// get the first letter of the store
-	            	compareValue =  spell.name.substring(0, 1);
-	                // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
-	            	compareValue = compareValue.toUpperCase();                
-	            	break;
-	            }
+				compareValue = this.getSection(spell);
 			}
 			else {
 				Spell previousSpell = this.getItem(position - 1);
-				String previousValue = "";							
-				switch(this.sortPosition) {
-	            default:
-	            case PathFinderSpells.SORT_LEVEL:
-	            	previousValue = this.getLevelSection(previousSpell);
-	            	compareValue = this.getLevelSection(spell);
-	            	break;
-	            case PathFinderSpells.SORT_SCHOOL:
-	            	previousValue = previousSpell.school;
-	            	compareValue = spell.school;
-	            	break;
-	            case PathFinderSpells.SORT_ALPHA:
-	            	previousValue = previousSpell.name.substring(0, 1).toUpperCase();	            	
-	            	// get the first letter of the store
-	            	compareValue =  spell.name.substring(0, 1);
-	                // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
-	            	compareValue = compareValue.toUpperCase();                
-	            	break;
-	            }
+				String previousValue = this.getSection(previousSpell);;
+				compareValue = this.getSection(spell);
 				
-				if (previousValue.trim().toUpperCase().compareTo(compareValue.trim().toUpperCase()) != 0) {
+				if (CompareHelper.compareFr(previousValue.trim(), compareValue.trim()) != 0) {
 					showHeader = true;
 				}
 			}
@@ -170,29 +132,19 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIn
 			
 			if (showHeader) {
 				rowHeader.setText(compareValue.trim());
-				rowHeader.setTypeface(TypefaceFactory.getPathfinder(getContext()));
+				rowHeader.setTypeface(TypefaceFactory.getPathfinder(getContext()));				
 			}
 			else {
 				rowHeader.setVisibility(View.GONE);
 			}
 		}
-		
+				
 		return row;
 	}
 	
-	@Override
-	public int getPositionForSection(int section) {
-        if (section >= sections.length) section = sections.length - 1;
-		return sortIndexer.get(sections[section]);
-    }
-	
-	@Override
-    public int getSectionForPosition(int position) {
-        return 1;
-    }
-	
-	@Override
-    public Object[] getSections() {
-         return sections;
-    }
+	public void setTopPosition(int position) {
+		if (position < this.sectionIndexer.values().size()) {
+			this.sectionText.setText(this.sectionIndexer.get(position));
+		}
+	}
 }

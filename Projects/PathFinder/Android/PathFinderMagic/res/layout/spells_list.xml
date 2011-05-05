@@ -53,25 +53,37 @@
 						android:scaleType="centerInside"												
 						android:src="@drawable/favoris" />
 	</LinearLayout>
-    <LinearLayout
-		android:id="@+id/layout_list"
-      	android:orientation="vertical"
-      	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent">	    
-    
-	    <ListView android:id="@+id/android:list"
-	    	  android:padding="3dip"
-	          android:layout_weight = "1"
-	          android:layout_width="wrap_content"
-	        	android:layout_height="fill_parent"
-	        	android:fastScrollEnabled="true"/>    
-	  	<TextView android:id="@+id/android:empty"
-	          android:gravity="center_vertical|center_horizontal"
-	          android:textStyle="bold"
-	          android:textSize="30sp"
-	          android:layout_weight = "1"
-	          android:layout_width="fill_parent"
-	        	android:layout_height="fill_parent"
-	        	android:text="@string/no_spells"/>
-	</LinearLayout>
+	<RelativeLayout
+		android:gravity="center_horizontal"
+		android:layout_width="fill_parent"
+		android:padding="3dip"		
+		android:layout_height="fill_parent">
+	    <LinearLayout
+			android:id="@+id/layout_list"
+	      	android:orientation="vertical"
+	      	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent">	    
+	    
+		    <ListView android:id="@+id/android:list"		    	  
+		          android:layout_weight = "1"
+		          android:layout_width="fill_parent"
+		        	android:layout_height="fill_parent"
+		        	android:fastScrollEnabled="true"/>    
+		  	<TextView android:id="@+id/android:empty"
+		          android:gravity="center_vertical|center_horizontal"
+		          android:textStyle="bold"
+		          android:textSize="30sp"		          
+		          android:layout_weight = "1"
+		          android:layout_width="fill_parent"
+		        	android:layout_height="fill_parent"
+		        	android:text="@string/no_spells"/>
+		</LinearLayout>
+		<TextView android:id="@+id/section_text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"			
+			 android:gravity="center_vertical|center_horizontal"
+			android:background="#DD3d2515"
+			android:textColor="#DDe6de96"		
+			android:textSize="30sp" />
+	</RelativeLayout>
 </LinearLayout>		

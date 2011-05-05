@@ -40,9 +40,8 @@ android:layout_height="wrap_content">
 android:id="@+id/horizontalLine"
 android:layout_width="fill_parent"
 android:layout_height="1dip"
-android:background="#848484"
+android:background="#3d2515"
 />
-	
 	
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent"
