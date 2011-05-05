@@ -251,7 +251,7 @@ public class PathFinderSpells extends ListActivity {
     			break;
     	}
     	
-    	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList, this.sortPosition);    	
+    	this.spellsAdapter = new SpellsArrayAdapter(this, fetchList, this.sortPosition, this.classPosition);    	
         setListAdapter(this.spellsAdapter);
         
         this.setRecall();

@@ -16,39 +16,81 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIndexer {			
-	private HashMap<String, Integer> alphaIndexer;
+	private HashMap<String, Integer> sortIndexer;
 	private String[] sections;
 	private int sortPosition; 
+	private int classPosition;
     
-	public SpellsArrayAdapter(Context context, List<Spell> spells, int sortPosition) {
+	public SpellsArrayAdapter(Context context, List<Spell> spells, int sortPosition, int classPosition) {
 		super(context, R.layout.spells_row, spells);
 		
-		alphaIndexer = new HashMap<String, Integer>();
+		sortIndexer = new HashMap<String, Integer>();
 		this.sortPosition = sortPosition;
+		this.classPosition = classPosition;
         int size = spells.size();
 
         for (int x = 0; x < size; x++) {
-            Spell s = spells.get(x);
+            Spell spell = spells.get(x);
+            String ch = "";
+            switch(this.sortPosition) {
+            default:
+            case PathFinderSpells.SORT_LEVEL:
+            	ch = this.getLevelSection(spell);
+            	break;
+            case PathFinderSpells.SORT_SCHOOL:
+            	ch = spell.school;
+            	break;
+            case PathFinderSpells.SORT_ALPHA:
+            	// get the first letter of the store
+                ch =  spell.name.substring(0, 1);
+                // convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
+                ch = ch.toUpperCase();                
+            	break;
+            }                        
 
-	// get the first letter of the store
-            String ch =  s.name.substring(0, 1);
-	// convert to uppercase otherwise lowercase a -z will be sorted after upper A-Z
-            ch = ch.toUpperCase();
-
-	// HashMap will prevent duplicates
-            alphaIndexer.put(ch, x);
+            // HashMap will prevent duplicates
+            sortIndexer.put(ch, x);
         }
 
-        Set<String> sectionLetters = alphaIndexer.keySet();
+        Set<String> sectionSet = sortIndexer.keySet();
 
-    // create a list from the set to sort
-        ArrayList<String> sectionList = new ArrayList<String>(sectionLetters); 
+        // create a list from the set to sort
+        ArrayList<String> sectionList = new ArrayList<String>(sectionSet); 
 
         Collections.sort(sectionList);
 
         sections = new String[sectionList.size()];
 
         sectionList.toArray(sections);
+	}
+	
+	private String getLevelSection(Spell spell) {
+		String level = "";
+		switch(this.classPosition) {
+		case PathFinderSpells.SELECT_BARD: 
+			level = String.valueOf(spell.bardLevel);
+			break;
+		case PathFinderSpells.SELECT_CLERIC:
+			level = String.valueOf(spell.priestLevel);
+			break;
+		case PathFinderSpells.SELECT_DRUID:
+			level = String.valueOf(spell.druidLevel);
+			break;
+		case PathFinderSpells.SELECT_PALADIN:
+			level = String.valueOf(spell.paladinLevel);
+			break;
+		case PathFinderSpells.SELECT_RANGER:
+			level = String.valueOf(spell.strikerLevel);
+			break;
+		case PathFinderSpells.SELECT_SORCERER_WIZARD:
+			level = String.valueOf(spell.magianLevel);
+			break;    		
+		case PathFinderSpells.SELECT_TOUTES:
+		default:
+			break;
+		}
+		
+		return level;
 	}
 
 	/* (non-Javadoc)
@@ -81,14 +123,18 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> implements SectionIn
 		return row;
 	}
 	
+	@Override
 	public int getPositionForSection(int section) {
-        return alphaIndexer.get(sections[section]);
+        if (section >= sections.length) section = sections.length - 1;
+		return sortIndexer.get(sections[section]);
     }
-
+	
+	@Override
     public int getSectionForPosition(int position) {
         return 1;
     }
-
+	
+	@Override
     public Object[] getSections() {
          return sections;
     }
