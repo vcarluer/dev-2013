@@ -56,6 +56,7 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 	public static final int SORT_ALPHA = 0;	
 	public static final int SORT_SCHOOL = 1;
 	public static final int SORT_LEVEL = 2;
+	public static final int SORT_SHOOL_LEVEL = 3;
 	
     private boolean isBookmark;    
     private String nameFilter;
@@ -204,40 +205,8 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
     			}
     		}
     		
-    		switch(this.classPosition) {
-    		case SELECT_BARD: 
-    			if (spell.bardLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;
-    		case SELECT_CLERIC:
-    			if (spell.priestLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;
-    		case SELECT_DRUID:
-    			if (spell.druidLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;
-    		case SELECT_PALADIN:
-    			if (spell.paladinLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;
-    		case SELECT_RANGER:
-    			if (spell.strikerLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;
-    		case SELECT_SORCERER_WIZARD:
-    			if (spell.magianLevel == -1) {
-    				addSpell = false;
-    			}
-    			break;    		
-    		case SELECT_TOUTES:
-    			default:
-    				break;
+    		if (spell.isUndefinedLevel(this.classPosition)) {
+    			addSpell = false;
     		}
     		
     		if (addSpell) {    			
@@ -254,6 +223,9 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
     		break;
     	case SORT_LEVEL:
     		Collections.sort(fetchList, new SpellLevelComparator(this.classPosition));
+    		break;
+    	case SORT_SHOOL_LEVEL:
+    		Collections.sort(fetchList, new SpellShoolLevelComparator(this.classPosition));
     		break;
     		default:
     			break;
@@ -299,6 +271,9 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
     		break;
     	case 2:
     		this.recallSortText.setText(R.string.menu_level);
+    		break;
+    	case 3:
+    		this.recallSortText.setText(R.string.menu_school_level);
     		break;
     	case 0:
     	default:
@@ -447,7 +422,7 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 		
 	    switch(id) {
 	    case DIALOG_SORT:	    		    	
-	    	final CharSequence[] items = {res.getString(R.string.menu_alpha), res.getString(R.string.menu_school), res.getString(R.string.menu_level)};
+	    	final CharSequence[] items = {res.getString(R.string.menu_alpha), res.getString(R.string.menu_school), res.getString(R.string.menu_level), res.getString(R.string.menu_school_level)};
 
 			builder = new AlertDialog.Builder(this);
 			builder.setTitle("Choisissez un tri");

@@ -108,6 +108,7 @@ public final class R {
         public static final int menu_paladin=0x7f060024;
         public static final int menu_priest=0x7f060023;
         public static final int menu_school=0x7f060020;
+        public static final int menu_school_level=0x7f060028;
         public static final int menu_striker=0x7f060027;
         public static final int no_spells=0x7f060002;
         public static final int paladin=0x7f060011;

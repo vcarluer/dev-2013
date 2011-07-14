@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 public class Spell implements Comparable<Spell> {
+	public static int UndefinedLevel = -1;
+	
 	public static final String KEY_SPELL_DETAIL = "spelldetail";
 	
 	public static final String KEY_SPELL_NAME = "name";       
@@ -58,12 +60,12 @@ public class Spell implements Comparable<Spell> {
 	private Resources resources;
 	
 	public Spell(Resources res){
-		this.magianLevel = -1;
-		this.priestLevel = -1;
-		this.paladinLevel = -1;
-		this.bardLevel = -1;
-		this.druidLevel = -1;		
-		this.strikerLevel = -1;
+		this.magianLevel = UndefinedLevel;
+		this.priestLevel = UndefinedLevel;
+		this.paladinLevel = UndefinedLevel;
+		this.bardLevel = UndefinedLevel;
+		this.druidLevel = UndefinedLevel;		
+		this.strikerLevel = UndefinedLevel;
 		this.resources = res;
 	}
 	
@@ -100,27 +102,27 @@ public class Spell implements Comparable<Spell> {
 		{
 			String returnLevels = "";
 			
-			if (this.magianLevel != -1){
+			if (this.magianLevel != UndefinedLevel){
 				returnLevels += " " + this.resources.getString(R.string.magician) + " " + String.valueOf(this.magianLevel);
 	        }
 			
-			if (this.priestLevel != -1){
+			if (this.priestLevel != UndefinedLevel){
 				returnLevels += " " + this.resources.getString(R.string.priest) + " " + String.valueOf(this.priestLevel);
 	        }
 			
-			if (this.paladinLevel != -1){
+			if (this.paladinLevel != UndefinedLevel){
 				returnLevels += " " + this.resources.getString(R.string.paladin) + " " + String.valueOf(this.paladinLevel);
 	        }
 			
-			if (this.bardLevel != -1){
+			if (this.bardLevel != UndefinedLevel){
 				returnLevels += " " + this.resources.getString(R.string.bard) + " " + String.valueOf(this.bardLevel);
 	        }
 			
-			if (this.druidLevel != -1){
+			if (this.druidLevel != UndefinedLevel){
 				returnLevels += " " + this.resources.getString(R.string.druid) + " " + String.valueOf(this.druidLevel);
 	        }
 			
-			if (this.strikerLevel != -1){
+			if (this.strikerLevel != UndefinedLevel){
 				returnLevels += " " + this.resources.getString(R.string.striker) + " " + String.valueOf(this.strikerLevel);
 	        }
 			
@@ -145,6 +147,82 @@ public class Spell implements Comparable<Spell> {
 	
 	public void setLevels(String levels){
 		this.levels = levels;
+	}
+	
+	public String getSchoolLevel(int classPosition) {
+		return this.school + " " + this.getLevelStr(classPosition);
+	}
+	
+	public String getLevelStr(int classPosition) {
+		String lvl = "";
+		
+		switch (classPosition) {
+		case PathFinderSpells.SELECT_BARD:
+			lvl = String.valueOf(this.bardLevel);
+			break;
+		case PathFinderSpells.SELECT_CLERIC:
+			lvl = String.valueOf(this.priestLevel);
+			break;
+		case PathFinderSpells.SELECT_DRUID:
+			lvl = String.valueOf(this.druidLevel);
+			break;
+		case PathFinderSpells.SELECT_PALADIN:
+			lvl = String.valueOf(this.paladinLevel);
+			break;
+		case PathFinderSpells.SELECT_RANGER:
+			lvl = String.valueOf(this.strikerLevel);
+			break;
+		case PathFinderSpells.SELECT_SORCERER_WIZARD:
+			lvl = String.valueOf(this.magianLevel);
+			break;
+		case PathFinderSpells.SELECT_TOUTES:
+		default:
+			break;
+		}
+		
+		return lvl;
+	}
+	
+	public int getLevel(int classPosition) {				
+		switch (classPosition) {
+		case PathFinderSpells.SELECT_BARD:
+			return this.bardLevel;
+		case PathFinderSpells.SELECT_CLERIC:
+			return this.priestLevel;
+		case PathFinderSpells.SELECT_DRUID:
+			return this.druidLevel;
+		case PathFinderSpells.SELECT_PALADIN:
+			return this.paladinLevel;
+		case PathFinderSpells.SELECT_RANGER:
+			return this.strikerLevel;
+		case PathFinderSpells.SELECT_SORCERER_WIZARD:
+			return this.magianLevel;		
+		case PathFinderSpells.SELECT_TOUTES:
+		default:
+			break;
+		}
+		
+		return UndefinedLevel;
+	}
+	
+	public boolean isUndefinedLevel(int classPosition) {
+		switch (classPosition) {
+		case PathFinderSpells.SELECT_BARD:
+			return this.bardLevel == UndefinedLevel;
+		case PathFinderSpells.SELECT_CLERIC:
+			return this.priestLevel == UndefinedLevel;
+		case PathFinderSpells.SELECT_DRUID:
+			return this.druidLevel == UndefinedLevel;
+		case PathFinderSpells.SELECT_PALADIN:
+			return this.paladinLevel == UndefinedLevel;
+		case PathFinderSpells.SELECT_RANGER:
+			return this.strikerLevel == UndefinedLevel;
+		case PathFinderSpells.SELECT_SORCERER_WIZARD:
+			return this.magianLevel == UndefinedLevel;		
+		case PathFinderSpells.SELECT_TOUTES:
+		default:
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)

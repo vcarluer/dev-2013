@@ -37,10 +37,13 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> {
 		switch(this.sortPosition) {
         default:
         case PathFinderSpells.SORT_LEVEL:	            	
-        	section = this.getLevelSection(spell);
+        	section = spell.getLevelStr(this.classPosition);
         	break;
         case PathFinderSpells.SORT_SCHOOL:	            	
         	section = spell.school;
+        	break;
+        case PathFinderSpells.SORT_SHOOL_LEVEL:
+        	section = spell.getSchoolLevel(this.classPosition);
         	break;
         case PathFinderSpells.SORT_ALPHA:	            		            
         	// get the first letter of the store
@@ -55,35 +58,6 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> {
         }
 		
 		return section;
-	}
-	
-	private String getLevelSection(Spell spell) {
-		String level = "";
-		switch(this.classPosition) {
-		case PathFinderSpells.SELECT_BARD: 
-			level = String.valueOf(spell.bardLevel);
-			break;
-		case PathFinderSpells.SELECT_CLERIC:
-			level = String.valueOf(spell.priestLevel);
-			break;
-		case PathFinderSpells.SELECT_DRUID:
-			level = String.valueOf(spell.druidLevel);
-			break;
-		case PathFinderSpells.SELECT_PALADIN:
-			level = String.valueOf(spell.paladinLevel);
-			break;
-		case PathFinderSpells.SELECT_RANGER:
-			level = String.valueOf(spell.strikerLevel);
-			break;
-		case PathFinderSpells.SELECT_SORCERER_WIZARD:
-			level = String.valueOf(spell.magianLevel);
-			break;    		
-		case PathFinderSpells.SELECT_TOUTES:
-		default:
-			break;
-		}
-		
-		return level;
 	}
 
 	/* (non-Javadoc)
