@@ -381,6 +381,10 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 				showDialog(DIALOG_SORT);
 			}			
 			return true;
+		case R.id.menu_about:
+			Intent intent = new Intent(this, AboutPfs.class);
+			this.startActivity(intent);
+			return true;
 		default:
 	        return super.onOptionsItemSelected(item);
 	    }

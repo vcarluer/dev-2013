@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SpellsArrayAdapter extends ArrayAdapter<Spell> {			
 	private HashMap<Integer, String> sectionIndexer;	
@@ -121,7 +120,7 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> {
 			spellLayout.setOnClickListener(new View.OnClickListener() {
 				
 	            public void onClick(View view) {
-	            	Toast.makeText(getContext(), "Spell layout click", Toast.LENGTH_SHORT).show();
+	            	// Toast.makeText(getContext(), "Spell layout click", Toast.LENGTH_SHORT).show();
 	            	Intent i = new Intent(getContext(), SpellDetail.class);
 	                	            		            
 	            	Integer positionClick = (Integer) view.getTag();	            		            	

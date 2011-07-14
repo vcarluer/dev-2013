@@ -17,6 +17,7 @@
                               android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".SpellDetail" android:theme="@android:style/Theme.Light.NoTitleBar" android:configChanges="orientation"></activity>
+        <activity android:name=".AboutPfs" android:theme="@android:style/Theme.Light.NoTitleBar" android:configChanges="orientation"></activity>
 </application>
     <uses-sdk android:minSdkVersion="7" />
 
