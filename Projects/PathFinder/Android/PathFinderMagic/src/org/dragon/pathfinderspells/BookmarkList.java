@@ -17,6 +17,8 @@ public class BookmarkList {
 	private static String BookmarkFileName = "bookmark.txt";
 	public HashSet<String> bookmarkList;
 	
+	private boolean ioOperation;
+		
 	public BookmarkList(Context context)
 	{
 		this.bookmarkList = new HashSet<String>();
@@ -24,49 +26,59 @@ public class BookmarkList {
 	}
 	
 	private void readFileAndFill(Context context) {
-		this.bookmarkList.clear();
-    	try
-    	{
-    		InputStream input = context.openFileInput(BookmarkFileName);
-    		// Get the object of DataInputStream
-    	    DataInputStream in = new DataInputStream(input);
-    	    String charSet = "UTF-8";
-    	    BufferedReader br = new BufferedReader(new InputStreamReader(in, charSet));
-    	    String strLine;
-    	    //Read File Line By Line
-    	    int i = 0;    	    
-    	    while ((strLine = br.readLine()) != null)   {
-    	    	this.bookmark(strLine);    	   
-    	    	i++;
-    	    }
-    	    //Close the input stream
-    	    br.close();
-    	}
-    	catch(IOException ex)
-    	{    	 
-    		System.out.println(ex.getMessage());
-    	}  
+		if (!ioOperation) {
+			ioOperation = true;
+			this.bookmarkList.clear();			
+	    	try
+	    	{
+	    		InputStream input = context.openFileInput(BookmarkFileName);
+	    		// Get the object of DataInputStream
+	    	    DataInputStream in = new DataInputStream(input);
+	    	    String charSet = "UTF-8";
+	    	    BufferedReader br = new BufferedReader(new InputStreamReader(in, charSet));
+	    	    String strLine;
+	    	    //Read File Line By Line
+	    	    int i = 0;    	    
+	    	    while ((strLine = br.readLine()) != null)   {
+	    	    	this.bookmark(strLine);    	   
+	    	    	i++;
+	    	    }
+	    	    //Close the input stream
+	    	    br.close();
+	    	}
+	    	catch(IOException ex)
+	    	{    	 
+	    		System.out.println(ex.getMessage());
+	    	}
+	    	
+	    	ioOperation = false;
+		}
 	}
 	
 	private void writeFile(Context context) {
-		try
-    	{
-    		OutputStream output = context.openFileOutput(BookmarkFileName, Context.MODE_PRIVATE);
-    		// Get the object of DataInputStream
-    		DataOutputStream out = new DataOutputStream(output);
-    	    String charSet = "UTF-8";
-    	    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, charSet));
-    	    
-    	    for(String spellName : this.bookmarkList) {
-    	    	bw.write(spellName + "\n");
-    	    }
-    	    
-    	    bw.close();
-    	}
-    	catch(IOException ex)
-    	{    	 
-    		System.out.println(ex.getMessage());
-    	}  
+		if (!ioOperation) {
+			ioOperation = true;
+			try
+	    	{
+	    		OutputStream output = context.openFileOutput(BookmarkFileName, Context.MODE_PRIVATE);
+	    		// Get the object of DataInputStream
+	    		DataOutputStream out = new DataOutputStream(output);
+	    	    String charSet = "UTF-8";
+	    	    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, charSet));
+	    	    
+	    	    for(String spellName : this.bookmarkList) {
+	    	    	bw.write(spellName + "\n");
+	    	    }
+	    	    
+	    	    bw.close();
+	    	}
+	    	catch(IOException ex)
+	    	{    	 
+	    		System.out.println(ex.getMessage());
+	    	}
+	    	
+			ioOperation = false;
+		}		 
 	}
 	
 	public void saveBookmark(Context context) {

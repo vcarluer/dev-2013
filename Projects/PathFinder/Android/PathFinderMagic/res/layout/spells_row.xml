@@ -6,8 +6,8 @@
 	android:layout_height="wrap_content"> 	
 	<TextView android:id="@+id/row_header"
 		android:textSize="30sp"
-		android:textColor="#e6de96"
-		android:background="#3d2515"
+		android:textColor="@color/color_pf_yellow"
+		android:background="@color/color_pf_brown"
 		android:gravity="center_vertical|center_horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
@@ -19,6 +19,7 @@
 		android:layout_width="fill_parent"				
 		android:layout_height="wrap_content">
 		<LinearLayout 
+			android:id="@+id/spell_layout"
 			android:orientation="vertical"
 			android:layout_weight="1" 									
 			android:layout_width="fill_parent"										
@@ -36,6 +37,6 @@
 					android:layout_width="30sp"							
 					android:layout_height="30sp"
 					android:scaleType="centerInside"											
-					android:src="@drawable/favorislist" />
+					android:src="@drawable/favorislist" />					
    	</LinearLayout>
 </LinearLayout>

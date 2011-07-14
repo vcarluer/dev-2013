@@ -36,9 +36,10 @@ import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 
 public class PathFinderSpells extends ListActivity implements ListView.OnScrollListener {
-	
+	private static PathFinderSpells spellActivity;
+		
 	public static final String ACTIVITY_LAST_POSITION="lastposition";
-	private static final int ACTIVITY_SHOWDETAIL=0;	
+	public static final int ACTIVITY_SHOWDETAIL = 0;	
 	private static final String FILE_PREFERENCE = "preferences";
 	
 	public static final int SELECT_TOUTES = 0;
@@ -74,6 +75,14 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
     private ImageView recallBookmarkImage;
     private TextView sectionText;
 	
+    public PathFinderSpells() {
+    	spellActivity = this;
+    }
+    
+    public static PathFinderSpells get() {
+    	return spellActivity;
+    }
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -297,24 +306,24 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 		}
     }
     
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);        
-        Intent i = new Intent(this, SpellDetail.class);
-        
-        Spell spell = this.spellsAdapter.getItem(position);
-        
-        i.putExtra(Spell.KEY_SPELL_DETAIL, spell.getBundle());
-        this.lastPosition = position;
-        startActivityForResult(i, ACTIVITY_SHOWDETAIL);
-    }
+//    @Override
+//    protected void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);        
+//        Intent i = new Intent(this, SpellDetail.class);
+//        
+//        Spell spell = this.spellsAdapter.getItem(position);
+//        
+//        i.putExtra(Spell.KEY_SPELL_DETAIL, spell.getBundle());
+//        this.lastPosition = position;
+//        startActivityForResult(i, ACTIVITY_SHOWDETAIL);
+//    }
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);     
         fillData();        
         ListView lv = this.getListView();
-        lv.setSelection(this.lastPosition);
+        lv.setSelection(this.getLastPosition());
     }
 
 	/* (non-Javadoc)
@@ -552,5 +561,17 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 				this.sectionText.setVisibility(View.VISIBLE);
 			}
 		}
+	}
+
+	public void setLastPosition(int lastPosition) {
+		this.lastPosition = lastPosition;
+	}
+
+	public int getLastPosition() {
+		return lastPosition;
+	}
+	
+	public BookmarkList getBookmarks() {
+		return this.bookmarkList;
 	}
 }

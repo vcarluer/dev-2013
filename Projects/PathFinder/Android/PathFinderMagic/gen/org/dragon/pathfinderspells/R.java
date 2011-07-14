@@ -11,6 +11,8 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+        public static final int color_pf_brown=0x7f050002;
+        public static final int color_pf_yellow=0x7f050001;
         public static final int galleryFocused=0x7f050000;
     }
     public static final class drawable {
@@ -68,11 +70,12 @@ public final class R {
         public static final int recall_sort=0x7f070027;
         public static final int recall_sort_icon=0x7f070026;
         public static final int row_header=0x7f07002c;
-        public static final int row_is_favorite=0x7f07002f;
-        public static final int row_name=0x7f07002d;
-        public static final int row_short_description=0x7f07002e;
+        public static final int row_is_favorite=0x7f070030;
+        public static final int row_name=0x7f07002e;
+        public static final int row_short_description=0x7f07002f;
         public static final int scrllvwNo1=0x7f070004;
         public static final int section_text=0x7f07002b;
+        public static final int spell_layout=0x7f07002d;
     }
     public static final class layout {
         public static final int list_menu=0x7f030000;

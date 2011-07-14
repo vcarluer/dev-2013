@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="galleryFocused">#BBBBBB00</color>
+<color name="color_pf_yellow">#e6de96</color>
+<color name="color_pf_brown">#3d2515</color>
 </resources>

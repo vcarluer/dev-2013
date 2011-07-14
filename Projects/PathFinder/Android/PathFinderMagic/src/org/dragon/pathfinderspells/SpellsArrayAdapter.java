@@ -4,12 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SpellsArrayAdapter extends ArrayAdapter<Spell> {			
 	private HashMap<Integer, String> sectionIndexer;	
@@ -78,13 +82,58 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> {
 			ImageView isFavoriteView = (ImageView) row.findViewById(R.id.row_is_favorite);
 			spellName.setText(spell.name);
 			spellShortDesc.setText(spell.shortDescription);
+			
 			if (spell.isBookmark) {
-				isFavoriteView.setVisibility(View.VISIBLE);
+				// isFavoriteView.setVisibility(View.VISIBLE);
+				isFavoriteView.setImageResource(R.drawable.favoris);
 			}
 			else
 			{
-				isFavoriteView.setVisibility(View.INVISIBLE);
+				// isFavoriteView.setVisibility(View.INVISIBLE);
+				isFavoriteView.setImageResource(R.drawable.nofavoris);
 			}
+			
+			isFavoriteView.setTag(position);
+			isFavoriteView.setOnClickListener(new View.OnClickListener() {
+
+	            public void onClick(View view) {
+	            	Integer positionClick = (Integer) view.getTag();
+	            	Spell spellClick = getItem(positionClick);
+	            	ImageView isFavoriteViewClick = (ImageView) view;
+	            	
+	                if (!spellClick.isBookmark){
+	                	spellClick.isBookmark = true;
+	                	PathFinderSpells.get().getBookmarks().bookmark(spellClick.name);
+	                	isFavoriteViewClick.setImageResource(R.drawable.favoris);                	
+	                }
+	                else
+	                {
+	                	spellClick.isBookmark = false;
+	                	PathFinderSpells.get().getBookmarks().unbookmark(spellClick.name);
+	                	isFavoriteViewClick.setImageResource(R.drawable.nofavoris);
+	                }
+	                
+	                PathFinderSpells.get().getBookmarks().saveBookmark(getContext());
+	            }
+	        });
+			
+			LinearLayout spellLayout = (LinearLayout) row.findViewById(R.id.spell_layout);
+			spellLayout.setTag(position);
+			spellLayout.setOnClickListener(new View.OnClickListener() {
+				
+	            public void onClick(View view) {
+	            	Toast.makeText(getContext(), "Spell layout click", Toast.LENGTH_SHORT).show();
+	            	Intent i = new Intent(getContext(), SpellDetail.class);
+	                	            		            
+	            	Integer positionClick = (Integer) view.getTag();	            		            	
+	                Spell spellClick = getItem(positionClick);
+	                view.setBackgroundColor(getContext().getResources().getColor(R.color.color_pf_yellow));
+	                
+	                i.putExtra(Spell.KEY_SPELL_DETAIL, spellClick.getBundle());
+	                PathFinderSpells.get().setLastPosition(positionClick);
+	                PathFinderSpells.get().startActivityForResult(i, PathFinderSpells.ACTIVITY_SHOWDETAIL);
+	            }
+	        });
 			
 			TextView rowHeader = (TextView) row.findViewById(R.id.row_header);
 			boolean showHeader = false;
