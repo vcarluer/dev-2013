@@ -25,12 +25,12 @@ public class BookmarkList {
 		this.readFileAndFill(context);
 	}
 	
-	private void readFileAndFill(Context context) {
-		if (!ioOperation) {
-			ioOperation = true;
-			this.bookmarkList.clear();			
-	    	try
-	    	{
+	private void readFileAndFill(Context context) {				
+    	try
+    	{
+    		if (!ioOperation) {
+    			ioOperation = true;
+    			this.bookmarkList.clear();
 	    		InputStream input = context.openFileInput(BookmarkFileName);
 	    		// Get the object of DataInputStream
 	    	    DataInputStream in = new DataInputStream(input);
@@ -45,21 +45,22 @@ public class BookmarkList {
 	    	    }
 	    	    //Close the input stream
 	    	    br.close();
-	    	}
-	    	catch(IOException ex)
-	    	{    	 
-	    		System.out.println(ex.getMessage());
-	    	}
-	    	
-	    	ioOperation = false;
-		}
+    		}
+    		
+    		ioOperation = false;
+    	}
+    	catch(IOException ex)
+    	{    	 
+    		System.out.println(ex.getMessage());
+    		ioOperation = false;
+    	}
 	}
 	
-	private void writeFile(Context context) {
-		if (!ioOperation) {
-			ioOperation = true;
-			try
-	    	{
+	private void writeFile(Context context) {		
+		try
+    	{
+			if (!ioOperation) {
+				ioOperation = true;
 	    		OutputStream output = context.openFileOutput(BookmarkFileName, Context.MODE_PRIVATE);
 	    		// Get the object of DataInputStream
 	    		DataOutputStream out = new DataOutputStream(output);
@@ -71,14 +72,15 @@ public class BookmarkList {
 	    	    }
 	    	    
 	    	    bw.close();
-	    	}
-	    	catch(IOException ex)
-	    	{    	 
-	    		System.out.println(ex.getMessage());
-	    	}
-	    	
+			}
+			
 			ioOperation = false;
-		}		 
+    	}
+    	catch(IOException ex)
+    	{    	 
+    		System.out.println(ex.getMessage());
+    		ioOperation = false;
+    	}
 	}
 	
 	public void saveBookmark(Context context) {
