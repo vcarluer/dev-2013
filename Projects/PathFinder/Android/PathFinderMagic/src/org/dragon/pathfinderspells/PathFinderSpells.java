@@ -122,7 +122,7 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
         
         getListView().setOnScrollListener(this);        
         
-        this.fillData();
+        // this.fillData();
     }
     
     private static String SpellFileName = "export.txt";
@@ -196,7 +196,7 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 	}
     
     private void fillData() {            	
-    	this.bookmarkList = new BookmarkList(this);
+    	this.bookmarkList = BookmarkList.get(this);
     	
     	ArrayList<Spell> fetchList = new ArrayList<Spell>();
     	for(Spell spell : this.spellList) {
@@ -321,9 +321,9 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);     
-        fillData();        
-        ListView lv = this.getListView();
-        lv.setSelection(this.getLastPosition());
+//        fillData();
+//        ListView lv = this.getListView();
+//        lv.setSelection(this.getLastPosition());
     }
 
 	/* (non-Javadoc)
@@ -341,6 +341,7 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		this.bookmarkList.saveBookmark(this);
 		switch(item.getItemId()) {
 		case R.id.menu_search:
 			if (isSearched){
@@ -577,5 +578,34 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 	
 	public BookmarkList getBookmarks() {
 		return this.bookmarkList;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause() {
+		this.bookmarkList.saveBookmark(this);
+		super.onPause();           
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {		
+		this.bookmarkList.saveBookmark(this);
+		super.onBackPressed();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		this.fillData();
+		ListView lv = this.getListView();
+        lv.setSelection(this.getLastPosition());
+		super.onResume();
 	}
 }

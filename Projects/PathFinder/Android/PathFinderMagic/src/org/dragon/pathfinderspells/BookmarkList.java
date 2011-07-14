@@ -18,10 +18,27 @@ public class BookmarkList {
 	public HashSet<String> bookmarkList;
 	
 	private boolean ioOperation;
+	private static BookmarkList list;
+	
+	public static BookmarkList get(Context context) {
+		if (list == null) {
+			list = new BookmarkList(context);
+		}
+		else {
+			list.setContext(context);
+		}
+		
+		return list;		
+	}
+		
 		
 	public BookmarkList(Context context)
 	{
 		this.bookmarkList = new HashSet<String>();
+		this.readFileAndFill(context);
+	}
+	
+	public void setContext(Context context) {
 		this.readFileAndFill(context);
 	}
 	

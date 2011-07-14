@@ -110,8 +110,6 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> {
 	                	PathFinderSpells.get().getBookmarks().unbookmark(spellClick.name);
 	                	isFavoriteViewClick.setImageResource(R.drawable.nofavoris);
 	                }
-	                
-	                PathFinderSpells.get().getBookmarks().saveBookmark(getContext());
 	            }
 	        });
 			

@@ -58,7 +58,7 @@ public class SpellDetail extends Activity {
         
         this.spell = new Spell(spellBundle, this.getResources());
         this.wasBookmark = this.spell.isBookmark;
-        this.bookmarkList = new BookmarkList(this);                
+        this.bookmarkList = BookmarkList.get(this);                
         
         this.mNameText = (TextView) findViewById(R.id.detail_name);
         this.mNameText.setTypeface(TypefaceFactory.getPathfinder(this));
