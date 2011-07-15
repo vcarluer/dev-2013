@@ -151,7 +151,12 @@ public class SpellsArrayAdapter extends ArrayAdapter<Spell> {
 			
 			if (showHeader) {
 				rowHeader.setText(compareValue.trim());
-				rowHeader.setTypeface(TypefaceFactory.getPathfinder(getContext()));				
+				rowHeader.setTypeface(TypefaceFactory.getPathfinder(getContext()));		
+				// Disable header select
+				rowHeader.setOnClickListener(new View.OnClickListener() {					
+		            public void onClick(View view) {		            
+		            }
+				});
 			}
 			else {
 				rowHeader.setVisibility(View.GONE);
