@@ -195,10 +195,9 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
     	}    	
 	}
     
-    private void fillData() {            	
+    private void fillData() {    	
     	this.bookmarkList = BookmarkList.get(this);
-    	
-    	ArrayList<Spell> fetchList = new ArrayList<Spell>();
+    	ArrayList<Spell> fetchList = new ArrayList<Spell>();    	
     	for(Spell spell : this.spellList) {
     		boolean addSpell = true;
     		spell.isBookmark = this.bookmarkList.isBookmark(spell.name);
@@ -340,8 +339,7 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		this.bookmarkList.saveBookmark(this);
+	public boolean onOptionsItemSelected(MenuItem item) {		
 		switch(item.getItemId()) {
 		case R.id.menu_search:
 			if (isSearched){
@@ -478,6 +476,10 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 			builder.setItems(itemsClass, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
 			        classPosition = item;
+			        if (classPosition == SELECT_TOUTES && (sortPosition != SORT_ALPHA && sortPosition != SORT_SCHOOL)) {
+			        	sortPosition = SORT_ALPHA;
+			        }
+			        
 			    	Toast.makeText(getApplicationContext(), itemsClass[item], Toast.LENGTH_SHORT).show();
 			    	fillData();
 			    }
@@ -590,20 +592,11 @@ public class PathFinderSpells extends ListActivity implements ListView.OnScrollL
 	}
 
 	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
-	@Override
-	public void onBackPressed() {		
-		this.bookmarkList.saveBookmark(this);
-		super.onBackPressed();
-	}
-
-	/* (non-Javadoc)
 	 * @see android.app.Activity#onResume()
 	 */
 	@Override
-	protected void onResume() {
-		this.fillData();
+	protected void onResume() {		
+		this.fillData();		
 		ListView lv = this.getListView();
         lv.setSelection(this.getLastPosition());
 		super.onResume();

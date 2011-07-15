@@ -24,9 +24,6 @@ public class BookmarkList {
 		if (list == null) {
 			list = new BookmarkList(context);
 		}
-		else {
-			list.setContext(context);
-		}
 		
 		return list;		
 	}
