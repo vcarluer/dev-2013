@@ -1,6 +1,5 @@
 app.views.ContactsList = Ext.extend(Ext.TabPanel, {	
-	fullscreen: true,
-     type: 'dark',
+	fullscreen: true,     
      sortable: true,
      items: [{
          title: 'Tab 1',
