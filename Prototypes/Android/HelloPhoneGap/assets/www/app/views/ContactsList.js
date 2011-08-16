@@ -1,24 +1,18 @@
-app.views.ContactsList = Ext.extend(Ext.TabPanel, {
-	tabBar: {
-		dock: 'bottom',
-		layout: {
-			pack: 'center'
-		}
-	},
-	animation:'slide',
-	fullscreen:true,
-	items:[
-	       {
-			title:'Accueil',
-			iconCls:'favorites',
-			cls:'tab1',
-			html:'Accueil',
-	       },
-	       {
-			title:'Info',
-			cls:'tab2',
-			iconCls:'info',
-			html:'Info',
-		 }
-	    ]
+app.views.ContactsList = Ext.extend(Ext.TabPanel, {	
+	fullscreen: true,
+     type: 'dark',
+     sortable: true,
+     items: [{
+         title: 'Tab 1',
+         html: '1',
+         cls: 'card1 nobackface'
+     }, {
+         title: 'Tab 2',
+         html: '2',
+         cls: 'card2 nobackface'
+     }, {
+         title: 'Tab 3',
+         html: '3',
+         cls: 'card3 nobackface'
+     }]
 });
