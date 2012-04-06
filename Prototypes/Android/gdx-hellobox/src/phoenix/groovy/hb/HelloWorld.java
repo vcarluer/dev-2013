@@ -19,14 +19,15 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Files.FileType;
+import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Sprite;
-import com.badlogic.gdx.graphics.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -36,8 +37,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -116,7 +119,7 @@ public class HelloWorld implements ApplicationListener, InputProcessor, ContactL
 		accumulator += frameTime;
 		
 		int loopCount = 0;
-		if (Gdx.input.isAccelerometerAvailable()) {
+		if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
 			this.gravityVector = new Vector2(- Gdx.input.getAccelerometerX() * gravityRatio, - Gdx.input.getAccelerometerY() * gravityRatio);
 			this.world.setGravity(this.gravityVector);
 		}
@@ -149,7 +152,7 @@ public class HelloWorld implements ApplicationListener, InputProcessor, ContactL
 			b.draw(this.spriteBatch);
 		}			
 		
-		spriteBatch.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		// spriteBatch.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		font.draw(spriteBatch, "FPS: " + String.valueOf(this.lastFPS), (int)textPosition.x, (int)textPosition.y);
 		font.draw(spriteBatch, "Objects: " + String.valueOf(this.boxVList.size()), (int)textPosition.x, (int)textPosition.y - 30);
 		font.draw(spriteBatch, "X: " + String.valueOf(Gdx.input.getAccelerometerX()), (int)textPosition.x, (int)textPosition.y - 60);
@@ -200,34 +203,30 @@ public class HelloWorld implements ApplicationListener, InputProcessor, ContactL
 		this.initSquare = this.boxPerWidth;
 		
 		this.boxVList = new ArrayList<BoxV>();
-		texture = Gdx.graphics.newTexture(
-				Gdx.files.getFileHandle("data/boxV.png", FileType.Internal), 
-				TextureFilter.MipMap, 
-				TextureFilter.Linear, 
-				TextureWrap.ClampToEdge, 
-				TextureWrap.ClampToEdge);
+		texture = new Texture(
+				Gdx.files.getFileHandle("data/boxV.png", FileType.Internal));
+//		texture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
+//		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
 		this.sprite = new Sprite(texture);
 		this.sprite.setSize(this.sqareSize * 2, this.sqareSize * 2);
 		this.sprite.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
 		
 		// Sprite anim
-		texture = Gdx.graphics.newTexture(
-				Gdx.files.getFileHandle("data/arrow.png", FileType.Internal), 
-				TextureFilter.MipMap, 
-				TextureFilter.Linear, 
-				TextureWrap.ClampToEdge, 
-				TextureWrap.ClampToEdge);
+		texture = new Texture(
+				Gdx.files.getFileHandle("data/arrow.png", FileType.Internal));
+//		texture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
+//		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
+		
 		Sprite sa = new Sprite(texture);
 		sa.setOrigin(sa.getWidth() / 2, sa.getHeight() / 2);		
 		this.spriteAnim = new Sprite2D();
 		this.spriteAnim.init(sa, 60, 100, 6, 6);
 		
 		// Vortex anim
-		this.vortexTexture = Gdx.graphics.newTexture(Gdx.files.getFileHandle("data/vortex.png", FileType.Internal), 
-				TextureFilter.MipMap, 
-				TextureFilter.Linear, 
-				TextureWrap.ClampToEdge, 
-				TextureWrap.ClampToEdge);
+		this.vortexTexture = new Texture(Gdx.files.getFileHandle("data/vortex.png", FileType.Internal));		
+//		texture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
+//		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
+
 		Sprite vo = new Sprite(this.vortexTexture);
 		vo.setOrigin(0, 0);
 		this.vortexAnim = new Sprite2D();
@@ -381,38 +380,6 @@ public class HelloWorld implements ApplicationListener, InputProcessor, ContactL
 	}
 
 	@Override
-	public boolean touchDown(int arg0, int arg1, int arg2) {
-		if (arg2 == 0) {
-			this.isBurstOn = true;		
-			this.isMagnetOn = true;
-			this.lastX = arg0;
-			this.lastY = Gdx.graphics.getHeight() - arg1;
-			this.lastClick = System.currentTimeMillis();			
-		}
-		
-		return false;
-	}	
-
-	@Override
-	public boolean touchUp(int arg0, int arg1, int arg2) {
-		if (this.boxVList.size() < 50) {
-			if ((System.currentTimeMillis() - this.lastClick < 500) || arg2 != 0) {
-				this.bip.play();				
-				Body bodyBox = this.createBox((this.sqareSize) / HelloWorld.box2DRatio, arg0 / HelloWorld.box2DRatio , (Gdx.graphics.getHeight() - arg1) / HelloWorld.box2DRatio);
-				BoxV box = new BoxV(this.sprite, bodyBox);
-				this.boxVList.add(box);
-			}
-		}
-		
-		if (arg2 == 0) {
-			this.isMagnetOn = false;
-			this.isBurstOn = false;
-		}
-		
-		return true;
-	}
-	
-	@Override
 	public boolean touchDragged(int arg0, int arg1, int arg2) {
 		// this.explosion(arg0, Gdx.graphics.getHeight() - arg1);
 		if (arg2 == 0) {
@@ -439,5 +406,61 @@ public class HelloWorld implements ApplicationListener, InputProcessor, ContactL
 	public void endContact(Contact arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void postSolve(Contact arg0, ContactImpulse arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void preSolve(Contact arg0, Manifold arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean scrolled(int arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
+		if (arg2 == 0) {
+			this.isBurstOn = true;		
+			this.isMagnetOn = true;
+			this.lastX = arg0;
+			this.lastY = Gdx.graphics.getHeight() - arg1;
+			this.lastClick = System.currentTimeMillis();			
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchMoved(int arg0, int arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
+		if (this.boxVList.size() < 50) {
+			if ((System.currentTimeMillis() - this.lastClick < 500) || arg2 != 0) {
+				this.bip.play();				
+				Body bodyBox = this.createBox((this.sqareSize) / HelloWorld.box2DRatio, arg0 / HelloWorld.box2DRatio , (Gdx.graphics.getHeight() - arg1) / HelloWorld.box2DRatio);
+				BoxV box = new BoxV(this.sprite, bodyBox);
+				this.boxVList.add(box);
+			}
+		}
+		
+		if (arg2 == 0) {
+			this.isMagnetOn = false;
+			this.isBurstOn = false;
+		}
+		
+		return true;
 	}
 }

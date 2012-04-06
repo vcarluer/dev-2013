@@ -1,8 +1,8 @@
 package phoenix.groovy.hb;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Sprite;
-import com.badlogic.gdx.graphics.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sun.opengl.impl.packrect.Rect;
  
 public class Sprite2D {
@@ -37,7 +37,7 @@ public class Sprite2D {
         mFPS = 1000 /theFPS;
         mNoOfFrames = theFrameCount;
         
-        this.mAnimation.setTextureRegion(0, 0, mSpriteWidth, mSpriteHeight);
+        this.mAnimation.setRegion(0, 0, mSpriteWidth, mSpriteHeight);
     }
  
     public void update(long gameTime) {
@@ -47,7 +47,7 @@ public class Sprite2D {
  
             
             if (this.IsRotating) {
-            	this.mAnimation.setTextureRegion(0, 0, mSpriteWidth, mSpriteHeight);
+            	this.mAnimation.setRegion(0, 0, mSpriteWidth, mSpriteHeight);
             	if(mCurrentFrame >= mNoOfFrames) {
             		mCurrentFrame = 0;
             	}
@@ -55,12 +55,12 @@ public class Sprite2D {
             else
             {            
 	            if(mCurrentFrame >= mNoOfFrames) {
-	            	this.mAnimation.setTextureRegion(0, 0, mSpriteWidth, mSpriteHeight);
+	            	this.mAnimation.setRegion(0, 0, mSpriteWidth, mSpriteHeight);
 	            	mCurrentFrame = 0;
 	            }
 	            else
 	            {
-	            	this.mAnimation.setTextureRegion(mCurrentFrame * mSpriteWidth, 0, mSpriteWidth, mSpriteHeight);
+	            	this.mAnimation.setRegion(mCurrentFrame * mSpriteWidth, 0, mSpriteWidth, mSpriteHeight);
 	            }
             }
         }              
