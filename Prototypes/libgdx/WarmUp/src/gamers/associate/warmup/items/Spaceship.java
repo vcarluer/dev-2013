@@ -77,8 +77,8 @@ public class Spaceship extends Actor{
 			this.x = this.width / 2f;
 		}
 		
-		if (this.x > GameScreen.WIDTH - (this.width / 2f)) {
-			this.x = GameScreen.WIDTH - (this.width / 2f);
+		if (this.x > WarmUp.WIDTH - (this.width / 2f)) {
+			this.x = WarmUp.WIDTH - (this.width / 2f);
 		}
 		
 		this.engineSound = Gdx.audio.newSound(Gdx.files.internal(DATA_ENGINE_WAV));
@@ -101,7 +101,7 @@ public class Spaceship extends Actor{
 		
 		this.width = 12 * SCALE;
 		this.height = 12 * SCALE;
-		this.x = GameScreen.WIDTH / 2f;
+		this.x = WarmUp.WIDTH / 2f;
 		this.y = START_Y;
 		
 		this.life = 1;

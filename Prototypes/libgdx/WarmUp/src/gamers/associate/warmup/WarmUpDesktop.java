@@ -12,7 +12,7 @@ public class WarmUpDesktop {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new LwjglApplication(WarmUp.get(), "WarmUp", GameScreen.WIDTH, GameScreen.HEIGHT, true);
+		new LwjglApplication(WarmUp.get(), "WarmUp", WarmUp.WIDTH, WarmUp.HEIGHT, true);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
 }

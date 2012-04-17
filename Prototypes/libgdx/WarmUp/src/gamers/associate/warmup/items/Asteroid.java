@@ -23,8 +23,8 @@ public class Asteroid extends Actor {
 		
 		this.width = this.originalWidth;
 		this.height = this.originalHeight;
-		this.x = GameScreen.WIDTH / 2f;
-		this.y = GameScreen.HEIGHT + this.height / 2f;
+		this.x = WarmUp.WIDTH / 2f;
+		this.y = WarmUp.HEIGHT + this.height / 2f;
 		
 		MoveTo moveTo = MoveTo.$(0, - this.height / 2f, 5f);
 		moveTo.setCompletionListener(new OnActionCompleted() {

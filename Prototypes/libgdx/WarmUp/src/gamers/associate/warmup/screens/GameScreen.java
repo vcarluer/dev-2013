@@ -10,26 +10,15 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameScreen implements Screen {	
-	public static int WIDTH = 300;
-	public static int HEIGHT = 480;
-	private Stage stage;
-	private Spaceship spaceship;
+	
 	
 	public GameScreen() {				
-		this.stage = new Stage(0, 0, true);
-		this.spaceship = new Spaceship();
-		this.stage.addActor(this.spaceship);
 		
-		Asteroid asteroid = new Asteroid();
-		this.stage.addActor(asteroid);
-		
-		Gdx.input.setInputProcessor(this.stage);
-		this.stage.setKeyboardFocus(this.spaceship);
 	}
 	
 	@Override
 	public void dispose() {
-		this.stage.dispose();
+		
 	}
 
 	@Override
@@ -46,10 +35,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		this.stage.act(delta);		
-		this.stage.draw();
 	}
 	
 	@Override
@@ -66,7 +51,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		this.stage.setViewport(width, height, true);
+		
 	}
-
 }
