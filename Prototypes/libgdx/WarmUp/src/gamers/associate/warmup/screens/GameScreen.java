@@ -1,6 +1,7 @@
 package gamers.associate.warmup.screens;
 
 import gamers.associate.warmup.WarmUp;
+import gamers.associate.warmup.items.Asteroid;
 import gamers.associate.warmup.items.Spaceship;
 
 import com.badlogic.gdx.Gdx;
@@ -18,6 +19,10 @@ public class GameScreen implements Screen {
 		this.stage = new Stage(0, 0, true);
 		this.spaceship = new Spaceship();
 		this.stage.addActor(this.spaceship);
+		
+		Asteroid asteroid = new Asteroid();
+		this.stage.addActor(asteroid);
+		
 		Gdx.input.setInputProcessor(this.stage);
 		this.stage.setKeyboardFocus(this.spaceship);
 	}

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Spaceship extends Actor{
+	private static final float START_Y = 50f;
 	private static final float SCALE = 3f;
 	private static final String DATA_ENGINE_WAV = "data/engine.wav";
 	private static final int Frame_Cols = 2;
@@ -100,8 +101,8 @@ public class Spaceship extends Actor{
 		
 		this.width = 12 * SCALE;
 		this.height = 12 * SCALE;
-		this.x = 0f;
-		this.y = 50f;
+		this.x = GameScreen.WIDTH / 2f;
+		this.y = START_Y;
 		
 		this.life = 1;
 		
