@@ -187,7 +187,7 @@ public class Spaceship extends Actor{
 		this.acceleration.x = Acceleration * this.direction;
 		
 		if (keycpt == 1) {
-			this.engineSndId = this.engineSound.loop();
+			this.engineSndId = this.engineSound.loop(0.3f);
 		}
 		
 		return true;

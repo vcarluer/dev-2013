@@ -2,6 +2,7 @@ package gamers.associate.warmup;
 
 import gamers.associate.warmup.items.Asteroid;
 import gamers.associate.warmup.items.AsteroidGenerator;
+import gamers.associate.warmup.items.Background;
 import gamers.associate.warmup.items.Spaceship;
 import gamers.associate.warmup.screens.GameScreen;
 
@@ -13,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class WarmUp extends Game {	
-	public static int WIDTH = 300;
-	public static int HEIGHT = 480;
+	public static int WIDTH = 600;
+	public static int HEIGHT = 800;
 	private Stage stage;
 	private Spaceship spaceship;
 	private AsteroidGenerator generator;
@@ -45,6 +46,9 @@ public class WarmUp extends Game {
 		this.music.play();
 		
 		this.stage = new Stage(0, 0, true);
+		Background bkg = new Background();
+		this.stage.addActor(bkg);
+		
 		this.spaceship = new Spaceship();
 		this.stage.addActor(this.spaceship);
 		
@@ -72,7 +76,7 @@ public class WarmUp extends Game {
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		float delta = Gdx.graphics.getDeltaTime();
 		this.fromStart += delta;

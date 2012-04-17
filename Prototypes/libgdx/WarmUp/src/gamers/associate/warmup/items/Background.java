@@ -19,7 +19,8 @@ public class Background extends Actor {
 		Texture texture = new Texture(Gdx.files.internal("data/fond.png"));
 		this.fond = new Sprite(texture);
 		this.fond.setColor(1, 1, 1, 1.0f);
-		MoveBy mb = MoveBy.$(0, -WarmUp.HEIGHT, 2.0f);
+		this.fond.setSize(WarmUp.WIDTH, WarmUp.HEIGHT);
+		MoveBy mb = MoveBy.$(0, -WarmUp.HEIGHT, 15.0f);
 		MoveTo mt = MoveTo.$(0, 0, 0);
 		Sequence seq = Sequence.$(mb, mt);
 		Forever forever = Forever.$(seq);

@@ -6,7 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen implements Screen {	
@@ -17,9 +19,9 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {				
 		this.font = new BitmapFont();
-		this.font.setColor(Color.BLUE);
+		this.font.setColor(Color.YELLOW);
 		this.fontGO = new BitmapFont();
-		this.fontGO.setColor(Color.BLUE);
+		this.fontGO.setColor(Color.YELLOW);
 		this.fontGO.setScale(2f);
 		this.batch = new SpriteBatch();
 	}
