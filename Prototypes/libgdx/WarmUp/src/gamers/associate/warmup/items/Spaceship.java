@@ -24,6 +24,7 @@ public class Spaceship extends Actor{
 	private static final float Max_Velocity = 6;
 	private static final float Damp = 0.9f;
 	public static final int DESTROY = 9;
+	private static final int BASE = 0;
 	private static int Frame_Rows = 1;
 	private static String resource = "data/spaceship_pack.png";
 	private static int LEFT = -1;
@@ -103,10 +104,8 @@ public class Spaceship extends Actor{
 		
 		this.width = 12 * SCALE;
 		this.height = 12 * SCALE;
-		this.x = WarmUp.WIDTH / 2f;
-		this.y = START_Y;
 		
-		this.life = 1;
+		this.restart();
 		
 		this.sprite = new Sprite(texture, 16, 16);
 		this.sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
@@ -153,6 +152,10 @@ public class Spaceship extends Actor{
 
 	@Override
 	public boolean keyDown(int keycode) {
+		if (this.state == DESTROY) {
+			return false;
+		}
+			
 		Gdx.app.debug(WarmUp.Tag, "Key down: " + String.valueOf(keycode));
 		this.acceleration.x = 0;
 		keycpt++;
@@ -178,11 +181,17 @@ public class Spaceship extends Actor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		keycpt--;
-		if (keycpt == 0) {
-			this.acceleration.x = 0;
-			this.engineSound.stop(this.engineSndId);
-			this.engineSndId = -1;
+		if (this.state == DESTROY) {
+			return false;
+		}
+		
+		if (keycpt > 0) {
+			keycpt--;
+			if (keycpt == 0) {
+				this.acceleration.x = 0;
+				this.engineSound.stop(this.engineSndId);
+				this.engineSndId = -1;
+			}
 		}
 		
 		return true;
@@ -207,10 +216,14 @@ public class Spaceship extends Actor{
 	}
 
 	public boolean isAlive() {
-		return this.life > 0;
+		return this.state != DESTROY;
 	}
 
 	public void hurt() {
+		if (this.state == DESTROY) {
+			return;
+		}
+		
 		this.life--;
 		Gdx.app.debug(WarmUp.Tag, "life: " + String.valueOf(this.life));
 		if (this.life == 0) {
@@ -219,10 +232,31 @@ public class Spaceship extends Actor{
 	}
 
 	private void destroy() {
+		if (this.engineSndId != -1) {
+			this.engineSound.stop(this.engineSndId);
+		}
+		
 		this.state = DESTROY;
 	}
 	
 	public int getState() {
 		return this.state;
+	}
+
+	public void restart() {
+		this.life = 1;
+		this.state = BASE;
+		this.keycpt = 0;
+		
+		this.x = WarmUp.WIDTH / 2f;
+		this.y = START_Y;
+	}
+
+	public void addLife() {
+		this.life++;
+	}
+	
+	public int getLife() {
+		return this.life;
 	}
 }

@@ -1,7 +1,6 @@
 package gamers.associate.warmup.items;
 
 import gamers.associate.warmup.WarmUp;
-import gamers.associate.warmup.screens.GameScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
 import com.badlogic.gdx.scenes.scene2d.actions.Forever;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
-import com.badlogic.gdx.scenes.scene2d.actions.Repeat;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateBy;
 
 public class Asteroid extends Actor {
@@ -32,13 +30,22 @@ public class Asteroid extends Actor {
 		this.x = (float) (Math.random() * WarmUp.WIDTH);
 		this.y = WarmUp.HEIGHT + this.height / 2f;
 		
-		MoveTo moveTo = MoveTo.$((float) (Math.random() * WarmUp.WIDTH), - this.height / 2f, (float) (3 + Math.random() * 5f));
+		float speed = (float) (3 + Math.random() * 5f) / WarmUp.get().getLevel();
+		if (speed < 1) {
+			speed = 1;
+		}
+		
+		MoveTo moveTo = MoveTo.$((float) (Math.random() * WarmUp.WIDTH), - this.height / 2f, speed);
 		moveTo.setCompletionListener(new OnActionCompleted() {
 			
 			@Override
 			public void completed(Action action) {
 				Gdx.app.debug(WarmUp.Tag, "asteroid to destination");
 				WarmUp.get().removeActor(actor);
+				Spaceship ship = WarmUp.get().getSpaceShip();
+				if (ship.getState() != Spaceship.DESTROY) {
+					WarmUp.get().addScore();
+				}
 			}
 		});
 		
@@ -58,10 +65,18 @@ public class Asteroid extends Actor {
 			Rectangle recShip = new Rectangle(ship.x - ship.width / 2f, ship.y - ship.height / 2f, ship.width, ship.height);
 			if (recMe.overlaps(recShip)) {
 				ship.hurt();
+				this.destroy();
 			}
+		} else {
+			this.clearActions();
+			WarmUp.get().removeActor(this);
 		}
 		
 		super.act(delta);
+	}
+
+	private void destroy() {
+		WarmUp.get().removeActor(this);
 	}
 
 	@Override

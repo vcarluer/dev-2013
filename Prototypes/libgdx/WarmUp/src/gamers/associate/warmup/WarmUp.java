@@ -17,11 +17,17 @@ public class WarmUp extends Game {
 	public static int HEIGHT = 480;
 	private Stage stage;
 	private Spaceship spaceship;
+	private AsteroidGenerator generator;
 	
 	private static final String MusicPath = "data/warmup.mp3";
 	public static final String Tag = "WarmUp";
+	private static final float LEVEL_STEP  = 5f;
 	private static WarmUp warmUp;	
 	private Music music;
+	private int score;
+	
+	private float fromStart;
+	private int level;
 	
 	public static WarmUp get() {
 		if (warmUp == null) {
@@ -42,11 +48,13 @@ public class WarmUp extends Game {
 		this.spaceship = new Spaceship();
 		this.stage.addActor(this.spaceship);
 		
-		AsteroidGenerator generator = new AsteroidGenerator();
+		generator = new AsteroidGenerator();
 		this.stage.addActor(generator);
 		
 		Gdx.input.setInputProcessor(this.stage);
 		this.stage.setKeyboardFocus(this.spaceship);
+		
+		this.init();
 	}
 
 	@Override
@@ -66,8 +74,17 @@ public class WarmUp extends Game {
 	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		float delta = Gdx.graphics.getDeltaTime();
+		this.fromStart += delta;
+		if (!this.isGameOver()) {
+			if (this.fromStart > LEVEL_STEP ) {
+				this.level++;
+				this.fromStart = 0;
+				this.spaceship.addLife();
+			}
+		}
 		
-		this.stage.act(Gdx.graphics.getDeltaTime());		
+		this.stage.act(delta);		
 		this.stage.draw();
 		super.render();
 	}
@@ -82,5 +99,33 @@ public class WarmUp extends Game {
 	
 	public void removeActor(Actor actor) {
 		this.stage.removeActor(actor);
+	}
+	
+	public void addScore() {
+		this.score ++;
+	}
+	
+	public int getScore() {
+		return this.score;
+	}
+
+	public boolean isGameOver() {
+		return this.spaceship.getState() == Spaceship.DESTROY;
+	}
+	
+	public void restart() {
+		this.init();
+		this.spaceship.restart();
+		this.generator.restart();
+	}
+	
+	private void init() {
+		this.score = 0;
+		this.level = 1;
+		this.fromStart = 0;
+	}
+	
+	public int getLevel() {
+		return this.level;
 	}
 }
