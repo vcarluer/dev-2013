@@ -54,12 +54,17 @@ public class Spaceship extends Actor{
 	private long engineSndId;
 	private int state;
 	
+	private Sound hurtSound;
+	private Sound destroySound;
+	private Sound spawnSound;
+	
 	@Override
 	public void act(float delta) {
 		super.act(delta);		
 		if (!spawn) {
-			ScaleTo scale = ScaleTo.$(SCALE, SCALE, 1.0f);
+			ScaleTo scale = ScaleTo.$(SCALE, SCALE, 0.5f);
 			this.action(scale);
+			this.spawnSound.play();
 			spawn = true;
 		}
 		
@@ -120,6 +125,10 @@ public class Spaceship extends Actor{
 		this.acceleration = new Vector2();
 		
 		this.engineSndId = -1;
+		
+		this.hurtSound = Gdx.audio.newSound(Gdx.files.internal("data/hurt.wav"));
+		this.destroySound = Gdx.audio.newSound(Gdx.files.internal("data/destroy.wav"));
+		this.spawnSound = Gdx.audio.newSound(Gdx.files.internal("data/spawn.wav"));
 		
 	}
 
@@ -239,6 +248,7 @@ public class Spaceship extends Actor{
 			Sequence seq = Sequence.$(fo, fi);
 			Repeat rep = Repeat.$(seq, 3);
 			this.action(rep);
+			this.hurtSound.play();
 		}
 	}
 
@@ -247,6 +257,7 @@ public class Spaceship extends Actor{
 			this.engineSound.stop(this.engineSndId);
 		}
 		
+		this.destroySound.play();
 		this.state = DESTROY;
 	}
 	
