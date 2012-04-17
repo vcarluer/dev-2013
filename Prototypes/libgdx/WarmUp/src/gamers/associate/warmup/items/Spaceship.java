@@ -28,6 +28,7 @@ public class Spaceship extends Actor{
 	private static float Acceleration = 20f; // px per 0.5 sec
 	private Vector2 acceleration;
 	private Vector2 velocity;
+	private int keycpt;
 	
 	private boolean spawn;
 	private TextureRegion[] tr;
@@ -132,6 +133,7 @@ public class Spaceship extends Actor{
 			return super.keyDown(keycode);
 		}
 		
+		keycpt++;
 		this.acceleration.x = Acceleration * this.direction;
 
 		return true;
@@ -139,7 +141,11 @@ public class Spaceship extends Actor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		this.acceleration.x = 0;
+		keycpt--;
+		if (keycpt == 0) {
+			this.acceleration.x = 0;
+		}
+		
 		return true;
 	}
 
