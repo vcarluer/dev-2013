@@ -1,9 +1,11 @@
 package gamers.associate.warmup.items;
 
 import gamers.associate.warmup.WarmUp;
+import gamers.associate.warmup.screens.GameScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Spaceship extends Actor{
+	private static final String DATA_ENGINE_WAV = "data/engine.wav";
 	private static final int Frame_Cols = 2;
 	private static final float Max_Velocity = 6;
 	private static final float Damp = 0.9f;
@@ -36,6 +39,9 @@ public class Spaceship extends Actor{
 	
 	private int life;
 	private float stateTime;
+	
+	private Sound engineSound;
+	private long engineSndId;
 	
 	@Override
 	public void act(float delta) {
@@ -62,6 +68,16 @@ public class Spaceship extends Actor{
 		}
 		
 		this.x = this.x + this.velocity.x;
+		
+		if (this.x < this.width / 2) {
+			this.x = this.width / 2;
+		}
+		
+		if (this.x > GameScreen.WIDTH - this.width / 2) {
+			this.x = GameScreen.WIDTH - this.width / 2;
+		}
+		
+		this.engineSound = Gdx.audio.newSound(Gdx.files.internal(DATA_ENGINE_WAV));
 	}
 
 	public Spaceship() {
@@ -88,6 +104,9 @@ public class Spaceship extends Actor{
 		
 		this.velocity = new Vector2();
 		this.acceleration = new Vector2();
+		
+		this.engineSndId = -1;
+		
 	}
 
 	@Override
@@ -122,6 +141,7 @@ public class Spaceship extends Actor{
 	public boolean keyDown(int keycode) {
 		Gdx.app.debug(WarmUp.Tag, "Key down: " + String.valueOf(keycode));
 		this.acceleration.x = 0;
+		keycpt++;
 		switch (keycode) {
 		case Keys.RIGHT:
 			this.direction = RIGHT;
@@ -133,9 +153,16 @@ public class Spaceship extends Actor{
 			return super.keyDown(keycode);
 		}
 		
-		keycpt++;
-		this.acceleration.x = Acceleration * this.direction;
+		
 
+		this.acceleration.x = Acceleration * this.direction;
+		
+		if (keycpt == 1) {
+			this.engineSndId = this.engineSound.loop();
+		}
+		
+		
+		
 		return true;
 	}
 
@@ -144,6 +171,8 @@ public class Spaceship extends Actor{
 		keycpt--;
 		if (keycpt == 0) {
 			this.acceleration.x = 0;
+			this.engineSound.stop(this.engineSndId);
+			this.engineSndId = -1;
 		}
 		
 		return true;

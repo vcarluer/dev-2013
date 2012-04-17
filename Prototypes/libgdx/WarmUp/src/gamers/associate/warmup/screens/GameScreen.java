@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameScreen implements Screen {	
+	public static int WIDTH = 300;
+	public static int HEIGHT = 480;
 	private Stage stage;
 	private Spaceship spaceship;
 	
