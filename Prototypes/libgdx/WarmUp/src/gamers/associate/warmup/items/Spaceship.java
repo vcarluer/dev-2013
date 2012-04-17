@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Spaceship extends Actor{
+	private static final float SCALE = 3f;
 	private static final String DATA_ENGINE_WAV = "data/engine.wav";
 	private static final int Frame_Cols = 2;
 	private static final float Max_Velocity = 6;
@@ -32,6 +33,8 @@ public class Spaceship extends Actor{
 	private Vector2 acceleration;
 	private Vector2 velocity;
 	private int keycpt;
+	private static float originalWidth = 16f;
+	private static float originalHeight = 16f;
 	
 	private boolean spawn;
 	private TextureRegion[] tr;
@@ -47,7 +50,7 @@ public class Spaceship extends Actor{
 	public void act(float delta) {
 		super.act(delta);		
 		if (!spawn) {
-			ScaleTo scale = ScaleTo.$(3.0f, 3.0f, 1.0f);
+			ScaleTo scale = ScaleTo.$(SCALE, SCALE, 1.0f);
 			this.action(scale);
 			spawn = true;
 		}
@@ -69,15 +72,17 @@ public class Spaceship extends Actor{
 		
 		this.x = this.x + this.velocity.x;
 		
-		if (this.x < this.width / 2) {
-			this.x = this.width / 2;
+		if (this.x < this.width / 2f) {
+			this.x = this.width / 2f;
 		}
 		
-		if (this.x > GameScreen.WIDTH - this.width / 2) {
-			this.x = GameScreen.WIDTH - this.width / 2;
+		if (this.x > GameScreen.WIDTH - (this.width / 2f)) {
+			this.x = GameScreen.WIDTH - (this.width / 2f);
 		}
 		
 		this.engineSound = Gdx.audio.newSound(Gdx.files.internal(DATA_ENGINE_WAV));
+		
+//		Gdx.app.debug(WarmUp.Tag, "x, y: " + String.valueOf(this.x) + ", " + String.valueOf(this.y));
 	}
 
 	public Spaceship() {
@@ -93,12 +98,15 @@ public class Spaceship extends Actor{
 			}
 		}
 		
-		this.x = 200f;
+		this.width = 12 * SCALE;
+		this.height = 12 * SCALE;
+		this.x = 0f;
 		this.y = 50f;
 		
 		this.life = 1;
 		
 		this.sprite = new Sprite(texture, 16, 16);
+		this.sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
 		this.anim = new  Animation(0.1f, tr);
 		this.stateTime = 0f;
 		
@@ -121,7 +129,8 @@ public class Spaceship extends Actor{
 		TextureRegion region = this.anim.getKeyFrame(this.stateTime, true);
 				
 		this.sprite.setRegion(region);
-		this.sprite.setPosition(this.x, this.y);
+		// sprite position ) always bottom left corner before transform!
+		this.sprite.setPosition(this.x - (originalWidth / 2f), this.y - (originalHeight / 2f));
 		this.sprite.setScale(this.scaleX, this.scaleY);
 		this.sprite.setRotation(this.rotation);
 		this.sprite.draw(batch);
@@ -153,15 +162,11 @@ public class Spaceship extends Actor{
 			return super.keyDown(keycode);
 		}
 		
-		
-
 		this.acceleration.x = Acceleration * this.direction;
 		
 		if (keycpt == 1) {
 			this.engineSndId = this.engineSound.loop();
 		}
-		
-		
 		
 		return true;
 	}
