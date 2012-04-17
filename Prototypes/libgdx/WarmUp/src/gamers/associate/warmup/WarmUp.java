@@ -22,7 +22,7 @@ public class WarmUp extends Game {
 	
 	private static final String MusicPath = "data/warmup.mp3";
 	public static final String Tag = "WarmUp";
-	private static final float LEVEL_STEP  = 5f;
+	private static final float LEVEL_STEP  = 10f;
 	private static WarmUp warmUp;	
 	private Music music;
 	private int score;
@@ -56,7 +56,7 @@ public class WarmUp extends Game {
 		this.stage.addActor(generator);
 		
 		Gdx.input.setInputProcessor(this.stage);
-		this.stage.setKeyboardFocus(this.spaceship);
+		
 		
 		this.init();
 	}
@@ -76,6 +76,8 @@ public class WarmUp extends Game {
 
 	@Override
 	public void render() {
+		this.stage.setKeyboardFocus(this.spaceship);
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		float delta = Gdx.graphics.getDeltaTime();

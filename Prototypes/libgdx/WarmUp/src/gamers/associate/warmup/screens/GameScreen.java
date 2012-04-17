@@ -52,10 +52,11 @@ public class GameScreen implements Screen {
 		if (WarmUp.get().isGameOver()) {
 			cumDelta += delta;
 			if (cumDelta > 1f) {
+				fontGO.draw(this.batch, "HIT ANY KEY", 50, WarmUp.HEIGHT / 2f - 100f);
 				if (Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
+					this.cumDelta = 0;
 					WarmUp.get().restart();
 				}
-				this.cumDelta = 0;
 			}
 			fontGO.draw(this.batch, "GAME OVER", 50, WarmUp.HEIGHT / 2f);
 			fontGO.draw(this.batch, "SCORE: " + String.valueOf(WarmUp.get().getScore()), 50, WarmUp.HEIGHT / 2f - 50f);
