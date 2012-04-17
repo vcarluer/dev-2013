@@ -13,8 +13,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
+import com.badlogic.gdx.scenes.scene2d.actions.Repeat;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
+import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 public class Spaceship extends Actor{
 	private static final float START_Y = 50f;
@@ -136,6 +140,7 @@ public class Spaceship extends Actor{
 			this.sprite.setPosition(this.x - (originalWidth / 2f), this.y - (originalHeight / 2f));
 			this.sprite.setScale(this.scaleX, this.scaleY);
 			this.sprite.setRotation(this.rotation);
+			this.sprite.setColor(this.color);
 			this.sprite.draw(batch);
 		}
 	}
@@ -228,6 +233,12 @@ public class Spaceship extends Actor{
 		Gdx.app.debug(WarmUp.Tag, "life: " + String.valueOf(this.life));
 		if (this.life == 0) {
 			this.destroy();
+		} else {
+			FadeOut fo = FadeOut.$(0.1f);
+			FadeIn fi = FadeIn.$(0.1f);
+			Sequence seq = Sequence.$(fo, fi);
+			Repeat rep = Repeat.$(seq, 3);
+			this.action(rep);
 		}
 	}
 

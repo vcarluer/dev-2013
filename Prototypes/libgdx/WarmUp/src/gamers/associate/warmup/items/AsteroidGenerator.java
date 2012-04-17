@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class AsteroidGenerator extends Actor {
+	private static final double MIN_TIME = 0.1f;
 	private float cumDelta;
 	private double next;
 	@Override
@@ -15,7 +16,10 @@ public class AsteroidGenerator extends Actor {
 			if(cumDelta > next) {
 				WarmUp.get().addNewActor(new Asteroid());
 				cumDelta = 0;
-				next = Math.random() * 3f;
+				next = (Math.random() * 3f) / WarmUp.get().getLevel();
+				if (next < MIN_TIME) {
+					next = MIN_TIME;
+				}
 			}
 		}
 		
