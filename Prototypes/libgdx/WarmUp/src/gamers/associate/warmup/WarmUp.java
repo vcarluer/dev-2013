@@ -1,6 +1,7 @@
 package gamers.associate.warmup;
 
 import gamers.associate.warmup.items.Asteroid;
+import gamers.associate.warmup.items.AsteroidGenerator;
 import gamers.associate.warmup.items.Spaceship;
 import gamers.associate.warmup.screens.GameScreen;
 
@@ -8,6 +9,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class WarmUp extends Game {	
@@ -40,8 +42,8 @@ public class WarmUp extends Game {
 		this.spaceship = new Spaceship();
 		this.stage.addActor(this.spaceship);
 		
-		Asteroid asteroid = new Asteroid();
-		this.stage.addActor(asteroid);
+		AsteroidGenerator generator = new AsteroidGenerator();
+		this.stage.addActor(generator);
 		
 		Gdx.input.setInputProcessor(this.stage);
 		this.stage.setKeyboardFocus(this.spaceship);
@@ -68,5 +70,17 @@ public class WarmUp extends Game {
 		this.stage.act(Gdx.graphics.getDeltaTime());		
 		this.stage.draw();
 		super.render();
+	}
+	
+	public Spaceship getSpaceShip() {
+		return this.spaceship;
+	}
+
+	public void addNewActor(Actor actor) {
+		this.stage.addActor(actor);
+	}
+	
+	public void removeActor(Actor actor) {
+		this.stage.removeActor(actor);
 	}
 }

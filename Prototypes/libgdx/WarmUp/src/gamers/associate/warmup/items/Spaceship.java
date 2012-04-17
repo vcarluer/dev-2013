@@ -23,6 +23,7 @@ public class Spaceship extends Actor{
 	private static final int Frame_Cols = 2;
 	private static final float Max_Velocity = 6;
 	private static final float Damp = 0.9f;
+	public static final int DESTROY = 9;
 	private static int Frame_Rows = 1;
 	private static String resource = "data/spaceship_pack.png";
 	private static int LEFT = -1;
@@ -46,6 +47,7 @@ public class Spaceship extends Actor{
 	
 	private Sound engineSound;
 	private long engineSndId;
+	private int state;
 	
 	@Override
 	public void act(float delta) {
@@ -126,15 +128,17 @@ public class Spaceship extends Actor{
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		this.stateTime += Gdx.graphics.getDeltaTime();
-		TextureRegion region = this.anim.getKeyFrame(this.stateTime, true);
-				
-		this.sprite.setRegion(region);
-		// sprite position ) always bottom left corner before transform!
-		this.sprite.setPosition(this.x - (originalWidth / 2f), this.y - (originalHeight / 2f));
-		this.sprite.setScale(this.scaleX, this.scaleY);
-		this.sprite.setRotation(this.rotation);
-		this.sprite.draw(batch);
+		if (this.state != DESTROY) {
+			this.stateTime += Gdx.graphics.getDeltaTime();
+			TextureRegion region = this.anim.getKeyFrame(this.stateTime, true);
+					
+			this.sprite.setRegion(region);
+			// sprite position ) always bottom left corner before transform!
+			this.sprite.setPosition(this.x - (originalWidth / 2f), this.y - (originalHeight / 2f));
+			this.sprite.setScale(this.scaleX, this.scaleY);
+			this.sprite.setRotation(this.rotation);
+			this.sprite.draw(batch);
+		}
 	}
 
 	@Override
@@ -204,5 +208,21 @@ public class Spaceship extends Actor{
 
 	public boolean isAlive() {
 		return this.life > 0;
+	}
+
+	public void hurt() {
+		this.life--;
+		Gdx.app.debug(WarmUp.Tag, "life: " + String.valueOf(this.life));
+		if (this.life == 0) {
+			this.destroy();
+		}
+	}
+
+	private void destroy() {
+		this.state = DESTROY;
+	}
+	
+	public int getState() {
+		return this.state;
 	}
 }
