@@ -9,19 +9,25 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Spaceship extends Actor{
 	private static final int Frame_Cols = 2;
+	private static final float Max_Velocity = 6;
+	private static final float Damp = 0.9f;
 	private static int Frame_Rows = 1;
 	private static String resource = "data/spaceship_pack.png";
+	private static int LEFT = -1;
+	private static int RIGHT = 1;
+	private int direction;
 	private Animation anim;
 	private Sprite sprite;
-	private float targetX;
-	private float targetY;
-	private static float speed = 20f; // px per 0.5 sec
+	private static float Acceleration = 20f; // px per 0.5 sec
+	private Vector2 acceleration;
+	private Vector2 velocity;
 	
 	private boolean spawn;
 	private TextureRegion[] tr;
@@ -38,6 +44,23 @@ public class Spaceship extends Actor{
 			this.action(scale);
 			spawn = true;
 		}
+		
+		float accTime = this.acceleration.x * delta;
+		if (this.acceleration.x != 0) {
+			velocity.x += accTime;
+		} else {
+			velocity.x *= Damp;
+		}
+		
+		if (this.velocity.x > Max_Velocity) {
+			this.velocity.x = Max_Velocity;
+		}
+		
+		if (this.velocity.x < - Max_Velocity) {
+			this.velocity.x = - Max_Velocity;
+		}
+		
+		this.x = this.x + this.velocity.x;
 	}
 
 	public Spaceship() {
@@ -56,14 +79,14 @@ public class Spaceship extends Actor{
 		this.x = 200f;
 		this.y = 50f;
 		
-		this.targetX = this.x;
-		this.targetY = this.y;
-		
 		this.life = 1;
 		
 		this.sprite = new Sprite(texture, 16, 16);
 		this.anim = new  Animation(0.1f, tr);
 		this.stateTime = 0f;
+		
+		this.velocity = new Vector2();
+		this.acceleration = new Vector2();
 	}
 
 	@Override
@@ -97,32 +120,27 @@ public class Spaceship extends Actor{
 	@Override
 	public boolean keyDown(int keycode) {
 		Gdx.app.debug(WarmUp.Tag, "Key down: " + String.valueOf(keycode));
-		boolean actionNeeded = false;
+		this.acceleration.x = 0;
 		switch (keycode) {
 		case Keys.RIGHT:
-			this.targetX += speed;
-			actionNeeded = true;
+			this.direction = RIGHT;
 			break;
 		case Keys.LEFT:
-			this.targetX -= speed;
-			actionNeeded = true;
+			this.direction = LEFT;
 			break;
 		default:
 			return super.keyDown(keycode);
 		}
 		
-		if (actionNeeded) {
-			MoveTo moveTo = MoveTo.$(this.targetX, this.targetY, 0.5f);
-			this.action(moveTo);
-			return true;
-		} else {
-			return false;
-		}
+		this.acceleration.x = Acceleration * this.direction;
+
+		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		return super.keyUp(keycode);
+		this.acceleration.x = 0;
+		return true;
 	}
 
 	@Override
