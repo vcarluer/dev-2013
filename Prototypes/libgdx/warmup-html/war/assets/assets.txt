@@ -1,5 +1,7 @@
 d:
 d:data
+t:data/ar.fnt
+i:data/ar.png
 i:data/asteroid.png
 a:data/destroy.wav
 a:data/engine.wav
