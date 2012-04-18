@@ -272,6 +272,10 @@ public class Spaceship extends Actor{
 		
 		this.x = WarmUp.WIDTH / 2f;
 		this.y = START_Y;
+		
+		ScaleTo st = ScaleTo.$(1, 1, 0);
+		this.action(st);
+		this.spawn = false;
 	}
 
 	public void addLife() {

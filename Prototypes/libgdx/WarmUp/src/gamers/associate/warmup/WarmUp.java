@@ -5,6 +5,7 @@ import gamers.associate.warmup.items.AsteroidGenerator;
 import gamers.associate.warmup.items.Background;
 import gamers.associate.warmup.items.Spaceship;
 import gamers.associate.warmup.screens.GameScreen;
+import gamers.associate.warmup.screens.Title;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -30,6 +31,8 @@ public class WarmUp extends Game {
 	private float fromStart;
 	private int level;
 	
+	private boolean gameStarted;
+	
 	public static WarmUp get() {
 		if (warmUp == null) {
 			warmUp = new WarmUp();
@@ -40,7 +43,7 @@ public class WarmUp extends Game {
 	
 	@Override
 	public void create() {		
-		this.setScreen(new GameScreen());	
+		this.setScreen(new Title());	
 		this.music = Gdx.audio.newMusic(Gdx.files.internal(MusicPath));
 		this.music.setLooping(true);
 		this.music.play();
@@ -76,22 +79,25 @@ public class WarmUp extends Game {
 
 	@Override
 	public void render() {
-		this.stage.setKeyboardFocus(this.spaceship);
-		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		float delta = Gdx.graphics.getDeltaTime();
-		this.fromStart += delta;
-		if (!this.isGameOver()) {
-			if (this.fromStart > LEVEL_STEP ) {
-				this.level++;
-				this.fromStart = 0;
-				this.spaceship.addLife();
+		if (this.gameStarted) {
+			this.stage.setKeyboardFocus(this.spaceship);
+			
+			Gdx.gl.glClearColor(0, 0, 0, 1);
+			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			float delta = Gdx.graphics.getDeltaTime();
+			this.fromStart += delta;
+			if (!this.isGameOver()) {
+				if (this.fromStart > LEVEL_STEP ) {
+					this.level++;
+					this.fromStart = 0;
+					this.spaceship.addLife();
+				}
 			}
+			
+			this.stage.act(delta);		
+			this.stage.draw();
 		}
 		
-		this.stage.act(delta);		
-		this.stage.draw();
 		super.render();
 	}
 	
@@ -133,5 +139,10 @@ public class WarmUp extends Game {
 	
 	public int getLevel() {
 		return this.level;
+	}
+	
+	public void start() {
+		this.gameStarted = true;
+		this.setScreen(new GameScreen());
 	}
 }
