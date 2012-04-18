@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,6 +36,7 @@ public class Spaceship extends Actor{
 	private static int RIGHT = 1;
 	private int direction;
 	private Animation anim;
+	private Animation animDestroy;
 	private Sprite sprite;
 	private static float Acceleration = 20f; // px per 0.5 sec
 	private Vector2 acceleration;
@@ -44,7 +46,7 @@ public class Spaceship extends Actor{
 	private static float originalHeight = 16f;
 	
 	private boolean spawn;
-	private TextureRegion[] tr;
+//	private TextureRegion[] tr;
 	private int index;
 	
 	private int life;
@@ -57,6 +59,8 @@ public class Spaceship extends Actor{
 	private Sound hurtSound;
 	private Sound destroySound;
 	private Sound spawnSound;
+	
+	private TextureAtlas atlas;
 	
 	@Override
 	public void act(float delta) {
@@ -100,25 +104,33 @@ public class Spaceship extends Actor{
 
 	public Spaceship() {
 		Gdx.app.debug(WarmUp.Tag, "Creating spaceship");		
-		Texture texture = new Texture(Gdx.files.internal(resource));
-		TextureRegion[][] animR = TextureRegion.split(texture, 16, 16);
-		tr = new TextureRegion[2];
-		int idx = 0;
-		for(int i = 0; i < Frame_Rows; i++) {
-			for (int j = 0; j < Frame_Cols; j++) {
-				tr[idx] = animR[i][j];
-				idx++;
-			}
-		}
-		
+		this.atlas = new TextureAtlas(Gdx.files.internal("data/pack"));
+//		
+//		Texture texture = new Texture(Gdx.files.internal(resource));
+//		TextureRegion[][] animR = TextureRegion.split(texture, 16, 16);
+//		tr = new TextureRegion[2];
+//		int idx = 0;
+//		for(int i = 0; i < Frame_Rows; i++) {
+//			for (int j = 0; j < Frame_Cols; j++) {
+//				tr[idx] = animR[i][j];
+//				idx++;
+//			}
+//		}
 		this.width = 12 * SCALE;
 		this.height = 12 * SCALE;
 		
 		this.restart();
 		
-		this.sprite = new Sprite(texture, 16, 16);
+		this.sprite = new Sprite(this.atlas.findRegion("spaceship"));
 		this.sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		this.anim = new  Animation(0.1f, tr);
+		this.anim = new  Animation(0.1f, this.atlas.findRegion("spaceship"), this.atlas.findRegion("spaceship2"));
+		this.animDestroy = new Animation(0.1f, this.atlas.findRegion("spaceshipd1"),
+				this.atlas.findRegion("spaceshipd2"),
+				this.atlas.findRegion("spaceshipd3"),
+				this.atlas.findRegion("spaceshipd4"),
+				this.atlas.findRegion("spaceshipd5"),
+				this.atlas.findRegion("spaceshipd6"),
+				this.atlas.findRegion("spaceshipd7"));
 		this.stateTime = 0f;
 		
 		this.velocity = new Vector2();
@@ -130,6 +142,8 @@ public class Spaceship extends Actor{
 		this.destroySound = Gdx.audio.newSound(Gdx.files.internal("data/destroy.wav"));
 		this.spawnSound = Gdx.audio.newSound(Gdx.files.internal("data/spawn.wav"));
 		
+		
+		
 	}
 
 	@Override
@@ -140,18 +154,22 @@ public class Spaceship extends Actor{
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
+		this.stateTime += Gdx.graphics.getDeltaTime();
+		TextureRegion region = null;
 		if (this.state != DESTROY) {
-			this.stateTime += Gdx.graphics.getDeltaTime();
-			TextureRegion region = this.anim.getKeyFrame(this.stateTime, true);
-					
-			this.sprite.setRegion(region);
-			// sprite position ) always bottom left corner before transform!
-			this.sprite.setPosition(this.x - (originalWidth / 2f), this.y - (originalHeight / 2f));
-			this.sprite.setScale(this.scaleX, this.scaleY);
-			this.sprite.setRotation(this.rotation);
-			this.sprite.setColor(this.color);
-			this.sprite.draw(batch);
+			region = this.anim.getKeyFrame(this.stateTime, true);
+			
+		} else {
+			region = this.animDestroy.getKeyFrame(this.stateTime, false);
 		}
+		
+		this.sprite.setRegion(region);
+		// sprite position ) always bottom left corner before transform!
+		this.sprite.setPosition(this.x - (originalWidth / 2f), this.y - (originalHeight / 2f));
+		this.sprite.setScale(this.scaleX, this.scaleY);
+		this.sprite.setRotation(this.rotation);
+		this.sprite.setColor(this.color);
+		this.sprite.draw(batch);
 	}
 
 	@Override
@@ -259,6 +277,7 @@ public class Spaceship extends Actor{
 		
 		this.destroySound.play();
 		this.state = DESTROY;
+		this.stateTime = 0;
 	}
 	
 	public int getState() {
@@ -276,6 +295,7 @@ public class Spaceship extends Actor{
 		ScaleTo st = ScaleTo.$(1, 1, 0);
 		this.action(st);
 		this.spawn = false;
+		this.stateTime = 0;
 	}
 
 	public void addLife() {

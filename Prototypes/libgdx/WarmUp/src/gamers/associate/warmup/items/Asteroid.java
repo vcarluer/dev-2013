@@ -25,8 +25,11 @@ public class Asteroid extends Actor {
 		this.actor = this;
 		this.sprite = new Sprite(new Texture(Gdx.files.internal("data/asteroid.png")));
 		
-		this.width = originalWidth;
-		this.height = originalHeight;
+//		this.scaleX = (float) (1 + Math.random() * 1);
+//		this.scaleY = (float) (1 + Math.random() * 1);
+		
+		this.width = originalWidth * this.scaleX;
+		this.height = originalHeight * this.scaleY;
 		this.x = (float) (Math.random() * WarmUp.WIDTH);
 		this.y = WarmUp.HEIGHT + this.height / 2f;
 		
@@ -49,7 +52,7 @@ public class Asteroid extends Actor {
 			}
 		});
 		
-		RotateBy rotate = RotateBy.$(360, 3f);
+		RotateBy rotate = RotateBy.$(360, speed);
 		Forever repeat = Forever.$(rotate);
 		this.action(repeat);
 		
