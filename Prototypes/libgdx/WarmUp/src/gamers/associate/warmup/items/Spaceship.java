@@ -29,11 +29,12 @@ public class Spaceship extends Actor{
 	private static final float Max_Velocity = 6;
 	private static final float Damp = 0.9f;
 	public static final int DESTROY = 9;
-	private static final int BASE = 0;
+	private static final int BASE = 0;	
 	private static int Frame_Rows = 1;
 	private static String resource = "data/spaceship_pack.png";
 	private static int LEFT = -1;
 	private static int RIGHT = 1;
+	private static final int NONE = 0;
 	private int direction;
 	private Animation anim;
 	private Animation animDestroy;
@@ -53,7 +54,6 @@ public class Spaceship extends Actor{
 	private float stateTime;
 	
 	private Sound engineSound;
-	private long engineSndId;
 	private int state;
 	
 	private Sound hurtSound;
@@ -61,6 +61,7 @@ public class Spaceship extends Actor{
 	private Sound spawnSound;
 	
 	private TextureAtlas atlas;
+	private float engineTime;
 	
 	@Override
 	public void act(float delta) {
@@ -75,6 +76,12 @@ public class Spaceship extends Actor{
 		float accTime = this.acceleration.x * delta;
 		if (this.acceleration.x != 0) {
 			velocity.x += accTime;
+			this.engineTime += delta;
+			if (this.engineTime > 0.3f) {
+				this.engineSound.play(0.3f);
+				this.engineTime = 0f;
+			} 
+			
 		} else {
 			velocity.x *= Damp;
 		}
@@ -136,7 +143,6 @@ public class Spaceship extends Actor{
 		this.velocity = new Vector2();
 		this.acceleration = new Vector2();
 		
-		this.engineSndId = -1;
 		
 		this.hurtSound = Gdx.audio.newSound(Gdx.files.internal("data/hurt.wav"));
 		this.destroySound = Gdx.audio.newSound(Gdx.files.internal("data/destroy.wav"));
@@ -200,15 +206,12 @@ public class Spaceship extends Actor{
 			this.direction = LEFT;
 			break;
 		default:
+			this.direction = NONE;
 			return super.keyDown(keycode);
 		}
 		
 		this.acceleration.x = Acceleration * this.direction;
-		
-		if (keycpt == 1) {
-			this.engineSndId = this.engineSound.loop(0.3f);
-		}
-		
+				
 		return true;
 	}
 
@@ -218,13 +221,19 @@ public class Spaceship extends Actor{
 			return false;
 		}
 		
-		if (keycpt > 0) {
-			keycpt--;
-			if (keycpt == 0) {
+		switch (keycode) {
+		case Keys.RIGHT:
+			if (this.direction == RIGHT) {
 				this.acceleration.x = 0;
-				this.engineSound.stop(this.engineSndId);
-				this.engineSndId = -1;
 			}
+			break;
+		case Keys.LEFT:
+			if (this.direction == LEFT) {
+				this.acceleration.x = 0;
+			}
+			break;
+		default:
+			break;
 		}
 		
 		return true;
@@ -270,11 +279,7 @@ public class Spaceship extends Actor{
 		}
 	}
 
-	private void destroy() {
-		if (this.engineSndId != -1) {
-			this.engineSound.stop(this.engineSndId);
-		}
-		
+	private void destroy() {		
 		this.destroySound.play();
 		this.state = DESTROY;
 		this.stateTime = 0;
