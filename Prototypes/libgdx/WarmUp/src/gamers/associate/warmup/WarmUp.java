@@ -32,6 +32,7 @@ public class WarmUp extends Game {
 	private int level;
 	
 	private boolean gameStarted;
+	private float musicPos;
 	
 	public static WarmUp get() {
 		if (warmUp == null) {
@@ -45,7 +46,7 @@ public class WarmUp extends Game {
 	public void create() {		
 		this.setScreen(new Title());	
 		this.music = Gdx.audio.newMusic(Gdx.files.internal(MusicPath));
-		this.music.setLooping(true);
+		this.music.setLooping(false);
 		this.music.play();
 		
 		this.stage = new Stage(0, 0, true);
@@ -78,7 +79,7 @@ public class WarmUp extends Game {
 	}
 
 	@Override
-	public void render() {
+	public void render() {		
 		if (this.gameStarted) {
 			this.stage.setKeyboardFocus(this.spaceship);
 			
@@ -96,6 +97,13 @@ public class WarmUp extends Game {
 			
 			this.stage.act(delta);		
 			this.stage.draw();
+		}
+		
+		this.musicPos += Gdx.graphics.getDeltaTime();
+		if ( this.musicPos > 47.882) {			
+			this.music.stop();
+			this.music.play();
+			this.musicPos = 0;
 		}
 		
 		super.render();
