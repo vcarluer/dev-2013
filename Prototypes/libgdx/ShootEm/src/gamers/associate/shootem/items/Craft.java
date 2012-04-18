@@ -1,14 +1,16 @@
-package items;
+package gamers.associate.shootem.items;
 
 import gamers.associate.shootem.ShootEm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Craft extends Actor {
 	private static final float StartX = 100f;
@@ -26,6 +28,8 @@ public class Craft extends Actor {
 	private Vector2 velocity;
 	private int yDirection;
 	
+	private Sound shootSound;
+	
 	public Craft() {
 		this.sprite = new Sprite(new Texture(Gdx.files.internal("data/craft.png")));
 		this.x = StartX;
@@ -37,6 +41,8 @@ public class Craft extends Actor {
 		
 		this.acceleration = new Vector2();
 		this.velocity = new Vector2();
+		
+		this.shootSound = Gdx.audio.newSound(Gdx.files.internal("data/shoot.wav"));
 	}
 	
 	@Override
@@ -47,6 +53,12 @@ public class Craft extends Actor {
 				break;
 			case Keys.DOWN:
 				this.yDirection = DOWN;
+				break;
+			case Keys.SPACE:
+				this.shootSound.play();
+				Stage stage = ShootEm.get().getStage();
+				LaserBeam laser = new LaserBeam(this.x + this.width / 2f, this.y);
+				stage.addActor(laser);
 				break;
 			default:
 				return false;
@@ -95,6 +107,18 @@ public class Craft extends Actor {
 		}
 		
 		this.y += this.velocity.y;
+		
+		float maxY = ShootEm.HEIGHT - this.height / 2f;
+		if (this.y > maxY) {
+			this.y = maxY;
+			this.velocity.y = 0;
+		}
+		
+		float minY = this.height / 2f;
+		if (this.y < minY) {
+			this.y = minY;
+			this.velocity.y = 0;
+		}
 		
 		super.act(delta);
 	}

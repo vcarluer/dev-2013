@@ -1,10 +1,13 @@
 package gamers.associate.shootem;
 
-import items.Craft;
+import gamers.associate.shootem.items.Craft;
+import gamers.associate.shootem.items.Poney;
+import gamers.associate.shootem.items.PoneyGenerator;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -16,6 +19,8 @@ public class ShootEm extends Game {
 	private static ShootEm game;
 	private Stage stage;
 	private Craft craft;
+	private Music music;
+	private PoneyGenerator generator;
 	
 	@Override
 	public void create() {
@@ -23,7 +28,14 @@ public class ShootEm extends Game {
 		this.craft = new Craft();
 		this.stage.addActor(this.craft);
 		
+		generator = new PoneyGenerator();
+		this.stage.addActor(generator);
+		
 		Gdx.input.setInputProcessor(this.stage);
+		
+		this.music = Gdx.audio.newMusic(Gdx.files.internal("data/shootem.mp3"));
+		this.music.setLooping(true);
+		this.music.play();
 	}
 
 	@Override
@@ -50,5 +62,12 @@ public class ShootEm extends Game {
 		this.stage.draw();
 		super.render();
 	}
+
+	public Stage getStage() {
+		return this.stage;
+	}
 	
+	public PoneyGenerator getGenerator() {
+		return this.generator;
+	}
 }
