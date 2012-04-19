@@ -41,6 +41,7 @@ public class Map {
 	}
 	
 	public void render() {
+		batch.setProjectionMatrix(TileGame.get().getCamera().combined);
 		batch.begin();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {

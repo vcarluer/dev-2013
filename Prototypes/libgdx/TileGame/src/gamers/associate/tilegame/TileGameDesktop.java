@@ -10,7 +10,7 @@ public class TileGameDesktop {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new LwjglApplication(TileGame.get(), "Tile game", TileGame.WIDTH, TileGame.HEIGHT, true);
+		new LwjglApplication(TileGame.get(), "Tile game", TileGame.WIDTH, TileGame.HEIGHT, false);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
 
