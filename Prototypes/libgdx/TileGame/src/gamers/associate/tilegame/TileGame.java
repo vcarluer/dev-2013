@@ -8,11 +8,11 @@ public class TileGame extends Game {
 	private static TileGame game;
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
-
+	private Map map;
+	
 	@Override
 	public void create() {
-		// TODO Auto-generated method stub
-		
+		this.map = new Map();		
 	}
 
 	public static TileGame get() {
@@ -27,6 +27,7 @@ public class TileGame extends Game {
 	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		this.map.render();
 		super.render();
 	}
 
