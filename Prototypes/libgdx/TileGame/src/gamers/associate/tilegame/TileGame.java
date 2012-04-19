@@ -17,12 +17,15 @@ public class TileGame extends Game {
 	private OrthographicCamera cam;
 	private Rectangle viewport;
 	
+	private Particle particle;
+	
 	@Override
 	public void create() {
 		this.map = new Map();	
 		this.viewport = new Rectangle(0, 0, WIDTH, HEIGHT);
 		this.cam = new OrthographicCamera(this.viewport.width, this.viewport.height);
-		this.cam.position.set(WIDTH / 2, HEIGHT / 2, 0);		
+		this.cam.position.set(WIDTH / 2, HEIGHT / 2, 0);
+		this.particle = new Particle();
 	}
 
 	public static TileGame get() {
@@ -42,7 +45,9 @@ public class TileGame extends Game {
 		cam.update();
 		cam.apply(Gdx.gl10);
 		
-		this.map.render();									
+		this.map.render();				
+		this.particle.render();
+		
 		
 		super.render();
 	}
