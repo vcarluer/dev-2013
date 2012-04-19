@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Tile {
-		
+	private int zOrder;
+	
 	public Tile() {		
 	}
 	
@@ -15,4 +16,17 @@ public abstract class Tile {
 	}
 	
 	protected abstract Texture getTexture();
+	protected abstract Texture getTextureBorder();
+
+	public void drawBorder(SpriteBatch batch, int x, int y, int size) {
+		batch.draw(this.getTextureBorder(), x, y, size, size);		
+	}
+	
+	public int getZOrder() {
+		return this.zOrder;
+	}
+	
+	protected void setZOrder(int z) {
+		this.zOrder = z;
+	}
 }

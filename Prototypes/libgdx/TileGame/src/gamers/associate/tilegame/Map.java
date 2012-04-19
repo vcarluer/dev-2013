@@ -45,6 +45,13 @@ public class Map {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				this.tiles[i][j].draw(this.batch, i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE);
+				if (j + 1 < height) {
+					Tile tile = this.tiles[i][j];
+					Tile upper = this.tiles[i][j + 1];
+					if (upper.getZOrder() > tile.getZOrder()) {
+						upper.drawBorder(this.batch, i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE);
+					}
+				}
 			}
 		}
 		
